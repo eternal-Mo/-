@@ -9,177 +9,145 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-            -webkit-user-select: none; /* 禁止手机长按选中文字 */
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            -webkit-user-select: none;
             user-select: none;
+            -webkit-touch-callout: none; /* 禁用系统默认长按菜单 */
         }
         body {
-            background: #fff;
+            background: #fafafa; /* 极简浅灰背景 */
             height: 100vh;
-            overflow: hidden; /* 禁止整体滚动 */
+            overflow: hidden;
+            color: #111;
         }
         /* 状态栏 */
         .status-bar {
             height: 44px;
-            background: rgba(255,255,255,0.9);
-            color: #000;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 15px;
-            font-size: 14px;
+            padding: 0 20px;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
         /* 主屏幕 */
         .home-screen {
-            height: calc(100vh - 44px - 80px);
-            background: #fff;
+            height: calc(100vh - 44px - 90px);
             padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 30px;
         }
         /* 小部件 */
         .widget {
-            background: rgba(0,0,0,0.05);
-            border-radius: 16px;
-            padding: 15px;
-            color: #000;
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .widget-time {
-            font-size: 36px;
-            font-weight: 300;
+            font-size: 42px;
+            font-weight: 200;
+            letter-spacing: 2px;
         }
         .widget-date {
-            font-size: 16px;
-            opacity: 0.7;
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+            font-weight: 300;
         }
         /* 图标网格 */
         .app-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            row-gap: 25px;
+            column-gap: 15px;
             margin-top: auto;
-            flex: 1;
         }
         .app-icon {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 8px;
-            color: #000;
-            transition: transform 0.1s ease-out;
         }
-        /* 拖动状态样式 */
-        .app-icon.dragging {
-            opacity: 0.6;
-            transform: scale(1.05);
-            z-index: 10;
-        }
+        /* 黑白 ins 风图标 */
         .app-icon .icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
-            background: rgba(0,0,0,0.08);
+            width: 58px;
+            height: 58px;
+            border-radius: 18px;
+            background: #111;
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            font-size: 24px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
         .app-icon .label {
-            font-size: 12px;
-            text-align: center;
+            font-size: 11px;
+            color: #333;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
         /* Dock 栏 */
         .dock {
-            height: 80px;
-            background: rgba(255,255,255,0.9);
+            height: 90px;
+            background: #fff;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: 0 20px;
+            padding: 0 15px 15px 15px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.02);
+            border-top: 1px solid #f5f5f5;
         }
         .dock .app-icon .icon {
-            width: 50px;
-            height: 50px;
+            background: #fff;
+            color: #111;
+            border: 1.5px solid #111;
+            box-shadow: none;
+        }
+        .dock .app-icon .label {
+            display: none; /* Dock栏通常不显示文字，更极简 */
         }
     </style>
 </head>
 <body>
     <div class="status-bar">
-        <span id="currentTime">20:30</span>
-        <span>📶 🔋 100%</span>
+        <span id="currentTime">00:00</span>
+        <span>LTE &nbsp; 🔋</span>
     </div>
 
     <div class="home-screen">
         <div class="widget">
-            <div class="widget-time" id="bigTime">20:30</div>
-            <div class="widget-date" id="currentDate">3月14日 星期六</div>
+            <div class="widget-time" id="bigTime">00:00</div>
+            <div class="widget-date" id="currentDate">1月1日 星期一</div>
         </div>
 
-        <!-- 图标容器 -->
         <div class="app-grid" id="appGrid">
-            <div class="app-icon">
-                <div class="icon">📱</div>
-                <div class="label">电话</div>
-            </div>
-            <div class="app-icon">
-                <div class="icon">💬</div>
-                <div class="label">信息</div>
-            </div>
-            <div class="app-icon">
-                <div class="icon">🌐</div>
-                <div class="label">浏览器</div>
-            </div>
-            <div class="app-icon">
-                <div class="icon">📷</div>
-                <div class="label">相机</div>
-            </div>
-            <div class="app-icon">
-                <div class="icon">🎵</div>
-                <div class="label">音乐</div>
-            </div>
-            <div class="app-icon">
-                <div class="icon">📝</div>
-                <div class="label">备忘录</div>
-            </div>
-            <div class="app-icon">
-                <div class="icon">🗺️</div>
-                <div class="label">地图</div>
-            </div>
-            <div class="app-icon">
-                <div class="icon">⚙️</div>
-                <div class="label">设置</div>
-            </div>
+            <div class="app-icon"><div class="icon">✆</div><div class="label">电话</div></div>
+            <div class="app-icon"><div class="icon">✉</div><div class="label">信息</div></div>
+            <div class="app-icon"><div class="icon">⚲</div><div class="label">浏览</div></div>
+            <div class="app-icon"><div class="icon">◎</div><div class="label">相机</div></div>
+            <div class="app-icon"><div class="icon">♫</div><div class="label">音乐</div></div>
+            <div class="app-icon"><div class="icon">✎</div><div class="label">备忘</div></div>
+            <div class="app-icon"><div class="icon">◷</div><div class="label">时钟</div></div>
+            <div class="app-icon"><div class="icon">❖</div><div class="label">设置</div></div>
         </div>
     </div>
 
     <div class="dock">
-        <div class="app-icon">
-            <div class="icon">📞</div>
-        </div>
-        <div class="app-icon">
-            <div class="icon">✉️</div>
-        </div>
-        <div class="app-icon">
-            <div class="icon">🌐</div>
-        </div>
-        <div class="app-icon">
-            <div class="icon">🎵</div>
-        </div>
+        <div class="app-icon"><div class="icon">✆</div><div class="label">电话</div></div>
+        <div class="app-icon"><div class="icon">✉</div><div class="label">信息</div></div>
+        <div class="app-icon"><div class="icon">⚲</div><div class="label">浏览</div></div>
+        <div class="app-icon"><div class="icon">♫</div><div class="label">音乐</div></div>
     </div>
 
     <script>
-        // === 核心变量 ===
-        const grid = document.getElementById('appGrid');
-        let draggedEl = null;
-        let startX = 0;
-        let startY = 0;
-        let offsetX = 0;
-        let offsetY = 0;
-        let longPressTimer = null;
-        let isDragging = false;
-        let lastMoveTime = 0;
-
         // === 时间同步 ===
         function updateTime() {
             const now = new Date();
@@ -196,129 +164,104 @@
         updateTime();
         setInterval(updateTime, 1000);
 
-        // === 触摸拖动核心逻辑 ===
+        // === 顺滑拖动核心逻辑 ===
+        let draggedEl = null;
+        let dragClone = null; // 用于跟随手指的影子
+        let startX = 0, startY = 0;
+        let offsetX = 0, offsetY = 0;
+        let longPressTimer = null;
+        let isDragging = false;
+
+        // 节点交换工具函数（比替换 innerHTML 快一百倍）
+        function swapNodes(node1, node2) {
+            const parent1 = node1.parentNode;
+            const sibling1 = node1.nextSibling === node2 ? node1 : node1.nextSibling;
+            node2.parentNode.insertBefore(node1, node2);
+            parent1.insertBefore(node2, sibling1);
+        }
+
         document.querySelectorAll('.app-icon').forEach(item => {
-            // 1. 手指按下：记录初始位置，启动长按计时
             item.addEventListener('touchstart', (e) => {
-                // 只允许单指操作
                 if (e.touches.length !== 1) return;
-                
                 const touch = e.touches[0];
                 startX = touch.clientX;
                 startY = touch.clientY;
-                
-                // 获取元素当前位置（修正：使用 getBoundingClientRect 获取实时位置）
-                const rect = item.getBoundingClientRect();
-                offsetX = startX - rect.left;
-                offsetY = startY - rect.top;
-
-                // 重置状态
                 isDragging = false;
-                clearTimeout(longPressTimer);
 
-                // 启动长按计时器：500ms 后标记为可拖动
+                // 300ms触发长按，敏感度适中
                 longPressTimer = setTimeout(() => {
-                    draggedEl = item;
-                    item.classList.add('dragging');
-                    // 提升层级，避免被遮挡
-                    item.style.position = 'absolute';
-                    item.style.zIndex = '100';
-                }, 500);
-            });
-
-            // 2. 手指移动：判断是否触发拖动
-            item.addEventListener('touchmove', (e) => {
-                if (!draggedEl) return;
-                
-                const touch = e.touches[0];
-                const currentX = touch.clientX - offsetX;
-                const currentY = touch.clientY - offsetY;
-
-                // 轻微移动阈值：移动超过 5px 才判定为拖动，防止点击误触发
-                const dx = Math.abs(touch.clientX - startX);
-                const dy = Math.abs(touch.clientY - startY);
-                if (dx > 5 || dy > 5) {
                     isDragging = true;
-                    clearTimeout(longPressTimer); // 取消长按计时
+                    draggedEl = item;
                     
-                    // 设置拖动位置
-                    draggedEl.style.left = `${currentX}px`;
-                    draggedEl.style.top = `${currentY}px`;
+                    // 创建一个影子节点跟着手指走
+                    const rect = item.getBoundingClientRect();
+                    dragClone = item.cloneNode(true);
+                    
+                    offsetX = startX - rect.left;
+                    offsetY = startY - rect.top;
 
-                    // 交换位置逻辑
-                    swapIcons(draggedEl, currentX, currentY);
-                }
+                    dragClone.style.position = 'fixed';
+                    dragClone.style.left = rect.left + 'px';
+                    dragClone.style.top = rect.top + 'px';
+                    dragClone.style.width = rect.width + 'px';
+                    dragClone.style.height = rect.height + 'px';
+                    dragClone.style.zIndex = '9999';
+                    dragClone.style.opacity = '0.9';
+                    dragClone.style.transform = 'scale(1.1)'; // 微微放大
+                    dragClone.style.margin = '0';
+                    dragClone.style.pointerEvents = 'none'; // 让影子不阻挡底下的触摸检测
+                    
+                    document.body.appendChild(dragClone);
+                    
+                    // 把原来的图标隐藏当占位符
+                    item.style.opacity = '0';
+                    
+                    // 手机震动反馈（如果设备支持）
+                    if (navigator.vibrate) navigator.vibrate(50);
+                }, 300); 
             });
 
-            // 3. 手指抬起：结束拖动
-            item.addEventListener('touchend', (e) => {
-                clearTimeout(longPressTimer);
+            item.addEventListener('touchmove', (e) => {
+                const touch = e.touches[0];
                 
-                // 如果是短按（未拖动），执行点击事件
+                // 如果手指滑动超过10px且还没触发长按，就取消长按（防止滑动页面时误触）
                 if (!isDragging) {
-                    alert(`点击了：${item.querySelector('.label').textContent}`);
+                    if (Math.abs(touch.clientX - startX) > 10 || Math.abs(touch.clientY - startY) > 10) {
+                        clearTimeout(longPressTimer);
+                    }
+                    return;
                 }
 
-                // 重置拖动状态
-                if (draggedEl) {
-                    draggedEl.classList.remove('dragging');
-                    // 复位到网格布局
-                    resetIconPosition(draggedEl);
-                    draggedEl = null;
-                }
-                isDragging = false;
-            });
+                e.preventDefault(); // 阻止屏幕下拉刷新等默认行为
 
-            // 4. 取消：防止滑动中断
-            item.addEventListener('touchcancel', () => {
-                if (draggedEl) {
-                    draggedEl.classList.remove('dragging');
-                    resetIconPosition(draggedEl);
-                    draggedEl = null;
+                // 让影子跟着手指顺滑移动
+                dragClone.style.left = (touch.clientX - offsetX) + 'px';
+                dragClone.style.top = (touch.clientY - offsetY) + 'px';
+
+                // 检测手指目前滑动到了哪个图标上面
+                const targetEl = document.elementFromPoint(touch.clientX, touch.clientY);
+                const targetIcon = targetEl ? targetEl.closest('.app-icon') : null;
+
+                // 如果碰到了其他的图标，直接交换真实 DOM 的位置
+                if (targetIcon && targetIcon !== draggedEl) {
+                    swapNodes(draggedEl, targetIcon);
                 }
-                isDragging = false;
-            });
+            }, { passive: false });
+
+            const endDrag = () => {
+                clearTimeout(longPressTimer);
+                if (isDragging && dragClone && draggedEl) {
+                    dragClone.remove(); // 删掉影子
+                    dragClone = null;
+                    draggedEl.style.opacity = '1'; // 恢复原图标显示
+                    draggedEl = null;
+                    isDragging = false;
+                }
+            };
+
+            item.addEventListener('touchend', endDrag);
+            item.addEventListener('touchcancel', endDrag);
         });
-
-        // === 工具函数：交换图标位置 ===
-        function swapIcons(draggedEl, currentX, currentY) {
-            const icons = Array.from(document.querySelectorAll('.app-icon'));
-            
-            // 遍历所有图标，判断是否重叠
-            for (const icon of icons) {
-                if (icon === draggedEl) continue;
-                
-                const rect = icon.getBoundingClientRect();
-                // 判断中心点是否在目标图标范围内
-                const iconCenterX = rect.left + rect.width / 2;
-                const iconCenterY = rect.top + rect.height / 2;
-                
-                if (
-                    Math.abs(currentX - iconCenterX) < rect.width / 1.5 &&
-                    Math.abs(currentY - iconCenterY) < rect.height / 1.5
-                ) {
-                    // 交换 DOM 节点位置
-                    const temp = draggedEl.innerHTML;
-                    draggedEl.innerHTML = icon.innerHTML;
-                    icon.innerHTML = temp;
-                    
-                    // 交换 label 文本
-                    const tempLabel = draggedEl.querySelector('.label').textContent;
-                    draggedEl.querySelector('.label').textContent = icon.querySelector('.label').textContent;
-                    icon.querySelector('.label').textContent = tempLabel;
-                    
-                    break;
-                }
-            }
-        }
-
-        // === 工具函数：复位图标位置 ===
-        function resetIconPosition(el) {
-            el.style.position = '';
-            el.style.left = '';
-            el.style.top = '';
-            el.style.zIndex = '';
-        }
     </script>
 </body>
 </html>
