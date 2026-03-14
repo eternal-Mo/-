@@ -12,13 +12,13 @@
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
             -webkit-user-select: none;
             user-select: none;
-            -webkit-touch-callout: none; /* 禁用系统默认长按菜单 */
+            -webkit-touch-callout: none;
         }
         body {
-            background: #fafafa; /* 极简浅灰背景 */
+            background: #ffffff;
             height: 100vh;
             overflow: hidden;
-            color: #111;
+            color: #000;
         }
         /* 状态栏 */
         .status-bar {
@@ -26,48 +26,44 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+            padding: 0 25px;
             font-size: 13px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
+            font-weight: 600;
         }
         /* 主屏幕 */
         .home-screen {
-            height: calc(100vh - 44px - 90px);
-            padding: 20px;
+            height: calc(100vh - 44px - 110px);
+            padding: 20px 20px;
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 20px;
         }
         /* 小部件 */
         .widget {
-            background: #fff;
-            border-radius: 20px;
             padding: 25px 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            border: 1px solid #f0f0f0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            border-bottom: 1px solid #f8f8f8;
         }
         .widget-time {
-            font-size: 42px;
+            font-size: 44px;
             font-weight: 200;
-            letter-spacing: 2px;
+            letter-spacing: -1px;
         }
         .widget-date {
-            font-size: 14px;
-            color: #666;
+            font-size: 12px;
+            color: #aaa;
             margin-top: 5px;
-            font-weight: 300;
+            letter-spacing: 1px;
         }
-        /* 图标网格 */
+        /* 图标网格布局 */
         .app-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            row-gap: 25px;
-            column-gap: 15px;
-            margin-top: auto;
+            row-gap: 28px;
+            column-gap: 12px;
+            margin-top: 20px;
         }
         .app-icon {
             display: flex;
@@ -75,190 +71,165 @@
             align-items: center;
             gap: 8px;
         }
-        /* 黑白 ins 风图标 */
-        .app-icon .icon {
-            width: 58px;
-            height: 58px;
+        /* 极简图标容器 */
+        .icon-box {
+            width: 54px;
+            height: 54px;
             border-radius: 18px;
-            background: #111;
-            color: #fff;
+            background: #000;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            transition: transform 0.1s ease;
+        }
+        .app-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: #fff;
         }
         .app-icon .label {
-            font-size: 11px;
-            color: #333;
-            font-weight: 500;
-            letter-spacing: 0.5px;
+            font-size: 10px;
+            color: #444;
+            font-weight: 400;
         }
-        /* Dock 栏 */
+        /* 底部 Dock 栏 */
         .dock {
-            height: 90px;
+            height: 110px;
             background: #fff;
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
-            padding: 0 15px 15px 15px;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.02);
-            border-top: 1px solid #f5f5f5;
+            padding: 0 15px 25px 15px;
+            border-top: 1px solid #f0f0f0;
         }
-        .dock .app-icon .icon {
+        .dock .app-icon {
+            flex: 1;
+        }
+        /* 底栏特殊样式：白底黑框 */
+        .dock .icon-box {
             background: #fff;
-            color: #111;
-            border: 1.5px solid #111;
-            box-shadow: none;
+            border: 1.2px solid #000;
         }
-        .dock .app-icon .label {
-            display: none; /* Dock栏通常不显示文字，更极简 */
+        .dock svg {
+            fill: #000;
         }
     </style>
 </head>
 <body>
     <div class="status-bar">
         <span id="currentTime">00:00</span>
-        <span>LTE &nbsp; 🔋</span>
+        <span>INS MODE &nbsp; 🔋</span>
     </div>
 
     <div class="home-screen">
         <div class="widget">
             <div class="widget-time" id="bigTime">00:00</div>
-            <div class="widget-date" id="currentDate">1月1日 星期一</div>
+            <div class="widget-date" id="currentDate">SATURDAY, MARCH 14</div>
         </div>
 
-        <div class="app-grid" id="appGrid">
-            <div class="app-icon"><div class="icon">✆</div><div class="label">电话</div></div>
-            <div class="app-icon"><div class="icon">✉</div><div class="label">信息</div></div>
-            <div class="app-icon"><div class="icon">⚲</div><div class="label">浏览</div></div>
-            <div class="app-icon"><div class="icon">◎</div><div class="label">相机</div></div>
-            <div class="app-icon"><div class="icon">♫</div><div class="label">音乐</div></div>
-            <div class="app-icon"><div class="icon">✎</div><div class="label">备忘</div></div>
-            <div class="app-icon"><div class="icon">◷</div><div class="label">时钟</div></div>
-            <div class="app-icon"><div class="icon">❖</div><div class="label">设置</div></div>
+        <div class="app-grid" id="draggableGrid">
+            <div class="app-icon" data-movable="true">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></div>
+                <div class="label">日记</div>
+            </div>
+            <div class="app-icon" data-movable="true">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+                <div class="label">世界书</div>
+            </div>
+            <div class="app-icon" data-movable="true">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"/></svg></div>
+                <div class="label">账本</div>
+            </div>
+            <div class="app-icon" data-movable="true">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+                <div class="label">浏览器</div>
+            </div>
+            <div class="app-icon" data-movable="true">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
+                <div class="label">聊天</div>
+            </div>
+            <div class="app-icon" data-movable="true">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></div>
+                <div class="label">音乐</div>
+            </div>
         </div>
     </div>
 
     <div class="dock">
-        <div class="app-icon"><div class="icon">✆</div><div class="label">电话</div></div>
-        <div class="app-icon"><div class="icon">✉</div><div class="label">信息</div></div>
-        <div class="app-icon"><div class="icon">⚲</div><div class="label">浏览</div></div>
-        <div class="app-icon"><div class="icon">♫</div><div class="label">音乐</div></div>
+        <div class="app-icon"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></div><div class="label">设置</div></div>
+        <div class="app-icon"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div><div class="label">电话</div></div>
+        <div class="app-icon"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div><div class="label">信息</div></div>
+        <div class="app-icon"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z"/></svg></div><div class="label">备忘录</div></div>
+        <div class="app-icon"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z"/></svg></div><div class="label">主题</div></div>
     </div>
 
     <script>
-        // === 时间同步 ===
+        // 时间同步
         function updateTime() {
             const now = new Date();
-            const hh = String(now.getHours()).padStart(2, '0');
-            const mm = String(now.getMinutes()).padStart(2, '0');
-            const timeStr = `${hh}:${mm}`;
+            const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
             document.getElementById('currentTime').textContent = timeStr;
             document.getElementById('bigTime').textContent = timeStr;
-            
-            const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
-            const dateStr = `${now.getMonth()+1}月${now.getDate()}日 星期${weekdays[now.getDay()]}`;
-            document.getElementById('currentDate').textContent = dateStr;
+            const options = { weekday: 'long', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options).toUpperCase();
         }
         updateTime();
         setInterval(updateTime, 1000);
 
-        // === 顺滑拖动核心逻辑 ===
-        let draggedEl = null;
-        let dragClone = null; // 用于跟随手指的影子
-        let startX = 0, startY = 0;
-        let offsetX = 0, offsetY = 0;
-        let longPressTimer = null;
-        let isDragging = false;
+        // 拖动逻辑
+        let draggedEl = null, dragClone = null;
+        let startX = 0, startY = 0, offsetX = 0, offsetY = 0, isDragging = false, longPressTimer = null;
 
-        // 节点交换工具函数（比替换 innerHTML 快一百倍）
-        function swapNodes(node1, node2) {
-            const parent1 = node1.parentNode;
-            const sibling1 = node1.nextSibling === node2 ? node1 : node1.nextSibling;
-            node2.parentNode.insertBefore(node1, node2);
-            parent1.insertBefore(node2, sibling1);
+        function swapNodes(n1, n2) {
+            const p1 = n1.parentNode, s1 = n1.nextSibling === n2 ? n1 : n1.nextSibling;
+            n2.parentNode.insertBefore(n1, n2);
+            p1.insertBefore(n2, s1);
         }
 
-        document.querySelectorAll('.app-icon').forEach(item => {
+        document.querySelectorAll('.app-icon[data-movable="true"]').forEach(item => {
             item.addEventListener('touchstart', (e) => {
-                if (e.touches.length !== 1) return;
                 const touch = e.touches[0];
-                startX = touch.clientX;
-                startY = touch.clientY;
-                isDragging = false;
-
-                // 300ms触发长按，敏感度适中
+                startX = touch.clientX; startY = touch.clientY;
                 longPressTimer = setTimeout(() => {
                     isDragging = true;
                     draggedEl = item;
-                    
-                    // 创建一个影子节点跟着手指走
                     const rect = item.getBoundingClientRect();
                     dragClone = item.cloneNode(true);
-                    
-                    offsetX = startX - rect.left;
-                    offsetY = startY - rect.top;
-
-                    dragClone.style.position = 'fixed';
-                    dragClone.style.left = rect.left + 'px';
-                    dragClone.style.top = rect.top + 'px';
-                    dragClone.style.width = rect.width + 'px';
-                    dragClone.style.height = rect.height + 'px';
-                    dragClone.style.zIndex = '9999';
-                    dragClone.style.opacity = '0.9';
-                    dragClone.style.transform = 'scale(1.1)'; // 微微放大
-                    dragClone.style.margin = '0';
-                    dragClone.style.pointerEvents = 'none'; // 让影子不阻挡底下的触摸检测
-                    
+                    offsetX = startX - rect.left; offsetY = startY - rect.top;
+                    Object.assign(dragClone.style, {
+                        position: 'fixed', left: rect.left + 'px', top: rect.top + 'px',
+                        width: rect.width + 'px', zIndex: '9999', opacity: '0.8',
+                        transform: 'scale(1.1)', pointerEvents: 'none'
+                    });
                     document.body.appendChild(dragClone);
-                    
-                    // 把原来的图标隐藏当占位符
                     item.style.opacity = '0';
-                    
-                    // 手机震动反馈（如果设备支持）
-                    if (navigator.vibrate) navigator.vibrate(50);
-                }, 300); 
+                    if (navigator.vibrate) navigator.vibrate(40);
+                }, 300);
             });
 
             item.addEventListener('touchmove', (e) => {
                 const touch = e.touches[0];
-                
-                // 如果手指滑动超过10px且还没触发长按，就取消长按（防止滑动页面时误触）
                 if (!isDragging) {
-                    if (Math.abs(touch.clientX - startX) > 10 || Math.abs(touch.clientY - startY) > 10) {
-                        clearTimeout(longPressTimer);
-                    }
+                    if (Math.abs(touch.clientX - startX) > 10 || Math.abs(touch.clientY - startY) > 10) clearTimeout(longPressTimer);
                     return;
                 }
-
-                e.preventDefault(); // 阻止屏幕下拉刷新等默认行为
-
-                // 让影子跟着手指顺滑移动
+                e.preventDefault();
                 dragClone.style.left = (touch.clientX - offsetX) + 'px';
                 dragClone.style.top = (touch.clientY - offsetY) + 'px';
-
-                // 检测手指目前滑动到了哪个图标上面
                 const targetEl = document.elementFromPoint(touch.clientX, touch.clientY);
-                const targetIcon = targetEl ? targetEl.closest('.app-icon') : null;
-
-                // 如果碰到了其他的图标，直接交换真实 DOM 的位置
-                if (targetIcon && targetIcon !== draggedEl) {
-                    swapNodes(draggedEl, targetIcon);
-                }
+                const targetIcon = targetEl ? targetEl.closest('.app-icon[data-movable="true"]') : null;
+                if (targetIcon && targetIcon !== draggedEl) swapNodes(draggedEl, targetIcon);
             }, { passive: false });
 
             const endDrag = () => {
                 clearTimeout(longPressTimer);
-                if (isDragging && dragClone && draggedEl) {
-                    dragClone.remove(); // 删掉影子
-                    dragClone = null;
-                    draggedEl.style.opacity = '1'; // 恢复原图标显示
-                    draggedEl = null;
+                if (isDragging && dragClone) {
+                    dragClone.remove();
+                    draggedEl.style.opacity = '1';
                     isDragging = false;
+                    draggedEl = null;
                 }
             };
-
             item.addEventListener('touchend', endDrag);
             item.addEventListener('touchcancel', endDrag);
         });
