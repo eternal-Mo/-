@@ -854,7 +854,8 @@ margin-top: 10px;
 .preset-modal,
 .forward-modal,
 .timeskip-modal,
-.offline-setup-modal {
+.offline-setup-modal,
+.offline-search-modal {
 position: fixed;
 top: 0; left: 0;
 width: 100vw; height: 100vh;
@@ -874,7 +875,8 @@ transition: opacity 0.3s;
 .preset-modal.active,
 .forward-modal.active,
 .timeskip-modal.active,
-.offline-setup-modal.active {
+.offline-setup-modal.active,
+.offline-search-modal.active {
 opacity: 1;
 pointer-events: auto;
 }
@@ -885,7 +887,8 @@ pointer-events: auto;
 .preset-modal-content,
 .forward-modal-content,
 .timeskip-modal-content,
-.offline-setup-modal-content {
+.offline-setup-modal-content,
+.offline-search-modal-content {
 width: 90%;
 max-height: 80vh;
 background: white;
@@ -2528,6 +2531,70 @@ color: white;
 .offline-wb-item-info { flex: 1; }
 .offline-wb-item-title { font-size: 15px; font-weight: 500; color: #333; margin-bottom: 2px; }
 .offline-wb-item-branches { font-size: 12px; color: #999; }
+/* ★★★ 新增：线下设置下拉隐藏式样式 ★★★ */
+.offline-settings-dropdown {
+width: 100%;
+border: 1px solid #eee;
+border-radius: 12px;
+overflow: hidden;
+margin-bottom: 12px;
+background: #fff;
+}
+.offline-settings-dropdown summary {
+padding: 16px;
+background: #fff;
+cursor: pointer;
+font-weight: 500;
+font-size: 15px;
+display: flex;
+align-items: center;
+list-style: none;
+user-select: none;
+border-bottom: 1px solid #f0f0f0;
+}
+.offline-settings-dropdown summary::-webkit-details-marker { display: none; }
+.offline-settings-dropdown summary .osd-icon {
+width: 32px; height: 32px;
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 18px;
+margin-right: 14px;
+flex-shrink: 0;
+}
+.offline-settings-dropdown summary .osd-label {
+flex: 1;
+font-size: 16px;
+color: #333;
+}
+.offline-settings-dropdown summary .osd-value {
+font-size: 14px;
+color: #999;
+margin-right: 8px;
+}
+.offline-settings-dropdown summary .osd-arrow {
+color: #ccc;
+font-size: 12px;
+transition: transform 0.2s;
+}
+.offline-settings-dropdown[open] summary .osd-arrow { transform: rotate(180deg); }
+.offline-settings-dropdown[open] summary { border-bottom: 1px solid #eee; }
+.offline-settings-dropdown-content {
+padding: 16px;
+background: #fafafa;
+}
+/* ★★★ 新增：线下搜索结果高亮样式 ★★★ */
+.offline-search-result-item {
+padding: 12px;
+border-bottom: 1px solid #f0f0f0;
+cursor: pointer;
+}
+.offline-search-result-item:hover { background: #f9f9f9; }
+.offline-search-result-item:active { background: #f0f0f0; }
+.offline-search-result-text { font-size: 14px; color: #333; margin-bottom: 4px; line-height: 1.5; }
+.offline-search-result-sender { font-size: 12px; color: #666; font-weight: 500; margin-bottom: 2px; }
+.offline-search-result-time { font-size: 12px; color: #999; }
 </style>
 </head>
 <body>
@@ -2629,7 +2696,6 @@ color: white;
 </div>
 <div class="app-content" id="worldbookAppContent"></div>
 </div>
-<!-- ★★★ 设置页面 - 已删除流式输出相关 ★★★ -->
 <div id="settingsApp" class="app-window">
 <div class="app-header">
 <span class="left" onclick="closeApp('settingsApp')">＜</span>
@@ -2723,7 +2789,7 @@ color: white;
 <div class="multi-select-btn disabled-btn" onclick="showToast('导出功能开发中')"><span class="ms-icon">📤</span><span>导出</span></div>
 </div>
 </div>
-<!-- ★★★ 线下聊天页面 - 已删除底部栏，只保留输入框+AI回复+发送 ★★★ -->
+<!-- ★★★ 线下聊天页面 - 只保留输入框+AI回复+发送，无底部栏 ★★★ -->
 <div id="offlineChatApp" class="app-window">
 <div class="app-header" id="offlineChatHeader">
 <span class="left" id="offlineChatBackBtn" onclick="closeOfflineChat()">＜</span>
@@ -2855,6 +2921,16 @@ color: white;
 <button class="save-btn" onclick="performSearch()">搜索</button>
 <div id="searchResults"></div>
 <button class="modal-btn cancel" style="margin-top: 16px;" onclick="closeSearchModal()">关闭</button>
+</div>
+</div>
+<!-- ★★★ 新增：线下查找记录弹窗 ★★★ -->
+<div class="offline-search-modal" id="offlineSearchModal">
+<div class="offline-search-modal-content">
+<h3 style="margin-bottom: 16px;">🔍 查找线下记录</h3>
+<div class="input-group"><input type="text" id="offlineSearchKeyword" placeholder="输入关键词搜索线下记录..." onkeypress="if(event.key==='Enter') performOfflineSearch()"></div>
+<button class="save-btn" onclick="performOfflineSearch()">搜索</button>
+<div id="offlineSearchResults"></div>
+<button class="modal-btn cancel" style="margin-top: 16px;" onclick="closeOfflineSearchModal()">关闭</button>
 </div>
 </div>
 <div class="role-modal" id="roleModal">
@@ -3430,7 +3506,6 @@ function getCurrentTemperature() { var slider = document.getElementById('tempera
 function showConfirm(title, text, callback) { document.getElementById('confirmTitle').textContent = title; document.getElementById('confirmText').textContent = text; confirmCallback = callback; document.getElementById('confirmModal').classList.add('active'); }
 function closeConfirmModal() { document.getElementById('confirmModal').classList.remove('active'); confirmCallback = null; }
 function confirmAction() { if (confirmCallback) confirmCallback(); closeConfirmModal(); }
-// ★★★ clearChatHistory 保留但不再从聊天信息页调用 ★★★
 function clearChatHistory() {
     if (!currentChatInfoRoleId) return;
     showConfirm('清空所有互动记录', '确定要清空与该角色的所有互动记录吗？所有互动行为将被永久删除，角色记忆也将被完全清除，此操作不可恢复！', function() {
@@ -3600,7 +3675,7 @@ function getOfflineRoleWorldbookContent(roleId) {
     }
     return content || '无特殊世界观设定';
 }
-// ========== 线下设置独立页面 ==========
+// ★★★ 线下设置独立页面 - 已更新为下拉隐藏式+查找记录功能 ★★★
 function openOfflineSettingsPage() { renderOfflineSettingsPage(); document.getElementById('offlineSettingsApp').classList.add('active'); }
 function closeOfflineSettingsPage() { document.getElementById('offlineSettingsApp').classList.remove('active'); }
 function renderOfflineSettingsPage() {
@@ -3609,17 +3684,210 @@ function renderOfflineSettingsPage() {
     var wordRangeText = (offlineSettings.minWords || 50) + '~' + (offlineSettings.maxWords || 300) + '字';
     var timeAwareText = offlineSettings.timeAware ? '已开启' : '已关闭';
     var html = '';
-    html += '<div class="offline-settings-section"><div class="offline-settings-section-title">内容设置</div>';
-    html += '<div class="offline-settings-item" onclick="openOfflineWbPage()"><div class="offline-settings-item-icon" style="background:#e8f5e9;">📖</div><div class="offline-settings-item-label">世界书</div><div class="offline-settings-item-value">' + (linkedCount > 0 ? '已关联' + linkedCount + '个' : '未关联') + '</div><div class="offline-settings-item-arrow">›</div></div>';
-    html += '<div class="offline-settings-item" onclick="openOfflineTimeAwarePage()"><div class="offline-settings-item-icon" style="background:#e3f2fd;">⏰</div><div class="offline-settings-item-label">时间感知</div><div class="offline-settings-item-value">' + timeAwareText + '</div><div class="offline-settings-item-arrow">›</div></div>';
-    html += '<div class="offline-settings-item" onclick="openOfflineWordLimitPage()"><div class="offline-settings-item-icon" style="background:#fff3e0;">📝</div><div class="offline-settings-item-label">字数限制</div><div class="offline-settings-item-value">' + wordRangeText + '</div><div class="offline-settings-item-arrow">›</div></div>';
+    html += '<div style="padding:16px;">';
+    // ★★★ 世界书 - 下拉隐藏式 ★★★
+    html += '<details class="offline-settings-dropdown">';
+    html += '<summary><div class="osd-icon" style="background:#e8f5e9;">📖</div><span class="osd-label">世界书</span><span class="osd-value">' + (linkedCount > 0 ? '已关联' + linkedCount + '个' : '未关联') + '</span><span class="osd-arrow">▼</span></summary>';
+    html += '<div class="offline-settings-dropdown-content">';
+    html += '<div style="font-size:13px; color:#666; margin-bottom:12px; line-height:1.6;">选择要在线下模式中启用的世界书。</div>';
+    var allWorldbooks = worldbooks;
+    if (allWorldbooks.length === 0) {
+        html += '<div style="text-align:center; color:#999; padding:20px; font-size:13px;">暂无世界书，请先在世界书页面创建</div>';
+    } else {
+        var linkedIds = offlineSettings.linkedWorldbookMainIds || [];
+        allWorldbooks.forEach(function(wb) {
+            var isSelected = linkedIds.includes(wb.id);
+            var branchCount = wb.branches ? wb.branches.length : 0;
+            html += '<div class="offline-wb-item ' + (isSelected ? 'selected' : '') + '" onclick="toggleOfflineWbItemInline(\'' + wb.id + '\', this)" data-wb-id="' + wb.id + '"><div class="offline-wb-item-check">' + (isSelected ? '✓' : '') + '</div><div class="offline-wb-item-info"><div class="offline-wb-item-title">' + escapeHtml(wb.title) + '</div><div class="offline-wb-item-branches">' + wb.range + ' · ' + branchCount + '个分支</div></div></div>';
+        });
+    }
+    html += '<button class="offline-save-btn" style="margin-top:12px;" onclick="saveOfflineWbFromDropdown()">保存世界书关联</button>';
+    html += '</div></details>';
+    // ★★★ 时间感知 - 下拉隐藏式 ★★★
+    html += '<details class="offline-settings-dropdown">';
+    html += '<summary><div class="osd-icon" style="background:#e3f2fd;">⏰</div><span class="osd-label">时间感知</span><span class="osd-value">' + timeAwareText + '</span><span class="osd-arrow">▼</span></summary>';
+    html += '<div class="offline-settings-dropdown-content">';
+    html += '<div style="margin-bottom:12px; font-size:13px; color:#666; line-height:1.6;">开启后，角色将感知现实真实时间，在线下互动中根据当前时间调整回复。</div>';
+    html += '<div style="display:flex; align-items:center; justify-content:space-between; padding:14px; background:#fff; border-radius:10px; border:1px solid #eee;">';
+    html += '<span style="font-size:15px; color:#333;">启用时间感知</span>';
+    html += '<label class="ios-switch"><input type="checkbox" id="offlineTimeAwareInlineCheckbox" ' + (offlineSettings.timeAware ? 'checked' : '') + ' onchange="saveOfflineTimeAwareInline(this.checked)"><span class="ios-switch-slider"></span></label>';
     html += '</div>';
-    html += '<div class="offline-settings-section"><div class="offline-settings-section-title">高级功能</div>';
+    html += '<div style="font-size:12px; color:#999; padding:10px; background:#fff; border-radius:8px; margin-top:8px; border:1px solid #f0f0f0;">💡 开启后系统会将当前真实时间注入到线下模式的对话中。</div>';
+    html += '</div></details>';
+    // ★★★ 字数限制 - 下拉隐藏式 ★★★
+    html += '<details class="offline-settings-dropdown">';
+    html += '<summary><div class="osd-icon" style="background:#fff3e0;">📝</div><span class="osd-label">字数限制</span><span class="osd-value">' + wordRangeText + '</span><span class="osd-arrow">▼</span></summary>';
+    html += '<div class="offline-settings-dropdown-content">';
+    html += '<div style="margin-bottom:12px; font-size:13px; color:#666; line-height:1.6;">设置AI在线下模式中每次回复的字数范围。</div>';
+    html += '<div class="offline-word-limit-row"><label>最少</label><input type="number" id="offlineMinWordsInlineInput" placeholder="50" min="1" max="9999" value="' + (offlineSettings.minWords || 50) + '"><span>字</span></div>';
+    html += '<div class="offline-word-limit-row"><label>最多</label><input type="number" id="offlineMaxWordsInlineInput" placeholder="300" min="1" max="9999" value="' + (offlineSettings.maxWords || 300) + '"><span>字</span></div>';
+    html += '<button class="offline-save-btn" style="margin-top:8px;" onclick="saveOfflineWordLimitInline()">保存字数设置</button>';
+    html += '</div></details>';
+    // ★★★ 高级功能区 ★★★
+    html += '<div style="margin-top:20px;">';
+    html += '<div style="padding:0 0 8px; font-size:13px; color:#999; font-weight:500; letter-spacing:0.5px;">高级功能</div>';
+    html += '<div style="border:1px solid #eee; border-radius:12px; overflow:hidden; background:#fff;">';
     html += '<div class="offline-settings-item"><div class="offline-settings-item-icon" style="background:#f3e5f5;">🧠</div><div class="offline-settings-item-label">记忆上下文</div><div class="offline-settings-item-badge">开发中</div><div class="offline-settings-item-arrow">›</div></div>';
-    html += '<div class="offline-settings-item" onclick="showToast(\'该功能正在开发中，敬请期待\')"><div class="offline-settings-item-icon" style="background:#fce4ec;">🔍</div><div class="offline-settings-item-label">查找记录</div><div class="offline-settings-item-badge">开发中</div><div class="offline-settings-item-arrow">›</div></div>';
+    // ★★★ 查找记录 - 已实现 ★★★
+    html += '<div class="offline-settings-item" onclick="openOfflineSearchModal()"><div class="offline-settings-item-icon" style="background:#fce4ec;">🔍</div><div class="offline-settings-item-label">查找记录</div><div class="offline-settings-item-arrow">›</div></div>';
+    html += '</div></div>';
     html += '</div>';
     content.innerHTML = html;
 }
+// ★★★ 下拉内联操作函数 ★★★
+function toggleOfflineWbItemInline(wbId, itemEl) {
+    var ids = offlineSettings.linkedWorldbookMainIds || [];
+    var idx = ids.indexOf(wbId);
+    if (idx >= 0) { ids.splice(idx, 1); } else { ids.push(wbId); }
+    offlineSettings.linkedWorldbookMainIds = ids;
+    var isSelected = ids.includes(wbId);
+    itemEl.classList.toggle('selected', isSelected);
+    var check = itemEl.querySelector('.offline-wb-item-check');
+    if (check) { check.textContent = isSelected ? '✓' : ''; }
+}
+function saveOfflineWbFromDropdown() {
+    saveOfflineSettingsData();
+    showToast('世界书关联已保存');
+    // 更新summary中的值显示
+    var linkedCount = (offlineSettings.linkedWorldbookMainIds || []).length;
+    var summaries = document.querySelectorAll('#offlineSettingsContent .offline-settings-dropdown summary .osd-value');
+    if (summaries[0]) summaries[0].textContent = linkedCount > 0 ? '已关联' + linkedCount + '个' : '未关联';
+}
+function saveOfflineTimeAwareInline(checked) {
+    offlineSettings.timeAware = checked;
+    saveOfflineSettingsData();
+    // 更新summary中的值显示
+    var summaries = document.querySelectorAll('#offlineSettingsContent .offline-settings-dropdown summary .osd-value');
+    if (summaries[1]) summaries[1].textContent = checked ? '已开启' : '已关闭';
+    showToast(checked ? '时间感知已开启' : '时间感知已关闭');
+}
+function saveOfflineWordLimitInline() {
+    var minW = parseInt(document.getElementById('offlineMinWordsInlineInput').value) || 50;
+    var maxW = parseInt(document.getElementById('offlineMaxWordsInlineInput').value) || 300;
+    if (minW < 1) minW = 1;
+    if (maxW < minW) maxW = minW;
+    offlineSettings.minWords = minW;
+    offlineSettings.maxWords = maxW;
+    saveOfflineSettingsData();
+    // 更新summary中的值显示
+    var summaries = document.querySelectorAll('#offlineSettingsContent .offline-settings-dropdown summary .osd-value');
+    if (summaries[2]) summaries[2].textContent = minW + '~' + maxW + '字';
+    showToast('字数限制已保存');
+}
+// ★★★ 线下查找记录功能 ★★★
+function openOfflineSearchModal() {
+    document.getElementById('offlineSearchModal').classList.add('active');
+    document.getElementById('offlineSearchKeyword').value = '';
+    document.getElementById('offlineSearchResults').innerHTML = '';
+    setTimeout(function() { document.getElementById('offlineSearchKeyword').focus(); }, 300);
+}
+function closeOfflineSearchModal() {
+    document.getElementById('offlineSearchModal').classList.remove('active');
+}
+function performOfflineSearch() {
+    var keyword = document.getElementById('offlineSearchKeyword').value.trim();
+    if (!keyword) { alert('请输入关键词'); return; }
+    // 获取当前角色（优先offlineChatRole，其次currentChatRole）
+    var searchRoleId = null;
+    var searchRoleName = '角色';
+    if (offlineChatRole) { searchRoleId = offlineChatRole.id; searchRoleName = offlineChatRole.name; }
+    else if (currentChatRole) { searchRoleId = currentChatRole.id; searchRoleName = currentChatRole.name; }
+    if (!searchRoleId) {
+        document.getElementById('offlineSearchResults').innerHTML = '<div style="text-align:center; color:#999; padding:20px;">请先打开一个角色的聊天</div>';
+        return;
+    }
+    var history = chatHistories[searchRoleId] || [];
+    // 只搜索线下模式的记录
+    var offlineHistory = history.filter(function(item) {
+        return (item.mode === 'offline') && !item.recalled && item.content;
+    });
+    var results = offlineHistory.filter(function(item) {
+        return item.content.toLowerCase().includes(keyword.toLowerCase());
+    });
+    var count = results.length;
+    var html = '<div class="search-stats">在「' + escapeHtml(searchRoleName) + '」的线下记录中找到 ' + count + ' 条包含"' + escapeHtml(keyword) + '"的结果</div>';
+    if (count > 0) {
+        html += '<div class="search-results">';
+        results.forEach(function(item) {
+            var time = '';
+            if (item.time) {
+                var d = new Date(item.time);
+                if (!isNaN(d.getTime())) {
+                    time = d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' + d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
+                }
+            }
+            var senderName = item.type === 'user' ? '我' : (item.type === 'ai' ? searchRoleName : '系统');
+            var highlightedText = escapeHtml(item.content).replace(new RegExp(escapeHtml(keyword), 'gi'), function(match) {
+                return '<mark style="background:#ffeb3b;">' + match + '</mark>';
+            });
+            // 截取显示，最多200字
+            var displayText = highlightedText;
+            if (item.content.length > 200) {
+                // 找到关键词位置，前后截取
+                var kwIndex = item.content.toLowerCase().indexOf(keyword.toLowerCase());
+                var start = Math.max(0, kwIndex - 50);
+                var end = Math.min(item.content.length, kwIndex + keyword.length + 150);
+                var snippet = item.content.substring(start, end);
+                if (start > 0) snippet = '...' + snippet;
+                if (end < item.content.length) snippet = snippet + '...';
+                displayText = escapeHtml(snippet).replace(new RegExp(escapeHtml(keyword), 'gi'), function(match) {
+                    return '<mark style="background:#ffeb3b;">' + match + '</mark>';
+                });
+            }
+            html += '<div class="offline-search-result-item" onclick="jumpToOfflineMessage(\'' + item.id + '\')">';
+            html += '<div class="offline-search-result-sender">' + escapeHtml(senderName) + '</div>';
+            html += '<div class="offline-search-result-text">' + displayText + '</div>';
+            html += '<div class="offline-search-result-time">' + time + '</div>';
+            html += '</div>';
+        });
+        html += '</div>';
+    } else {
+        html += '<div style="text-align:center; color:#999; padding:20px;">未找到相关线下记录</div>';
+    }
+    document.getElementById('offlineSearchResults').innerHTML = html;
+}
+function jumpToOfflineMessage(msgId) {
+    closeOfflineSearchModal();
+    // 如果当前在线下设置页，先关闭
+    closeOfflineSettingsPage();
+    // 确保切换到线下模式并找到消息
+    if (currentChatRole) {
+        // 如果singleChatApp处于活跃状态
+        if (document.getElementById('singleChatApp').classList.contains('active')) {
+            // 切换到线下模式
+            if (currentChatMode !== 'offline') {
+                var toggleInput = document.getElementById('modeToggleInput');
+                if (toggleInput) { toggleInput.checked = true; onModeToggle(true); }
+            }
+            setTimeout(function() {
+                var targetRow = document.querySelector('[data-msgid="' + msgId + '"]');
+                if (targetRow) {
+                    targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    targetRow.classList.add('search-highlight');
+                    setTimeout(function() { targetRow.classList.remove('search-highlight'); }, 2500);
+                } else {
+                    showToast('未找到该消息');
+                }
+            }, 400);
+        }
+        // 如果offlineChatApp处于活跃状态
+        else if (document.getElementById('offlineChatApp').classList.contains('active')) {
+            setTimeout(function() {
+                var targetRow = document.querySelector('#offlineChatMessages [data-msgid="' + msgId + '"]');
+                if (targetRow) {
+                    targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    targetRow.classList.add('search-highlight');
+                    setTimeout(function() { targetRow.classList.remove('search-highlight'); }, 2500);
+                } else {
+                    showToast('未找到该消息');
+                }
+            }, 300);
+        } else {
+            showToast('请先打开聊天窗口');
+        }
+    }
+}
+// 保留旧的子页面函数（兼容）
 function openOfflineWbPage() { renderOfflineWbPage(); document.getElementById('offlineWbPage').classList.add('active'); }
 function closeOfflineWbPage() { document.getElementById('offlineWbPage').classList.remove('active'); }
 function renderOfflineWbPage() {
@@ -3816,7 +4084,6 @@ function switchChatTab(tab) { currentChatTab = tab; document.querySelectorAll('.
 function goBackFromChat() { if (document.getElementById('singleChatApp').classList.contains('active')) closeSingleChat(); else closeApp('chatApp'); }
 function togglePlusMenu() { var menu = document.getElementById('plusMenu'); plusMenuVisible = !plusMenuVisible; menu.classList.toggle('active', plusMenuVisible); }
 function closePlusMenu() { document.getElementById('plusMenu').classList.remove('active'); plusMenuVisible = false; }
-// ★★★ 聊天信息页 - 已删除"清空聊天记录"部分 ★★★
 function openChatInfo(roleId) {
     if (!roleId) return; currentChatInfoRoleId = roleId; var role = findRoleById(roleId); if (!role) return;
     if (!roleChatSettings[roleId]) { roleChatSettings[roleId] = { note: '', bio: '', minMemory: 1, maxMemory: 7, pinned: false, linkedWorldbookMainIds: [], wordLimit: 'unlimited', minWords: 20, maxWords: 200, timeAware: false, timestampShowDate: true, timestampPosition: 'bubble', msgCountMin: 1, msgCountMax: 1, singleWordLimitType: 'unlimited', singleMinWords: 10, singleMaxWords: 50, overallWordLimitType: 'unlimited', overallMinWords: 20, overallMaxWords: 200, memoryAll: false, memoryCustomCount: 10 }; }
@@ -3897,7 +4164,6 @@ function toggleAI() { aiEnabled = !aiEnabled; var btn = document.getElementById(
 function showTypingIndicator() { var indicator = document.getElementById('typingIndicator'); if (indicator) indicator.classList.add('show'); }
 function hideTypingIndicator() { var indicator = document.getElementById('typingIndicator'); if (indicator) indicator.classList.remove('show'); }
 function showToast(text, duration) { duration = duration || 1500; var t = document.createElement('div'); t.className = 'toast-msg'; t.textContent = text; document.body.appendChild(t); setTimeout(function() { t.classList.add('fade-out'); }, duration - 300); setTimeout(function() { if (t.parentNode) t.parentNode.removeChild(t); }, duration); }
-// ★★★ sendSingleMessage - 已删除流式输出 ★★★
 async function sendSingleMessage() {
     var input = document.getElementById('singleChatInput'); var text = input.value.trim(); if (text === '') return;
     if (editingMessageId) { var targetRow = document.querySelector('[data-msgid="' + editingMessageId + '"]'); if (targetRow) { var msgEl = targetRow.querySelector('.msg'); if (msgEl) { var quoteBlock = msgEl.querySelector('.msg-quote-block'); var timestamp = msgEl.querySelector('.msg-timestamp'); msgEl.innerText = text; if (quoteBlock) msgEl.insertBefore(quoteBlock, msgEl.firstChild); if (timestamp) msgEl.appendChild(timestamp); } } if (currentChatRole && chatHistories[currentChatRole.id]) { var hist = chatHistories[currentChatRole.id].find(function(h) { return h.id === editingMessageId; }); if (hist) hist.content = text; localStorage.setItem('chatHistories_v2', JSON.stringify(chatHistories)); } input.value = ''; clearEditing(); showToast('已编辑'); return; }
@@ -4089,8 +4355,19 @@ window.openOfflineTimeAwarePage = openOfflineTimeAwarePage;
 window.closeOfflineTimeAwarePage = closeOfflineTimeAwarePage;
 window.saveOfflineTimeAware = saveOfflineTimeAware;
 window.getOfflineRoleWorldbookContent = getOfflineRoleWorldbookContent;
-console.log('墨墨机 · 更新版 v21 (删除清空聊天记录+线下底栏精简+删除流式)');
+// ★★★ 新增的线下设置下拉式+查找记录相关函数暴露 ★★★
+window.toggleOfflineWbItemInline = toggleOfflineWbItemInline;
+window.saveOfflineWbFromDropdown = saveOfflineWbFromDropdown;
+window.saveOfflineTimeAwareInline = saveOfflineTimeAwareInline;
+window.saveOfflineWordLimitInline = saveOfflineWordLimitInline;
+window.openOfflineSearchModal = openOfflineSearchModal;
+window.closeOfflineSearchModal = closeOfflineSearchModal;
+window.performOfflineSearch = performOfflineSearch;
+window.jumpToOfflineMessage = jumpToOfflineMessage;
+window.addSingleMessage = addSingleMessage;
+console.log('墨墨机 · 更新版 v22 (线下设置下拉隐藏式+线下查找记录+线下底栏清理)');
 </script>
 </body>
 </html>
+
 
