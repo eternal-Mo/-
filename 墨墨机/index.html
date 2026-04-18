@@ -21,25 +21,11 @@ height: 100dvh;
 overflow: hidden;
 color: #000;
 }
-.status-bar {
-height: 44px;
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 0 25px;
-font-size: 13px;
-font-weight: 600;
-position: fixed;
-top: 0;
-width: 100%;
-background: #fff;
-z-index: 100;
-}
 .main-wrapper {
 width: 100vw;
 height: calc(100vh - 110px);
 height: calc(100dvh - 110px);
-margin-top: 44px;
+margin-top: 0;
 overflow-y: auto;
 }
 .page {
@@ -1452,27 +1438,36 @@ transition: opacity 0.3s;
 height: 18px;
 }
 .typing-indicator.show { opacity: 1; }
-.gender-options { display: flex; gap: 10px; margin-top: 8px; }
+/* ===== 性别选项优化样式 ===== */
+.gender-options {
+display: flex;
+gap: 8px;
+margin-top: 8px;
+}
 .gender-option {
-flex: 1;
-padding: 10px;
+padding: 6px 16px;
 background: #f5f5f5;
-border-radius: 8px;
+border-radius: 20px;
 text-align: center;
 cursor: pointer;
-border: 2px solid transparent;
+border: 1.5px solid transparent;
 transition: all 0.2s;
+font-size: 13px;
+min-width: 50px;
+flex: 0 0 auto;
 }
 .gender-option.selected {
-background: #e3f2fd;
-border-color: #1976d2;
-color: #1976d2;
+background: #e8edf3;
+border-color: #4A4A4A;
+color: #333;
 font-weight: 500;
 }
 .gender-option.custom-input {
 display: flex;
 align-items: center;
 justify-content: center;
+padding: 6px 10px;
+min-width: 80px;
 }
 .gender-option.custom-input input {
 width: 100%;
@@ -1480,7 +1475,14 @@ border: none;
 background: transparent;
 text-align: center;
 outline: none;
-font-size: 14px;
+font-size: 13px;
+}
+.gender-custom-expand {
+margin-top: 8px;
+display: none;
+}
+.gender-custom-expand.visible {
+display: block;
 }
 .msg-context-overlay {
 position: fixed;
@@ -1849,7 +1851,8 @@ padding: 0 2px;
 }
 .temp-tooltip-overlay {
 position: fixed;
-top: 0; left: 0;
+top: 0;
+left: 0;
 width: 100vw; height: 100vh;
 background: rgba(0,0,0,0.4);
 z-index: 5000;
@@ -2425,7 +2428,7 @@ flex-shrink: 0;
 .mode-toggle-switch input { opacity: 0; width: 0; height: 0; }
 .mode-toggle-track { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 26px; transition: background-color 0.4s ease; }
 .mode-toggle-track.online-track { background-color: #90CAF9; }
-.mode-toggle-track.offline-track { background-color: #F48FB1; }
+.mode-toggle-track.offline-track { background-color:#F48FB1; }
 .mode-toggle-thumb { position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); transition: transform 0.3s ease; }
 .mode-toggle-switch input:checked ~ .mode-toggle-thumb { transform: translateX(22px); }
 .chat-messages.online-mode { background-color: #E3F2FD; }
@@ -2805,10 +2808,6 @@ color: #f57c00;
 </style>
 </head>
 <body>
-<div class="status-bar">
-<span id="currentTime">00:00</span>
-<span>MOMO &nbsp; 📱</span>
-</div>
 <div class="main-wrapper" id="mainWrapper">
 <div class="page">
 <div class="widget">
@@ -3135,7 +3134,14 @@ color: #f57c00;
 <div class="avatar-circle" onclick="alert('头像功能开发中')"><span>📷</span></div>
 <div class="input-group"><label class="required-field">姓名</label><input type="text" id="roleName" placeholder="输入角色姓名"></div>
 <div class="input-group"><label class="required-field">性别</label>
-<div class="gender-options"><div class="gender-option" data-value="男" onclick="selectGender(this)">男</div><div class="gender-option" data-value="女" onclick="selectGender(this)">女</div><div class="gender-option custom-input" onclick="selectGender(this, true)"><input type="text" id="roleGenderCustom" placeholder="自定义" onfocus="this.parentElement.click()"></div></div>
+<div class="gender-options">
+<div class="gender-option" data-value="男" onclick="selectGender(this)">男</div>
+<div class="gender-option" data-value="女" onclick="selectGender(this)">女</div>
+<div class="gender-option" data-value="自定义" onclick="selectGender(this, true)">自定义</div>
+</div>
+<div class="gender-custom-expand" id="genderCustomExpand">
+<input type="text" id="roleGenderCustom" placeholder="输入自定义性别" style="margin-top:8px;">
+</div>
 <input type="hidden" id="roleGender" value=""></div>
 <div class="input-group"><label class="optional-field">外貌</label><input type="text" id="roleAppearance" placeholder="描述角色外貌（选填）"></div>
 <div class="input-group"><label class="required-field">年龄</label><input type="text" id="roleAge" placeholder="例如：25"></div>
@@ -3158,7 +3164,7 @@ color: #f57c00;
 <h3 id="worldbookModalTitle">新建世界书</h3>
 <div class="input-group"><label class="required-field">标题</label><input type="text" id="worldbookTitle" placeholder="输入标题"></div>
 <div class="input-group" id="worldbookRangeGroup"><label class="required-field">范围</label><select id="worldbookRange"><option value="整体">整体（自动关联所有角色）</option><option value="单人">单人（需手动关联角色）</option></select></div>
-<div class="input-group" id="worldbookContentGroup" style="display:none;"><label class="required-field">内容</label><textarea id="worldbookContentText" placeholder="输入世界书内容..." rows="6"></textarea></div>
+<div class="input-group" id="worldbookContentGroup" style="display:none;"><label class="required-field">内容</label><textarea id="worldbookContentText" placeholder="输入分支内容..." rows="6"></textarea></div>
 <div class="modal-buttons"><button class="modal-btn cancel" onclick="closeWorldbookModal()">取消</button><button class="modal-btn save" onclick="saveWorldbook()">保存</button></div>
 </div>
 </div>
@@ -3460,6 +3466,32 @@ function renderFilteredMessages(roleId) {
     }
     setupLongPressEvent();
 }
+
+// ==================== 时间感知 Prompt 构建（优化版）====================
+function buildTimeAwarePrompt() {
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var day = now.getDate();
+    var hour = now.getHours();
+    var minute = now.getMinutes().toString().padStart(2, '0');
+    var timeStr = year + '年' + month + '月' + day + '日 ' + hour + ':' + minute;
+    
+    // 判断时间段
+    var period = '';
+    if (hour >= 5 && hour < 9) period = '清晨';
+    else if (hour >= 9 && hour < 12) period = '上午';
+    else if (hour >= 12 && hour < 14) period = '中午';
+    else if (hour >= 14 && hour < 18) period = '下午';
+    else if (hour >= 18 && hour < 22) period = '晚上';
+    else period = '深夜';
+    
+    return '\n\n【时间感知】当前真实时间为 ' + timeStr + '（' + period + '）。\n' +
+        '你能自然感知到现在的时间段，并让你的语气、话题、行为符合当前时间的氛围。\n' +
+        '不要刻意报时或每次都提到具体时间，像真人一样自然地感受时间流动即可。\n' +
+        '例如：深夜时语气可以更柔和、早晨时可以更有活力，但不需要每句话都点明时间。\n';
+}
+
 function buildRoleSystemPrompt(fullRole, worldbookContent, modeContext, modeRule, msgRulePrompt, timePrompt) {
     var memoryBankPrompt = buildMemoryBankPrompt(fullRole.id);
     return '你现在扮演以下角色：\n姓名：' + fullRole.name + '\n性别：' + fullRole.gender + '\n外貌：' + (fullRole.appearance || '未描述') + '\n年龄：' + fullRole.age + '\n生日：' + (fullRole.birthday || '未知') + '\n身高：' + fullRole.height + '\n体重：' + (fullRole.weight || '未知') + '\n职位：' + (fullRole.job || '无') + '\n个人背景：' + fullRole.background + '\n详细补充：' + (fullRole.details || '无') + '\n\n【世界观设定】\n' + worldbookContent + memoryBankPrompt + '\n' + (timePrompt || '') + (modeContext || '') + (modeRule || '') + (msgRulePrompt || '') + '\n请完全以这个角色的身份和性格来回应，保持角色的一致性。';
@@ -3475,16 +3507,6 @@ function buildChatModeRulePrompt() {
     '- 句中用"。"隔断，但句尾不加"。"\n' +
     '- 例：今天天气真好。我想出去走走\n';
 }
-// ======================================================
-// ★★★ 线下模式规则（本次更新：新增段落排版规则） ★★★
-// 所有线下 AI 回复的入口都会调用本函数：
-//   - sendSingleMessage（线上聊天框切到线下发消息）
-//   - sendOfflineAIReply（线下独立聊天界面）
-//   - sendAITimeskipResponse（时间快进）
-//   - regenerateAIResponse（重置/重新生成）
-//   - sendAIRecallReaction（撤回反应）
-// 修改这里即可让所有入口生效。
-// ======================================================
 function buildOfflineModeRulePrompt() {
     return '\n\n【核心指令：线下互动模式】\n' +
     '你们正在面对面真实相处。你们之前可能有过线上聊天，那些记忆你保留，但现在可以有动作和表情。\n\n' +
@@ -3641,7 +3663,13 @@ async function sendAITimeskipResponse(value, unit) {
     try {
         var chatUrl = endpoint; if (chatUrl.endsWith('/')) chatUrl += 'chat/completions'; else if (!chatUrl.endsWith('/chat/completions')) chatUrl += '/chat/completions';
         var worldbookContent = getRoleWorldbookContent(fullRole.id); var msgRulePrompt = buildMsgRulePrompt(fullRole.id); var modeRule = getCurrentModeRulePrompt(); var modeContext = getModeContextPrompt();
-        var rolePrompt = buildRoleSystemPrompt(fullRole, worldbookContent, modeContext, modeRule, msgRulePrompt, '');
+        var roleSettings = roleChatSettings[fullRole.id] || {};
+        var timePrompt = '';
+        var useTimeAware = currentChatMode === 'online' ? (roleSettings.timeAware || false) : (offlineSettings.timeAware || false);
+        if (useTimeAware) { 
+            timePrompt = buildTimeAwarePrompt();
+        }
+        var rolePrompt = buildRoleSystemPrompt(fullRole, worldbookContent, modeContext, modeRule, msgRulePrompt, timePrompt);
         var messages = [{ role: 'system', content: rolePrompt }, { role: 'user', content: '[系统提示：时间已经快进了' + timeText + '。请以你的角色身份，根据你的性格和之前的聊天氛围，对经过了' + timeText + '这件事作出自然的反应。想象在这段时间里你可能做了什么，回复要简短自然，像真实聊天中久别重逢或者过了一段时间后的自然对话。]' }];
         var response = await fetch(chatUrl, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key }, body: JSON.stringify({ model: model, messages: messages, temperature: temperature }) });
         if (currentChatRole && currentChatRole.id === roleId) { hideTypingIndicator(); }
@@ -3844,9 +3872,7 @@ async function regenerateAIResponse(roleId) {
         var timePrompt = '';
         var useTimeAware = currentChatMode === 'online' ? (roleSettings.timeAware || false) : (offlineSettings.timeAware || false);
         if (useTimeAware) { 
-            var now = new Date(); 
-            var timeStr2 = now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日 ' + now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0'); 
-            timePrompt = '\n【当前真实时间】' + timeStr2 + '\n请根据当前时间调整你的回复内容和语气。'; 
+            timePrompt = buildTimeAwarePrompt();
         }
         var rolePrompt = buildRoleSystemPrompt(fullRole, worldbookContent, modeContext, modeRule, msgRulePrompt, timePrompt);
         var apiMessages = [{ role: 'system', content: rolePrompt }];
@@ -4099,8 +4125,7 @@ async function sendOfflineAIReply() {
         }
         var timePrompt = '';
         if (offlineSettings.timeAware) {
-            var now = new Date(); var timeStr = now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日 ' + now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-            timePrompt = '\n【当前真实时间】' + timeStr + '\n请根据当前时间调整你的回复内容和语气。';
+            timePrompt = buildTimeAwarePrompt();
         }
         var memoryBankPrompt = buildMemoryBankPrompt(fullRole.id);
         var rolePrompt = '你现在扮演以下角色：\n姓名：' + fullRole.name + '\n性别：' + fullRole.gender + '\n外貌：' + (fullRole.appearance || '未描述') + '\n年龄：' + fullRole.age + '\n生日：' + (fullRole.birthday || '未知') + '\n身高：' + fullRole.height + '\n体重：' + (fullRole.weight || '未知') + '\n职位：' + (fullRole.job || '无') + '\n个人背景：' + fullRole.background + '\n详细补充：' + (fullRole.details || '无') + '\n\n【世界观设定】\n' + worldbookContent + memoryBankPrompt + '\n【当前互动模式】你们正在面对面真实相处，进行线下互动。\n' + offlineRule + wordLimitPrompt + timePrompt + '\n请完全以这个角色的身份和性格来回应，保持角色的一致性。';
@@ -4469,13 +4494,63 @@ function closePresetManageModal() { document.getElementById('presetManageModal')
 function renderPresetManageList() { var container = document.getElementById('presetManageList'); if (apiPresets.length === 0) { container.innerHTML = '<div class="preset-empty-hint">暂无保存的预设<br>请先配置API并点击"导出预设"保存</div>'; return; } var html = ''; apiPresets.forEach(function(preset) { var maskedKey = preset.apiKey ? (preset.apiKey.substring(0, 6) + '****' + preset.apiKey.substring(preset.apiKey.length - 4)) : '未设置'; var tempStr = (preset.temperature !== undefined && preset.temperature !== null) ? preset.temperature.toFixed(1) : '0.7'; var timeStr = ''; if (preset.createdAt) { var d = new Date(preset.createdAt); timeStr = d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' + d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0'); } html += '<div class="preset-manage-item"><div class="pm-icon"><svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg></div><div class="pm-info"><div class="pm-name">' + preset.name + '</div><div class="pm-detail">' + (preset.model || '未选择模型') + ' · ' + maskedKey + ' · 温度:' + tempStr + '</div>' + (timeStr ? '<div class="preset-timestamp">' + timeStr + '</div>' : '') + '</div><div class="pm-actions"><button class="pm-use-btn" onclick="usePresetFromManage(\'' + preset.id + '\')">使用</button><button class="pm-del-btn" onclick="deletePreset(\'' + preset.id + '\')">删除</button></div></div>'; }); container.innerHTML = html; }
 function usePresetFromManage(presetId) { var preset = apiPresets.find(function(p) { return p.id === presetId; }); if (!preset) { showToast('预设不存在'); return; } document.getElementById('apiEndpoint').value = preset.endpoint || ''; document.getElementById('apiKey').value = preset.apiKey || ''; var tempVal = (preset.temperature !== undefined && preset.temperature !== null) ? preset.temperature : 0.7; document.getElementById('temperatureSlider').value = tempVal; updateTempDisplay(tempVal); var modelSelect = document.getElementById('modelSelect'); if (preset.model && preset.modelList && preset.modelList.length > 0) { modelSelect.innerHTML = ''; preset.modelList.forEach(function(modelId) { var option = document.createElement('option'); option.value = modelId; option.textContent = modelId; modelSelect.appendChild(option); }); modelSelect.disabled = false; for (var i = 0; i < modelSelect.options.length; i++) { if (modelSelect.options[i].value === preset.model) { modelSelect.selectedIndex = i; break; } } } else if (preset.model) { modelSelect.innerHTML = ''; var option = document.createElement('option'); option.value = preset.model; option.textContent = preset.model; modelSelect.appendChild(option); modelSelect.disabled = false; modelSelect.selectedIndex = 0; } var presetSelect = document.getElementById('presetSelect'); for (var j = 0; j < presetSelect.options.length; j++) { if (presetSelect.options[j].value === presetId) { presetSelect.selectedIndex = j; break; } } closePresetManageModal(); showToast('已加载预设：' + preset.name); }
 function deletePreset(presetId) { var preset = apiPresets.find(function(p) { return p.id === presetId; }); if (!preset) return; if (!confirm('确定删除预设"' + preset.name + '"？')) return; apiPresets = apiPresets.filter(function(p) { return p.id !== presetId; }); savePresets(); renderPresetManageList(); showToast('已删除预设'); }
+
+// ==================== 世界书相关函数（修复分支不显示的Bug）====================
 function loadWorldbooks() {
     var saved = localStorage.getItem('worldbooks_v2');
-    if (saved) { try { worldbooks = JSON.parse(saved); } catch (e) { worldbooks = []; } }
-    else { worldbooks = [ { id: 'wb_main_1', title: '现代都市', range: '整体', branches: [ { id: 'wb_branch_1_1', title: '科技公司', content: '位于城市CBD的科技公司，拥有最先进的AI技术。' }, { id: 'wb_branch_1_2', title: '咖啡馆', content: '程序员们常去的咖啡馆，环境安静，咖啡很好喝。' } ]}, { id: 'wb_main_2', title: '魔法大陆', range: '整体', branches: [ { id: 'wb_branch_2_1', title: '魔法学院', content: '培养魔法师的最高学府，充满神秘的魔法气息。' } ]}, { id: 'wb_main_3', title: '墨墨的个人世界', range: '单人', branches: [ { id: 'wb_branch_3_1', title: '墨墨的秘密花园', content: '墨墨最喜欢的地方，种满了各种花草。' } ], assignedRoles: ['role1'] } ]; }
-    updateWorldbookList(); updateWorldbookSelect();
+    if (saved) { 
+        try { 
+            worldbooks = JSON.parse(saved); 
+            // 确保数据结构完整性
+            worldbooks.forEach(function(wb) {
+                if (!wb.branches) wb.branches = [];
+                if (!wb.id) wb.id = 'wb_main_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+                wb.branches.forEach(function(branch) {
+                    if (!branch.id) branch.id = 'wb_branch_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+                });
+            });
+        } catch (e) { 
+            worldbooks = []; 
+        } 
+    }
+    else { 
+        worldbooks = [ 
+            { 
+                id: 'wb_main_1', 
+                title: '现代都市', 
+                range: '整体', 
+                branches: [ 
+                    { id: 'wb_branch_1_1', title: '科技公司', content: '位于城市CBD的科技公司，拥有最先进的AI技术。' }, 
+                    { id: 'wb_branch_1_2', title: '咖啡馆', content: '程序员们常去的咖啡馆，环境安静，咖啡很好喝。' } 
+                ]
+            }, 
+            { 
+                id: 'wb_main_2', 
+                title: '魔法大陆', 
+                range: '整体', 
+                branches: [ 
+                    { id: 'wb_branch_2_1', title: '魔法学院', content: '培养魔法师的最高学府，充满神秘的魔法气息。' } 
+                ]
+            }, 
+            { 
+                id: 'wb_main_3', 
+                title: '墨墨的个人世界', 
+                range: '单人', 
+                branches: [ 
+                    { id: 'wb_branch_3_1', title: '墨墨的秘密花园', content: '墨墨最喜欢的地方，种满了各种花草。' } 
+                ], 
+                assignedRoles: ['role1'] 
+            } 
+        ]; 
+    }
+    updateWorldbookList(); 
+    updateWorldbookSelect();
 }
-function saveWorldbooks() { localStorage.setItem('worldbooks_v2', JSON.stringify(worldbooks)); updateWorldbookList(); updateWorldbookSelect(); }
+function saveWorldbooks() { 
+    localStorage.setItem('worldbooks_v2', JSON.stringify(worldbooks)); 
+    updateWorldbookList(); 
+    updateWorldbookSelect(); 
+}
 function updateWorldbookList() {
     var content = document.getElementById('worldbookAppContent'); if (!content) return;
     var filteredWorldbooks = worldbooks.filter(function(wb) { return currentWorldbookRange === '全部' || wb.range === currentWorldbookRange; });
@@ -4483,8 +4558,13 @@ function updateWorldbookList() {
     var html = '<div class="worldbook-range-tabs"><div class="range-tab ' + (currentWorldbookRange === '整体' ? 'active' : '') + '" onclick="switchWorldbookRange(\'整体\')">整体</div><div class="range-tab ' + (currentWorldbookRange === '单人' ? 'active' : '') + '" onclick="switchWorldbookRange(\'单人\')">单人</div><div class="range-tab ' + (currentWorldbookRange === '全部' ? 'active' : '') + '" onclick="switchWorldbookRange(\'全部\')">全部</div></div><div class="worldbook-main-list">';
     filteredWorldbooks.forEach(function(mainWb) {
         html += '<div class="worldbook-main-item"><div class="worldbook-main-header" onclick="toggleMainWorldbook(\'' + mainWb.id + '\')"><div class="left"><span class="worldbook-main-title">' + mainWb.title + '</span><span class="worldbook-main-badge">' + mainWb.range + '</span></div><div class="worldbook-main-actions" onclick="event.stopPropagation()"><div class="worldbook-add-branch" onclick="openBranchModal(\'' + mainWb.id + '\')">+分支</div><div class="worldbook-edit-main" onclick="editMainWorldbook(\'' + mainWb.id + '\')">编辑</div><div class="worldbook-delete-main" onclick="deleteMainWorldbook(\'' + mainWb.id + '\')">删除</div></div></div><div class="worldbook-branch-list" id="branches-' + mainWb.id + '" style="display: none;">';
-        if (mainWb.branches && mainWb.branches.length > 0) { mainWb.branches.forEach(function(branch) { html += '<div class="worldbook-branch-item"><div class="worldbook-branch-info"><div class="worldbook-branch-title">' + branch.title + '</div><div class="worldbook-branch-content">' + branch.content.substring(0, 50) + (branch.content.length > 50 ? '...' : '') + '</div></div><div class="worldbook-branch-actions">' + (mainWb.range === '单人' ? '<div class="worldbook-branch-assign" onclick="assignBranchToRole(\'' + mainWb.id + '\', \'' + branch.id + '\')">关联角色</div>' : '') + '<div class="worldbook-branch-edit" onclick="editBranch(\'' + mainWb.id + '\', \'' + branch.id + '\')">编辑</div><div class="worldbook-branch-delete" onclick="deleteBranch(\'' + mainWb.id + '\', \'' + branch.id + '\')">删除</div></div></div>'; }); }
-        else { html += '<div style="padding: 10px; color: #999; text-align: center;">暂无分支，点击+分支添加</div>'; }
+        if (mainWb.branches && mainWb.branches.length > 0) { 
+            mainWb.branches.forEach(function(branch) { 
+                html += '<div class="worldbook-branch-item"><div class="worldbook-branch-info"><div class="worldbook-branch-title">' + branch.title + '</div><div class="worldbook-branch-content">' + branch.content.substring(0, 50) + (branch.content.length > 50 ? '...' : '') + '</div></div><div class="worldbook-branch-actions">' + (mainWb.range === '单人' ? '<div class="worldbook-branch-assign" onclick="assignBranchToRole(\'' + mainWb.id + '\', \'' + branch.id + '\')">关联角色</div>' : '') + '<div class="worldbook-branch-edit" onclick="editBranch(\'' + mainWb.id + '\', \'' + branch.id + '\')">编辑</div><div class="worldbook-branch-delete" onclick="deleteBranch(\'' + mainWb.id + '\', \'' + branch.id + '\')">删除</div></div></div>'; 
+            }); 
+        } else { 
+            html += '<div style="padding: 10px; color: #999; text-align: center;">暂无分支，点击+分支添加</div>'; 
+        }
         html += '</div></div>';
     });
     html += '</div><div class="add-worldbook-main-btn" onclick="openWorldbookModal()"><span>+</span> 新建世界书</div>';
@@ -4492,14 +4572,155 @@ function updateWorldbookList() {
 }
 function switchWorldbookRange(range) { currentWorldbookRange = range; updateWorldbookList(); }
 function toggleMainWorldbook(mainId) { var branchList = document.getElementById('branches-' + mainId); if (branchList) branchList.style.display = branchList.style.display === 'none' ? 'block' : 'none'; }
-function openWorldbookModal(mainId) { mainId = mainId || null; editingWorldbookMainId = mainId; editingWorldbookBranchId = null; var modal = document.getElementById('worldbookModal'); var titleEl = document.getElementById('worldbookModalTitle'); var titleInput = document.getElementById('worldbookTitle'); var rangeGroup = document.getElementById('worldbookRangeGroup'); var rangeSelect = document.getElementById('worldbookRange'); var contentGroup = document.getElementById('worldbookContentGroup'); var contentInput = document.getElementById('worldbookContentText'); rangeSelect.disabled = false; if (mainId) { var mainWb = worldbooks.find(function(w) { return w.id === mainId; }); if (mainWb) { titleEl.textContent = '编辑世界书'; titleInput.value = mainWb.title || ''; rangeGroup.style.display = ''; rangeSelect.value = mainWb.range || '整体'; contentGroup.style.display = 'none'; contentInput.value = ''; } } else { titleEl.textContent = '新建世界书'; titleInput.value = ''; rangeGroup.style.display = ''; rangeSelect.value = '整体'; contentGroup.style.display = 'none'; contentInput.value = ''; } modal.classList.add('active'); }
-function openBranchModal(mainId, branchId) { branchId = branchId || null; editingWorldbookMainId = mainId; editingWorldbookBranchId = branchId; var modal = document.getElementById('worldbookModal'); var titleEl = document.getElementById('worldbookModalTitle'); var titleInput = document.getElementById('worldbookTitle'); var rangeGroup = document.getElementById('worldbookRangeGroup'); var rangeSelect = document.getElementById('worldbookRange'); var contentGroup = document.getElementById('worldbookContentGroup'); var contentInput = document.getElementById('worldbookContentText'); var mainWb = worldbooks.find(function(w) { return w.id === mainId; }); rangeGroup.style.display = 'none'; rangeSelect.disabled = true; if (mainWb) rangeSelect.value = mainWb.range; contentGroup.style.display = ''; if (branchId) { var branch = mainWb.branches.find(function(b) { return b.id === branchId; }); if (branch) { titleEl.textContent = '编辑分支'; titleInput.value = branch.title || ''; contentInput.value = branch.content || ''; } } else { titleEl.textContent = '新建分支'; titleInput.value = ''; contentInput.value = ''; } modal.classList.add('active'); }
-function closeWorldbookModal() { document.getElementById('worldbookModal').classList.remove('active'); document.getElementById('worldbookRange').disabled = false; document.getElementById('worldbookRangeGroup').style.display = ''; editingWorldbookMainId = null; editingWorldbookBranchId = null; }
-function saveWorldbook() { var title = document.getElementById('worldbookTitle').value.trim(); var range = document.getElementById('worldbookRange').value; var content = document.getElementById('worldbookContentText').value.trim(); if (!title) { alert('请输入标题'); return; } if (editingWorldbookBranchId) { if (!content) { alert('请输入分支内容'); return; } var mainWb = worldbooks.find(function(w) { return w.id === editingWorldbookMainId; }); if (mainWb) { var branch = mainWb.branches.find(function(b) { return b.id === editingWorldbookBranchId; }); if (branch) { branch.title = title; branch.content = content; } else { mainWb.branches.push({ id: 'branch_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9), title: title, content: content }); } } } else if (editingWorldbookMainId && !editingWorldbookBranchId) { var mainWb2 = worldbooks.find(function(w) { return w.id === editingWorldbookMainId; }); if (mainWb2) { mainWb2.title = title; mainWb2.range = range; } } else { var newMain = { id: 'main_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9), title: title, range: range, branches: [] }; worldbooks.push(newMain); } saveWorldbooks(); closeWorldbookModal(); }
+
+// ==================== 世界书模态框函数（修复逻辑）====================
+function openWorldbookModal(mainId) { 
+    mainId = mainId || null; 
+    editingWorldbookMainId = mainId; 
+    editingWorldbookBranchId = null; 
+    var modal = document.getElementById('worldbookModal'); 
+    var titleEl = document.getElementById('worldbookModalTitle'); 
+    var titleInput = document.getElementById('worldbookTitle'); 
+    var rangeGroup = document.getElementById('worldbookRangeGroup'); 
+    var rangeSelect = document.getElementById('worldbookRange'); 
+    var contentGroup = document.getElementById('worldbookContentGroup'); 
+    var contentInput = document.getElementById('worldbookContentText'); 
+    rangeSelect.disabled = false; 
+    if (mainId) { 
+        var mainWb = worldbooks.find(function(w) { return w.id === mainId; }); 
+        if (mainWb) { 
+            titleEl.textContent = '编辑世界书'; 
+            titleInput.value = mainWb.title || ''; 
+            rangeGroup.style.display = ''; 
+            rangeSelect.value = mainWb.range || '整体'; 
+            contentGroup.style.display = 'none'; 
+            contentInput.value = ''; 
+        } 
+    } else { 
+        titleEl.textContent = '新建世界书'; 
+        titleInput.value = ''; 
+        rangeGroup.style.display = ''; 
+        rangeSelect.value = '整体'; 
+        contentGroup.style.display = 'none'; 
+        contentInput.value = ''; 
+    } 
+    modal.classList.add('active'); 
+}
+function openBranchModal(mainId, branchId) { 
+    branchId = branchId || null; 
+    editingWorldbookMainId = mainId; 
+    editingWorldbookBranchId = branchId; 
+    var modal = document.getElementById('worldbookModal'); 
+    var titleEl = document.getElementById('worldbookModalTitle'); 
+    var titleInput = document.getElementById('worldbookTitle'); 
+    var rangeGroup = document.getElementById('worldbookRangeGroup'); 
+    var rangeSelect = document.getElementById('worldbookRange'); 
+    var contentGroup = document.getElementById('worldbookContentGroup'); 
+    var contentInput = document.getElementById('worldbookContentText'); 
+    var mainWb = worldbooks.find(function(w) { return w.id === mainId; }); 
+    rangeGroup.style.display = 'none'; 
+    rangeSelect.disabled = true; 
+    if (mainWb) rangeSelect.value = mainWb.range; 
+    contentGroup.style.display = ''; 
+    if (branchId) { 
+        var branch = mainWb.branches.find(function(b) { return b.id === branchId; }); 
+        if (branch) { 
+            titleEl.textContent = '编辑分支'; 
+            titleInput.value = branch.title || ''; 
+            contentInput.value = branch.content || ''; 
+        } 
+    } else { 
+        titleEl.textContent = '新建分支'; 
+        titleInput.value = ''; 
+        contentInput.value = ''; 
+    } 
+    modal.classList.add('active'); 
+}
+function closeWorldbookModal() { 
+    document.getElementById('worldbookModal').classList.remove('active'); 
+    document.getElementById('worldbookRange').disabled = false; 
+    document.getElementById('worldbookRangeGroup').style.display = ''; 
+    editingWorldbookMainId = null; 
+    editingWorldbookBranchId = null; 
+}
+
+// ==================== 保存世界书函数（修复Bug的关键）====================
+function saveWorldbook() { 
+    var title = document.getElementById('worldbookTitle').value.trim(); 
+    var range = document.getElementById('worldbookRange').value; 
+    var content = document.getElementById('worldbookContentText').value.trim(); 
+    
+    if (!title) { 
+        alert('请输入标题'); 
+        return; 
+    } 
+    
+    // 如果是编辑分支
+    if (editingWorldbookBranchId && editingWorldbookMainId) { 
+        if (!content) { 
+            alert('请输入分支内容'); 
+            return; 
+        } 
+        var mainWb = worldbooks.find(function(w) { return w.id === editingWorldbookMainId; }); 
+        if (mainWb) { 
+            var branch = mainWb.branches.find(function(b) { return b.id === editingWorldbookBranchId; }); 
+            if (branch) { 
+                branch.title = title; 
+                branch.content = content; 
+            } 
+        } 
+    } 
+    // 如果是新建分支
+    else if (!editingWorldbookBranchId && editingWorldbookMainId) { 
+        if (!content) { 
+            alert('请输入分支内容'); 
+            return; 
+        } 
+        var mainWb2 = worldbooks.find(function(w) { return w.id === editingWorldbookMainId; }); 
+        if (mainWb2) { 
+            if (!mainWb2.branches) mainWb2.branches = [];
+            var newBranch = { 
+                id: 'branch_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9), 
+                title: title, 
+                content: content 
+            };
+            mainWb2.branches.push(newBranch); 
+        } 
+    } 
+    // 如果是编辑主世界书
+    else if (editingWorldbookMainId && !editingWorldbookBranchId) { 
+        var mainWb3 = worldbooks.find(function(w) { return w.id === editingWorldbookMainId; }); 
+        if (mainWb3) { 
+            mainWb3.title = title; 
+            mainWb3.range = range; 
+        } 
+    } 
+    // 如果是新建主世界书
+    else { 
+        var newMain = { 
+            id: 'main_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9), 
+            title: title, 
+            range: range, 
+            branches: [] 
+        }; 
+        worldbooks.push(newMain); 
+    } 
+    
+    saveWorldbooks(); 
+    closeWorldbookModal(); 
+}
 function editMainWorldbook(mainId) { openWorldbookModal(mainId); }
 function deleteMainWorldbook(mainId) { if (confirm('确定要删除这个主世界书及其所有分支吗？')) { worldbooks = worldbooks.filter(function(w) { return w.id !== mainId; }); saveWorldbooks(); } }
 function editBranch(mainId, branchId) { openBranchModal(mainId, branchId); }
-function deleteBranch(mainId, branchId) { if (confirm('确定要删除这个分支吗？')) { var mainWb = worldbooks.find(function(w) { return w.id === mainId; }); if (mainWb) { mainWb.branches = mainWb.branches.filter(function(b) { return b.id !== branchId; }); saveWorldbooks(); } } }
+function deleteBranch(mainId, branchId) { 
+    if (confirm('确定要删除这个分支吗？')) { 
+        var mainWb = worldbooks.find(function(w) { return w.id === mainId; }); 
+        if (mainWb && mainWb.branches) { 
+            mainWb.branches = mainWb.branches.filter(function(b) { return b.id !== branchId; }); 
+            saveWorldbooks(); 
+        } 
+    } 
+}
 function assignBranchToRole(mainId, branchId) { var mainWb = worldbooks.find(function(w) { return w.id === mainId; }); if (!mainWb || mainWb.range !== '单人') return; var allRoles = [].concat(roles.main, roles.npc); var selectedRoleId = prompt('请输入要关联的角色ID：\n' + allRoles.map(function(r) { return r.id + ': ' + r.name; }).join('\n')); if (selectedRoleId) { var role = allRoles.find(function(r) { return r.id === selectedRoleId; }); if (role) { if (!mainWb.assignedRoles) mainWb.assignedRoles = []; if (!mainWb.assignedRoles.includes(selectedRoleId)) { mainWb.assignedRoles.push(selectedRoleId); saveWorldbooks(); alert('已关联角色：' + role.name); } else { alert('该角色已关联'); } } else { alert('未找到该角色ID'); } } }
 function updateWorldbookSelect() { var container = document.getElementById('roleWorldbookContainer'); if (!container) return; var singleWorldbooks = worldbooks.filter(function(wb) { return wb.range === '单人'; }); if (singleWorldbooks.length === 0) { container.innerHTML = '<div style="color:#999; font-size:13px;">暂无单人世界书，请在世界书页面创建</div>'; return; } var html = '<div style="font-size:11px; color:#999; margin-bottom:8px;">选中主世界书即关联其所有分支</div>'; singleWorldbooks.forEach(function(mainWb) { var branchCount = mainWb.branches ? mainWb.branches.length : 0; var mainWbId = mainWb.id; html += '<div class="role-wb-main-item" data-wb-main-id="' + mainWbId + '"><div class="role-wb-main-header" onclick="toggleRoleWbMain(this, \'' + mainWbId + '\')"><input type="checkbox" class="role-wb-main-checkbox" value="' + mainWbId + '" onclick="event.stopPropagation()"><span class="wb-main-title">' + mainWb.title + ' (' + branchCount + '个分支)</span><span class="wb-main-arrow">▼</span></div><div class="role-wb-branch-list" id="role-wb-branches-' + mainWbId + '">'; if (mainWb.branches && mainWb.branches.length > 0) { mainWb.branches.forEach(function(branch) { html += '<div class="role-wb-branch-item">· ' + branch.title + '</div>'; }); } else { html += '<div class="role-wb-branch-item" style="color:#bbb;">暂无分支</div>'; } html += '</div></div>'; }); container.innerHTML = html; }
 function toggleRoleWbMain(headerEl, mainWbId) { var branchList = document.getElementById('role-wb-branches-' + mainWbId); var arrow = headerEl.querySelector('.wb-main-arrow'); if (branchList) { var isVisible = branchList.classList.contains('visible'); branchList.classList.toggle('visible', !isVisible); if (arrow) arrow.classList.toggle('expanded', !isVisible); } }
@@ -4514,12 +4735,35 @@ function getRoleWorldbookContent(roleId) {
     if (content.length > 1500) { content = content.substring(0, 1500) + '\n（世界书内容过长已截断）'; }
     return content || '无特殊世界观设定';
 }
+
+// ==================== 角色相关函数（优化性别选择）====================
 function loadRoles() { var savedRoles = localStorage.getItem('roles_v3'); if (savedRoles) { try { roles = JSON.parse(savedRoles); } catch (e) { initExampleRoles(); } } else { initExampleRoles(); } updateRoleList(); }
 function initExampleRoles() { roles = { main: [{ id: 'role1', name: '墨墨', gender: '女', appearance: '活泼可爱，大眼睛，短发', age: '18', birthday: '1月1日', height: '160cm', weight: '45kg', job: 'AI助手', background: '一个活泼可爱的AI少女，喜欢帮助别人解决问题。', details: '', memoryBank: '', worldbookIds: [], worldbookMainIds: [], category: 'main' }], npc: [{ id: 'role2', name: '老张', gender: '男', appearance: '成熟稳重，戴眼镜', age: '45', birthday: '5月20日', height: '180cm', weight: '75kg', job: '程序员', background: '经验丰富的程序员，喜欢喝咖啡。', details: '住在公司附近，每天步行上班', memoryBank: '', worldbookIds: [], worldbookMainIds: [], category: 'npc' }] }; saveRoles(); }
 function saveRoles() { localStorage.setItem('roles_v3', JSON.stringify(roles)); updateRoleList(); updateImportRoleList(); }
 function loadImportedRoles() { var saved = localStorage.getItem('importedRoles'); if (saved) { try { importedRoles = JSON.parse(saved); } catch (e) { importedRoles = []; } } else { importedRoles = [{ id: 'role1', name: '墨墨', lastMessage: '你好呀！', lastTime: '下午2:30' }]; } updateChatList(); }
 function saveImportedRoles() { localStorage.setItem('importedRoles', JSON.stringify(importedRoles)); updateChatList(); updateContacts(); }
-function selectGender(element, isCustom) { isCustom = isCustom || false; document.querySelectorAll('.gender-option').forEach(function(el) { el.classList.remove('selected'); }); element.classList.add('selected'); var hiddenInput = document.getElementById('roleGender'); if (isCustom) { var customInput = element.querySelector('input'); hiddenInput.value = customInput.value.trim(); customInput.addEventListener('input', function() { hiddenInput.value = this.value.trim(); }); } else { hiddenInput.value = element.dataset.value; } }
+
+// ==================== 优化性别选择函数 ====================
+function selectGender(element, isCustom) { 
+    isCustom = isCustom || false; 
+    document.querySelectorAll('.gender-option').forEach(function(el) { el.classList.remove('selected'); }); 
+    element.classList.add('selected'); 
+    var hiddenInput = document.getElementById('roleGender'); 
+    var expandArea = document.getElementById('genderCustomExpand');
+    
+    if (isCustom) { 
+        expandArea.classList.add('visible');
+        var customInput = document.getElementById('roleGenderCustom');
+        hiddenInput.value = customInput.value.trim(); 
+        customInput.addEventListener('input', function() { 
+            hiddenInput.value = this.value.trim(); 
+        }); 
+        setTimeout(function() { customInput.focus(); }, 100);
+    } else { 
+        expandArea.classList.remove('visible');
+        hiddenInput.value = element.dataset.value; 
+    } 
+}
 function updateRoleList() { var roleList = document.getElementById('roleList'); if (!roleList) return; var currentRoles = roles[currentRoleTab] || []; if (currentRoles.length === 0) { roleList.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">暂无角色，点击下方创建</div>'; return; } roleList.innerHTML = currentRoles.map(function(role) { var isImported = importedRoles.some(function(r) { return r.id === role.id; }); return '<div class="role-item"><div class="role-avatar">' + role.name.charAt(0) + '</div><div class="role-info"><div class="role-name">' + role.name + '</div><div class="role-desc">' + role.gender + '</div></div><div class="role-actions"><div class="role-edit" onclick="editRole(\'' + role.id + '\')">编辑</div><div class="role-delete" onclick="deleteRole(\'' + role.id + '\')">删除</div>' + (!isImported ? '<div class="role-import" onclick="importRoleToChat(\'' + role.id + '\')">导入聊天</div>' : '<div class="role-import" style="background:#e0e0e0;color:#666;" onclick="alert(\'已在聊天列表\')">已导入</div>') + '</div></div>'; }).join(''); }
 function updateImportRoleList() { var list = document.getElementById('importRoleList'); if (!list) return; var allRoles = [].concat(roles.main, roles.npc); var unimportedRoles = allRoles.filter(function(role) { return !importedRoles.some(function(r) { return r.id === role.id; }); }); if (unimportedRoles.length === 0) { list.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">没有可导入的角色</div>'; return; } list.innerHTML = unimportedRoles.map(function(role) { return '<div class="role-item" style="cursor:pointer;" onclick="importRoleToChat(\'' + role.id + '\'); closeImportModal();"><div class="role-avatar">' + role.name.charAt(0) + '</div><div class="role-info"><div class="role-name">' + role.name + '</div><div class="role-desc">' + role.gender + '</div></div></div>'; }).join(''); }
 function importRoleToChat(roleId) { var role = findRoleById(roleId); if (!role) return; if (!importedRoles.some(function(r) { return r.id === roleId; })) { importedRoles.push({ id: role.id, name: role.name, lastMessage: '新朋友', lastTime: '刚刚' }); saveImportedRoles(); alert('已将 ' + role.name + ' 导入到聊天列表'); } }
@@ -4528,9 +4772,120 @@ function closeImportModal() { document.getElementById('importModal').classList.r
 function getRoleDisplayName(roleId) { var role = findRoleById(roleId); if (!role) return '未知'; var settings = roleChatSettings[roleId] || {}; return settings.note ? settings.note + ' [' + role.name + ']' : role.name; }
 function getLastMessageTimeStr(roleId) { var history = chatHistories[roleId]; if (!history || history.length === 0) return ''; var lastEntry = history[history.length - 1]; if (!lastEntry.time) return ''; var msgDate = new Date(lastEntry.time); if (isNaN(msgDate.getTime())) return ''; var now = new Date(); var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); var yesterday = new Date(today.getTime() - 86400000); var msgDay = new Date(msgDate.getFullYear(), msgDate.getMonth(), msgDate.getDate()); var hours = msgDate.getHours().toString().padStart(2, '0'); var mins = msgDate.getMinutes().toString().padStart(2, '0'); var timeOnly = hours + ':' + mins; if (msgDay.getTime() === today.getTime()) { return timeOnly; } else if (msgDay.getTime() === yesterday.getTime()) { return '昨天'; } else if (now.getTime() - msgDate.getTime() < 7 * 86400000) { var weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']; return weekdays[msgDate.getDay()]; } else { return (msgDate.getMonth() + 1) + '/' + msgDate.getDate(); } }
 function switchRoleTab(tab) { currentRoleTab = tab; document.getElementById('tabMain').classList.toggle('active', tab === 'main'); document.getElementById('tabNpc').classList.toggle('active', tab === 'npc'); updateRoleList(); }
-function openRoleModal(roleId) { roleId = roleId || null; editingRoleId = roleId; updateWorldbookSelect(); document.querySelectorAll('.gender-option').forEach(function(el) { el.classList.remove('selected'); }); if (roleId) { var role = findRoleById(roleId); if (role) { document.getElementById('roleName').value = role.name || ''; var gender = role.gender || ''; if (gender === '男' || gender === '女') { var genderEl = document.querySelector('.gender-option[data-value="' + gender + '"]'); if (genderEl) genderEl.classList.add('selected'); document.getElementById('roleGender').value = gender; } else if (gender) { var customEl = document.querySelector('.gender-option.custom-input'); customEl.classList.add('selected'); customEl.querySelector('input').value = gender; document.getElementById('roleGender').value = gender; } document.getElementById('roleAppearance').value = role.appearance || ''; document.getElementById('roleAge').value = role.age || ''; document.getElementById('roleBirthday').value = role.birthday || ''; document.getElementById('roleHeight').value = role.height || ''; document.getElementById('roleWeight').value = role.weight || ''; document.getElementById('roleJob').value = role.job || ''; document.getElementById('roleBackground').value = role.background || ''; document.getElementById('roleDetails').value = role.details || ''; document.getElementById('roleMemoryBank').value = role.memoryBank || ''; document.getElementById('roleCategory').value = role.category || 'main'; setTimeout(function() { setRoleWorldbookChecked(role.worldbookMainIds || []); }, 50); } } else { document.getElementById('roleName').value = ''; document.getElementById('roleGender').value = ''; document.getElementById('roleAppearance').value = ''; document.getElementById('roleAge').value = ''; document.getElementById('roleBirthday').value = ''; document.getElementById('roleHeight').value = ''; document.getElementById('roleWeight').value = ''; document.getElementById('roleJob').value = ''; document.getElementById('roleBackground').value = ''; document.getElementById('roleDetails').value = ''; document.getElementById('roleMemoryBank').value = ''; document.getElementById('roleCategory').value = currentRoleTab; document.querySelectorAll('.gender-option.custom-input input').forEach(function(input) { input.value = ''; }); setTimeout(function() { setRoleWorldbookChecked([]); }, 50); } document.getElementById('roleModal').classList.add('active'); }
+function openRoleModal(roleId) { 
+    roleId = roleId || null; 
+    editingRoleId = roleId; 
+    updateWorldbookSelect(); 
+    
+    // 重置性别选择状态
+    document.querySelectorAll('.gender-option').forEach(function(el) { el.classList.remove('selected'); });
+    document.getElementById('genderCustomExpand').classList.remove('visible');
+    
+    if (roleId) { 
+        var role = findRoleById(roleId); 
+        if (role) { 
+            document.getElementById('roleName').value = role.name || ''; 
+            var gender = role.gender || ''; 
+            if (gender === '男' || gender === '女') { 
+                var genderEl = document.querySelector('.gender-option[data-value="' + gender + '"]'); 
+                if (genderEl) {
+                    genderEl.classList.add('selected'); 
+                    document.getElementById('roleGender').value = gender;
+                }
+            } else if (gender) { 
+                var customEl = document.querySelector('.gender-option[data-value="自定义"]'); 
+                if (customEl) {
+                    customEl.classList.add('selected'); 
+                    document.getElementById('genderCustomExpand').classList.add('visible');
+                    document.getElementById('roleGenderCustom').value = gender; 
+                    document.getElementById('roleGender').value = gender; 
+                }
+            } 
+            document.getElementById('roleAppearance').value = role.appearance || ''; 
+            document.getElementById('roleAge').value = role.age || ''; 
+            document.getElementById('roleBirthday').value = role.birthday || ''; 
+            document.getElementById('roleHeight').value = role.height || ''; 
+            document.getElementById('roleWeight').value = role.weight || ''; 
+            document.getElementById('roleJob').value = role.job || ''; 
+            document.getElementById('roleBackground').value = role.background || ''; 
+            document.getElementById('roleDetails').value = role.details || ''; 
+            document.getElementById('roleMemoryBank').value = role.memoryBank || ''; 
+            document.getElementById('roleCategory').value = role.category || 'main'; 
+            setTimeout(function() { setRoleWorldbookChecked(role.worldbookMainIds || []); }, 50); 
+        } 
+    } else { 
+        document.getElementById('roleName').value = ''; 
+        document.getElementById('roleGender').value = ''; 
+        document.getElementById('roleAppearance').value = ''; 
+        document.getElementById('roleAge').value = ''; 
+        document.getElementById('roleBirthday').value = ''; 
+        document.getElementById('roleHeight').value = ''; 
+        document.getElementById('roleWeight').value = ''; 
+        document.getElementById('roleJob').value = ''; 
+        document.getElementById('roleBackground').value = ''; 
+        document.getElementById('roleDetails').value = ''; 
+        document.getElementById('roleMemoryBank').value = ''; 
+        document.getElementById('roleCategory').value = currentRoleTab; 
+        document.getElementById('roleGenderCustom').value = '';
+        setTimeout(function() { setRoleWorldbookChecked([]); }, 50); 
+    } 
+    document.getElementById('roleModal').classList.add('active'); 
+}
 function closeRoleModal() { document.getElementById('roleModal').classList.remove('active'); editingRoleId = null; }
-function saveRole() { var name = document.getElementById('roleName').value.trim(); var gender = document.getElementById('roleGender').value.trim(); var age = document.getElementById('roleAge').value.trim(); var birthday = document.getElementById('roleBirthday').value.trim(); var height = document.getElementById('roleHeight').value.trim(); var background = document.getElementById('roleBackground').value.trim(); if (!name) { alert('请输入角色姓名'); return; } if (!gender) { alert('请选择或输入角色性别'); return; } if (!age) { alert('请输入角色年龄'); return; } if (!height) { alert('请输入角色身高'); return; } if (!background) { alert('请输入角色背景'); return; } var appearance = document.getElementById('roleAppearance').value.trim(); var weight = document.getElementById('roleWeight').value.trim(); var job = document.getElementById('roleJob').value.trim(); var details = document.getElementById('roleDetails').value.trim(); var memoryBank = document.getElementById('roleMemoryBank').value.trim(); var category = document.getElementById('roleCategory').value; var selectedMainIds = getRoleWorldbookCheckedIds(); var roleData = { id: editingRoleId || 'role_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9), name: name, gender: gender, appearance: appearance, age: age, birthday: birthday, height: height, weight: weight, job: job, background: background, details: details, memoryBank: memoryBank, worldbookIds: [], worldbookMainIds: selectedMainIds, category: category }; if (editingRoleId) { var existingRole = findRoleById(editingRoleId); if (existingRole && existingRole.species) { roleData.species = existingRole.species; } roles.main = roles.main.filter(function(r) { return r.id !== editingRoleId; }); roles.npc = roles.npc.filter(function(r) { return r.id !== editingRoleId; }); } if (category === 'main') roles.main.push(roleData); else roles.npc.push(roleData); saveRoles(); closeRoleModal(); if (currentRoleTab !== category) switchRoleTab(category); }
+function saveRole() { 
+    var name = document.getElementById('roleName').value.trim(); 
+    var gender = document.getElementById('roleGender').value.trim(); 
+    var age = document.getElementById('roleAge').value.trim(); 
+    var birthday = document.getElementById('roleBirthday').value.trim(); 
+    var height = document.getElementById('roleHeight').value.trim(); 
+    var background = document.getElementById('roleBackground').value.trim(); 
+    
+    if (!name) { alert('请输入角色姓名'); return; } 
+    if (!gender) { alert('请选择或输入角色性别'); return; } 
+    if (!age) { alert('请输入角色年龄'); return; } 
+    if (!height) { alert('请输入角色身高'); return; } 
+    if (!background) { alert('请输入角色背景'); return; } 
+    
+    var appearance = document.getElementById('roleAppearance').value.trim(); 
+    var weight = document.getElementById('roleWeight').value.trim(); 
+    var job = document.getElementById('roleJob').value.trim(); 
+    var details = document.getElementById('roleDetails').value.trim(); 
+    var memoryBank = document.getElementById('roleMemoryBank').value.trim(); 
+    var category = document.getElementById('roleCategory').value; 
+    var selectedMainIds = getRoleWorldbookCheckedIds(); 
+    
+    var roleData = { 
+        id: editingRoleId || 'role_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9), 
+        name: name, 
+        gender: gender, 
+        appearance: appearance, 
+        age: age, 
+        birthday: birthday, 
+        height: height, 
+        weight: weight, 
+        job: job, 
+        background: background, 
+        details: details, 
+        memoryBank: memoryBank, 
+        worldbookIds: [], 
+        worldbookMainIds: selectedMainIds, 
+        category: category 
+    }; 
+    
+    if (editingRoleId) { 
+        var existingRole = findRoleById(editingRoleId); 
+        if (existingRole && existingRole.species) { roleData.species = existingRole.species; } 
+        roles.main = roles.main.filter(function(r) { return r.id !== editingRoleId; }); 
+        roles.npc = roles.npc.filter(function(r) { return r.id !== editingRoleId; }); 
+    } 
+    
+    if (category === 'main') roles.main.push(roleData); 
+    else roles.npc.push(roleData); 
+    
+    saveRoles(); 
+    closeRoleModal(); 
+    if (currentRoleTab !== category) switchRoleTab(category); 
+}
 function editRole(roleId) { openRoleModal(roleId); }
 function deleteRole(roleId) { if (confirm('确定要删除这个角色吗？')) { roles.main = roles.main.filter(function(r) { return r.id !== roleId; }); roles.npc = roles.npc.filter(function(r) { return r.id !== roleId; }); saveRoles(); importedRoles = importedRoles.filter(function(r) { return r.id !== roleId; }); saveImportedRoles(); } }
 </script>
@@ -4674,6 +5029,8 @@ function switchChatTab(tab) { currentChatTab = tab; document.querySelectorAll('.
 function goBackFromChat() { if (document.getElementById('singleChatApp').classList.contains('active')) closeSingleChat(); else closeApp('chatApp'); }
 function togglePlusMenu() { var menu = document.getElementById('plusMenu'); plusMenuVisible = !plusMenuVisible; menu.classList.toggle('active', plusMenuVisible); }
 function closePlusMenu() { document.getElementById('plusMenu').classList.remove('active'); plusMenuVisible = false; }
+
+// ==================== 聊天信息页面（优化时间感知配置）====================
 function openChatInfo(roleId) {
     if (!roleId) return; currentChatInfoRoleId = roleId; var role = findRoleById(roleId); if (!role) return;
     if (!roleChatSettings[roleId]) { roleChatSettings[roleId] = { note: '', bio: '', minMemory: 1, maxMemory: 7, pinned: false, linkedWorldbookMainIds: [], wordLimit: 'unlimited', minWords: 20, maxWords: 200, timeAware: false, timestampShowDate: true, timestampPosition: 'bubble', msgCountMin: 1, msgCountMax: 1, singleWordLimitType: 'unlimited', singleMinWords: 10, singleMaxWords: 50, overallWordLimitType: 'unlimited', overallMinWords: 20, overallMaxWords: 200, memoryAll: false, memoryCustomCount: 10 }; }
@@ -4682,7 +5039,7 @@ function openChatInfo(roleId) {
     var overallWorldbooksHtml = ''; var overallWorldbooks = worldbooks.filter(function(wb) { return wb.range === '整体'; }); if (overallWorldbooks.length > 0) { overallWorldbooksHtml = overallWorldbooks.map(function(wb) { return '<div style="padding:8px 12px; background:#f5f5f5; border-radius:8px; margin-bottom:6px; color:#666; font-size:13px;">' + wb.title + '</div>'; }).join(''); } else { overallWorldbooksHtml = '<div style="color:#999; font-size:13px;">暂无整体世界书</div>'; }
     var singleWorldbooksHtml = ''; var singleWorldbooks = worldbooks.filter(function(wb) { return wb.range === '单人'; }); if (singleWorldbooks.length > 0) { singleWorldbooksHtml = singleWorldbooks.map(function(wb) { var checked = (settings.linkedWorldbookMainIds || []).includes(wb.id) ? 'checked' : ''; return '<div style="display:flex; align-items:center; gap:8px; padding:8px 12px; background:#f9f9f9; border-radius:8px; margin-bottom:6px;"><input type="checkbox" value="' + wb.id + '" ' + checked + ' onchange="updateWorldbookLinkTmp(\'' + roleId + '\', \'' + wb.id + '\', this.checked)" style="width:18px; height:18px;"><span style="font-size:13px;">' + wb.title + '</span></div>'; }).join(''); } else { singleWorldbooksHtml = '<div style="color:#999; font-size:13px;">暂无单人世界书</div>'; }
     var content = document.getElementById('chatInfoContent');
-    content.innerHTML = '<div class="chat-info-header-banner"><div class="chat-info-header-avatar">' + role.name.charAt(0) + '</div></div><div class="chat-info-header-name">' + role.name + '</div><div class="chat-info-header-bio"><textarea id="chatInfoBioInput" placeholder="编辑签名..." maxlength="60" rows="2">' + (settings.bio || '') + '</textarea></div><div class="chat-info-item"><div class="label">置顶聊天</div><div class="value pinned-switch"><label class="ios-switch"><input type="checkbox" id="pinnedCheckbox" ' + (settings.pinned ? 'checked' : '') + '><span class="ios-switch-slider"></span></label></div></div><div class="chat-info-item"><div class="label">角色备注</div><div class="value"><input type="text" id="chatInfoNoteInput" placeholder="填写备注" value="' + (settings.note || '') + '"></div></div><details class="chat-info-section"><summary>世界书（线上）</summary><div class="chat-info-section-content"><details class="worldbook-collapsible"><summary>整体世界书（自动关联）</summary><div class="worldbook-collapsible-content">' + overallWorldbooksHtml + '</div></details><details class="worldbook-collapsible" open><summary>单人世界书（手动管理）</summary><div class="worldbook-collapsible-content">' + singleWorldbooksHtml + '</div></details></div></details><details class="chat-info-section"><summary>时间感知</summary><div class="chat-info-section-content"><div style="margin-bottom:12px; font-size:13px; color:#666; line-height:1.6;">开启后，角色将感知现实真实时间。<br><strong>关闭则角色无法感知真实时间。</strong></div><div class="chat-info-item" style="border:none; padding:8px 0;"><div class="label">启用</div><div class="value time-aware-switch"><label class="ios-switch"><input type="checkbox" id="timeAwareCheckbox" ' + (settings.timeAware ? 'checked' : '') + '><span class="ios-switch-slider"></span></label></div></div><div class="chat-info-item" style="border:none; padding:8px 0;"><div class="label">显示日期</div><div class="value time-aware-switch"><label class="ios-switch"><input type="checkbox" id="tsShowDateCheckbox" ' + (settings.timestampShowDate ? 'checked' : '') + '><span class="ios-switch-slider"></span></label></div></div><div style="margin-top:16px; padding-top:12px; border-top:1px solid #eee;"><div style="font-size:14px; font-weight:500; margin-bottom:10px;">时间戳显示样式</div><div class="ts-style-options"><div class="ts-style-option"><input type="radio" name="tsPosition" id="tsBubble" value="bubble" ' + (settings.timestampPosition === 'bubble' ? 'checked' : '') + '><label for="tsBubble">气泡内</label></div><div class="ts-style-option"><input type="radio" name="tsPosition" id="tsStandalone" value="standalone" ' + (settings.timestampPosition === 'standalone' ? 'checked' : '') + '><label for="tsStandalone">气泡外</label></div></div></div></div></details><details class="chat-info-section"><summary>自主活动</summary><div class="chat-info-section-content"><div style="text-align:center; color:#999; padding:20px; font-size:14px;">🚧 开发中</div></div></details><details class="chat-info-section"><summary>对话次数（消息条数）</summary><div class="chat-info-section-content"><div class="msg-rule-desc">角色在一次回复中可以发送的消息条数范围。</div><div class="memory-range-slider-group"><div class="memory-range-slider-item"><label>最少条数</label><div class="memory-range-slider-row"><input type="range" id="msgCountMinSlider" min="1" max="25" value="' + (settings.msgCountMin || 1) + '" oninput="updateMsgCountMinDisplay(this.value)"><span class="memory-range-value" id="msgCountMinDisplay">' + (settings.msgCountMin || 1) + '</span></div><div class="memory-range-labels"><span>1</span><span>13</span><span>25</span></div></div><div class="memory-range-slider-item"><label>最多条数</label><div class="memory-range-slider-row"><input type="range" id="msgCountMaxSlider" min="1" max="25" value="' + (settings.msgCountMax || 1) + '" oninput="updateMsgCountMaxDisplay(this.value)"><span class="memory-range-value" id="msgCountMaxDisplay">' + (settings.msgCountMax || 1) + '</span></div><div class="memory-range-labels"><span>1</span><span>13</span><span>25</span></div></div></div></div></details><details class="chat-info-section"><summary>字数限制</summary><div class="chat-info-section-content"><div class="msg-rule-subtitle">单次字数限制（每条消息）</div><div class="word-limit-container"><div class="word-limit-option"><input type="radio" name="singleWordLimit" id="singleWordLimit_unlimited" value="unlimited" ' + (settings.singleWordLimitType === 'unlimited' ? 'checked' : '') + '><label for="singleWordLimit_unlimited">无限制</label></div><div class="word-limit-option"><input type="radio" name="singleWordLimit" id="singleWordLimit_custom" value="custom" ' + (settings.singleWordLimitType === 'custom' ? 'checked' : '') + '><label for="singleWordLimit_custom">自定义范围</label></div><div id="customSingleWordLimit" style="display:' + (settings.singleWordLimitType === 'custom' ? 'block' : 'none') + '; margin-top:8px;"><div class="word-limit-custom"><input type="number" id="singleMinWordsInput" value="' + (settings.singleMinWords || 10) + '" min="1" max="5000"><span>~</span><input type="number" id="singleMaxWordsInput" value="' + (settings.singleMaxWords || 50) + '" min="1" max="5000"><span>字/条</span></div></div></div><div class="msg-rule-subtitle" style="margin-top:20px;">整体字数限制</div><div class="word-limit-container"><div class="word-limit-option"><input type="radio" name="overallWordLimit" id="overallWordLimit_unlimited" value="unlimited" ' + (settings.overallWordLimitType === 'unlimited' ? 'checked' : '') + '><label for="overallWordLimit_unlimited">无限制</label></div><div class="word-limit-option"><input type="radio" name="overallWordLimit" id="overallWordLimit_custom" value="custom" ' + (settings.overallWordLimitType === 'custom' ? 'checked' : '') + '><label for="overallWordLimit_custom">自定义范围</label></div><div id="customOverallWordLimit" style="display:' + (settings.overallWordLimitType === 'custom' ? 'block' : 'none') + '; margin-top:8px;"><div class="word-limit-custom"><input type="number" id="overallMinWordsInput" value="' + (settings.overallMinWords || 20) + '" min="1" max="10000"><span>~</span><input type="number" id="overallMaxWordsInput" value="' + (settings.overallMaxWords || 200) + '" min="1" max="10000"><span>字</span></div></div></div></div></details><details class="chat-info-section"><summary>记忆上下文</summary><div class="chat-info-section-content"><div class="chat-info-item" style="border:none; padding:8px 0;"><div class="label">全部</div><div class="value time-aware-switch"><label class="ios-switch"><input type="checkbox" id="memoryAllCheckbox" ' + (settings.memoryAll ? 'checked' : '') + ' onchange="onMemoryAllToggle(this.checked)"><span class="ios-switch-slider"></span></label></div></div><div class="chat-info-item" style="border:none; padding:8px 0;"><div class="label">自定义条数</div><div class="value"><input type="number" id="memoryCustomCountInput" value="' + (settings.memoryCustomCount || 10) + '" min="1" max="999" style="width:80px; padding:6px 10px; border:1px solid #ddd; border-radius:6px; text-align:center;" ' + (settings.memoryAll ? 'disabled' : '') + '></div></div></div></details><details class="chat-info-section"><summary>查找聊天记录</summary><div class="chat-info-section-content"><button class="secondary-btn" onclick="openSearchModalFromInfo()" style="margin-top:0;"><svg viewBox="0 0 24 24" width="16" height="16" fill="#fff" style="margin-right:6px;vertical-align:middle;"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg> 打开查找</button></div></details><div class="develop-row" onclick="alert(\'总结功能 · 开发中\')"><span>总结功能</span><span>开发中</span></div><div class="save-hint">点击右上角<svg viewBox="0 0 24 24" width="14" height="14" fill="#888" style="vertical-align:middle;margin:0 2px;"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>保存修改</div>';
+    content.innerHTML = '<div class="chat-info-header-banner"><div class="chat-info-header-avatar">' + role.name.charAt(0) + '</div></div><div class="chat-info-header-name">' + role.name + '</div><div class="chat-info-header-bio"><textarea id="chatInfoBioInput" placeholder="编辑签名..." maxlength="60" rows="2">' + (settings.bio || '') + '</textarea></div><div class="chat-info-item"><div class="label">置顶聊天</div><div class="value pinned-switch"><label class="ios-switch"><input type="checkbox" id="pinnedCheckbox" ' + (settings.pinned ? 'checked' : '') + '><span class="ios-switch-slider"></span></label></div></div><div class="chat-info-item"><div class="label">角色备注</div><div class="value"><input type="text" id="chatInfoNoteInput" placeholder="填写备注" value="' + (settings.note || '') + '"></div></div><details class="chat-info-section"><summary>世界书（线上）</summary><div class="chat-info-section-content"><details class="worldbook-collapsible"><summary>整体世界书（自动关联）</summary><div class="worldbook-collapsible-content">' + overallWorldbooksHtml + '</div></details><details class="worldbook-collapsible" open><summary>单人世界书（手动管理）</summary><div class="worldbook-collapsible-content">' + singleWorldbooksHtml + '</div></details></div></details><details class="chat-info-section"><summary>时间感知</summary><div class="chat-info-section-content"><div style="margin-bottom:12px; font-size:13px; color:#666; line-height:1.6;">开启后，角色将感知现实真实时间，并根据当前时间自然调整语气和内容。不会刻意报时，而是像真人一样潜意识地感受时间流动。</div><div class="chat-info-item" style="border:none; padding:8px 0;"><div class="label">启用</div><div class="value time-aware-switch"><label class="ios-switch"><input type="checkbox" id="timeAwareCheckbox" ' + (settings.timeAware ? 'checked' : '') + '><span class="ios-switch-slider"></span></label></div></div><div class="chat-info-item" style="border:none; padding:8px 0;"><div class="label">显示日期</div><div class="value time-aware-switch"><label class="ios-switch"><input type="checkbox" id="tsShowDateCheckbox" ' + (settings.timestampShowDate ? 'checked' : '') + '><span class="ios-switch-slider"></span></label></div></div><div style="margin-top:16px; padding-top:12px; border-top:1px solid #eee;"><div style="font-size:14px; font-weight:500; margin-bottom:10px;">时间戳显示样式</div><div class="ts-style-options"><div class="ts-style-option"><input type="radio" name="tsPosition" id="tsBubble" value="bubble" ' + (settings.timestampPosition === 'bubble' ? 'checked' : '') + '><label for="tsBubble">气泡内</label></div><div class="ts-style-option"><input type="radio" name="tsPosition" id="tsStandalone" value="standalone" ' + (settings.timestampPosition === 'standalone' ? 'checked' : '') + '><label for="tsStandalone">气泡外</label></div></div></div></div></details><details class="chat-info-section"><summary>自主活动</summary><div class="chat-info-section-content"><div style="text-align:center; color:#999; padding:20px; font-size:14px;">🚧 开发中</div></div></details><details class="chat-info-section"><summary>对话次数（消息条数）</summary><div class="chat-info-section-content"><div class="msg-rule-desc">角色在一次回复中可以发送的消息条数范围。</div><div class="memory-range-slider-group"><div class="memory-range-slider-item"><label>最少条数</label><div class="memory-range-slider-row"><input type="range" id="msgCountMinSlider" min="1" max="25" value="' + (settings.msgCountMin || 1) + '" oninput="updateMsgCountMinDisplay(this.value)"><span class="memory-range-value" id="msgCountMinDisplay">' + (settings.msgCountMin || 1) + '</span></div><div class="memory-range-labels"><span>1</span><span>13</span><span>25</span></div></div><div class="memory-range-slider-item"><label>最多条数</label><div class="memory-range-slider-row"><input type="range" id="msgCountMaxSlider" min="1" max="25" value="' + (settings.msgCountMax || 1) + '" oninput="updateMsgCountMaxDisplay(this.value)"><span class="memory-range-value" id="msgCountMaxDisplay">' + (settings.msgCountMax || 1) + '</span></div><div class="memory-range-labels"><span>1</span><span>13</span><span>25</span></div></div></div></div></details><details class="chat-info-section"><summary>字数限制</summary><div class="chat-info-section-content"><div class="msg-rule-subtitle">单次字数限制（每条消息）</div><div class="word-limit-container"><div class="word-limit-option"><input type="radio" name="singleWordLimit" id="singleWordLimit_unlimited" value="unlimited" ' + (settings.singleWordLimitType === 'unlimited' ? 'checked' : '') + '><label for="singleWordLimit_unlimited">无限制</label></div><div class="word-limit-option"><input type="radio" name="singleWordLimit" id="singleWordLimit_custom" value="custom" ' + (settings.singleWordLimitType === 'custom' ? 'checked' : '') + '><label for="singleWordLimit_custom">自定义范围</label></div><div id="customSingleWordLimit" style="display:' + (settings.singleWordLimitType === 'custom' ? 'block' : 'none') + '; margin-top:8px;"><div class="word-limit-custom"><input type="number" id="singleMinWordsInput" value="' + (settings.singleMinWords || 10) + '" min="1" max="5000"><span>~</span><input type="number" id="singleMaxWordsInput" value="' + (settings.singleMaxWords || 50) + '" min="1" max="5000"><span>字/条</span></div></div></div><div class="msg-rule-subtitle" style="margin-top:20px;">整体字数限制</div><div class="word-limit-container"><div class="word-limit-option"><input type="radio" name="overallWordLimit" id="overallWordLimit_unlimited" value="unlimited" ' + (settings.overallWordLimitType === 'unlimited' ? 'checked' : '') + '><label for="overallWordLimit_unlimited">无限制</label></div><div class="word-limit-option"><input type="radio" name="overallWordLimit" id="overallWordLimit_custom" value="custom" ' + (settings.overallWordLimitType === 'custom' ? 'checked' : '') + '><label for="overallWordLimit_custom">自定义范围</label></div><div id="customOverallWordLimit" style="display:' + (settings.overallWordLimitType === 'custom' ? 'block' : 'none') + '; margin-top:8px;"><div class="word-limit-custom"><input type="number" id="overallMinWordsInput" value="' + (settings.overallMinWords || 20) + '" min="1" max="10000"><span>~</span><input type="number" id="overallMaxWordsInput" value="' + (settings.overallMaxWords || 200) + '" min="1" max="10000"><span>字</span></div></div></div></div></details><details class="chat-info-section"><summary>记忆上下文</summary><div class="chat-info-section-content"><div class="chat-info-item" style="border:none; padding:8px 0;"><div class="label">全部</div><div class="value time-aware-switch"><label class="ios-switch"><input type="checkbox" id="memoryAllCheckbox" ' + (settings.memoryAll ? 'checked' : '') + ' onchange="onMemoryAllToggle(this.checked)"><span class="ios-switch-slider"></span></label></div></div><div class="chat-info-item" style="border:none; padding:8px 0;"><div class="label">自定义条数</div><div class="value"><input type="number" id="memoryCustomCountInput" value="' + (settings.memoryCustomCount || 10) + '" min="1" max="999" style="width:80px; padding:6px 10px; border:1px solid #ddd; border-radius:6px; text-align:center;" ' + (settings.memoryAll ? 'disabled' : '') + '></div></div></div></details><details class="chat-info-section"><summary>查找聊天记录</summary><div class="chat-info-section-content"><button class="secondary-btn" onclick="openSearchModalFromInfo()" style="margin-top:0;"><svg viewBox="0 0 24 24" width="16" height="16" fill="#fff" style="margin-right:6px;vertical-align:middle;"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg> 打开查找</button></div></details><div class="develop-row" onclick="alert(\'总结功能 · 开发中\')"><span>总结功能</span><span>开发中</span></div><div class="save-hint">点击右上角<svg viewBox="0 0 24 24" width="14" height="14" fill="#888" style="vertical-align:middle;margin:0 2px;"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>保存修改</div>';
     var bioInput = document.getElementById('chatInfoBioInput'); if (bioInput) { bioInput.addEventListener('input', function() { var lines = this.value.split('\n'); if (lines.length > 2) { this.value = lines.slice(0, 2).join('\n'); } }); bioInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') { var lines = this.value.split('\n'); if (lines.length >= 2) { e.preventDefault(); } } }); }
     document.querySelectorAll('input[name="singleWordLimit"]').forEach(function(radio) { radio.addEventListener('change', function() { document.getElementById('customSingleWordLimit').style.display = this.value === 'custom' ? 'block' : 'none'; }); });
     document.querySelectorAll('input[name="overallWordLimit"]').forEach(function(radio) { radio.addEventListener('change', function() { document.getElementById('customOverallWordLimit').style.display = this.value === 'custom' ? 'block' : 'none'; }); });
@@ -4832,9 +5189,7 @@ async function sendSingleMessage() {
                 var timePrompt = '';
                 var useTimeAware = currentChatMode === 'online' ? (roleSettings.timeAware || false) : (offlineSettings.timeAware || false);
                 if (useTimeAware) { 
-                    var now = new Date(); 
-                    var timeStr2 = now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日 ' + now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0'); 
-                    timePrompt = '\n【当前真实时间】' + timeStr2 + '\n请根据当前时间调整你的回复内容和语气。'; 
+                    timePrompt = buildTimeAwarePrompt();
                 }
                 var rolePrompt = buildRoleSystemPrompt(fullRole, worldbookContent, modeContext, modeRule, msgRulePrompt, timePrompt);
                 messages.push({ role: 'system', content: rolePrompt });
@@ -5178,7 +5533,12 @@ async function sendAIRecallReaction(recalledText) {
         var msgRulePrompt = buildMsgRulePrompt(fullRole.id); 
         var modeRule = getCurrentModeRulePrompt(); 
         var modeContext = getModeContextPrompt(); 
-        var rolePrompt = buildRoleSystemPrompt(fullRole, worldbookContent, modeContext, modeRule, msgRulePrompt, '');
+        var roleSettings = roleChatSettings[fullRole.id] || {};
+        var timePrompt = '';
+        if (roleSettings.timeAware) {
+            timePrompt = buildTimeAwarePrompt();
+        }
+        var rolePrompt = buildRoleSystemPrompt(fullRole, worldbookContent, modeContext, modeRule, msgRulePrompt, timePrompt);
         var messages = [ 
             { role: 'system', content: rolePrompt }, 
             { role: 'user', content: '[系统提示：对方刚刚发送了一条消息"' + recalledText + '"，但随即撤回了。请以你的角色身份作出自然的反应。]' } 
@@ -5599,12 +5959,14 @@ async function testAPIConnection() {
         statusDiv.innerHTML = '❌ 连接错误: ' + error.message; 
     } 
 }
+
+// ==================== 时间更新函数（修改后移除状态栏时间）====================
 function updateTime() { 
     var now = new Date(); 
     var hours = now.getHours().toString().padStart(2, '0'); 
     var mins = now.getMinutes().toString().padStart(2, '0'); 
     var timeStr = hours + ':' + mins; 
-    document.getElementById('currentTime').innerText = timeStr; 
+    // 只更新大时钟，删除了状态栏时间更新
     document.getElementById('bigTime').innerText = timeStr; 
     var year = now.getFullYear(); 
     var month = now.getMonth() + 1; 
@@ -5612,6 +5974,8 @@ function updateTime() {
     var weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']; 
     document.getElementById('currentDate').innerText = year + '年' + month + '月' + day + '日 ' + weekdays[now.getDay()]; 
 }
+
+// ==================== 拖拽相关函数 ====================
 var grid = document.getElementById('appGrid'); 
 var draggedIcon = null; 
 var draggedIndex = -1; 
@@ -5725,6 +6089,8 @@ document.addEventListener('dragstart', function(e) { e.preventDefault(); });
 document.addEventListener('click', function(e) { 
     if (!e.target.closest('.right') && !e.target.closest('.dropdown-menu')) closePlusMenu(); 
 });
+
+// ==================== 初始化 ====================
 updateTime(); 
 setInterval(updateTime, 1000);
 loadRoles(); 
@@ -5765,6 +6131,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupTextareaAutoResize();
     setupOfflineTextareaAutoResize();
 });
+
 // ==================== 暴露全局函数 ====================
 window.openChatInfo = openChatInfo; window.closeChatInfo = closeChatInfo; window.saveChatInfoManually = saveChatInfoManually;
 window.updateWorldbookLinkTmp = updateWorldbookLinkTmp; window.openSingleChat = openSingleChat; window.sendSingleMessage = sendSingleMessage;
@@ -5871,10 +6238,9 @@ window.buildRoleSystemPrompt = buildRoleSystemPrompt;
 window.setupTextareaAutoResize = setupTextareaAutoResize;
 window.setupOfflineTextareaAutoResize = setupOfflineTextareaAutoResize;
 window.startEditMessage = startEditMessage;
-console.log('墨墨机 · 优化版 v25 (简约灰黑色图标统一+设置页面浅蓝色风格+线下设置保存图标+发现页面精简+引用图标改为双引号+线下模式段落排版规则已更新)');
+window.buildTimeAwarePrompt = buildTimeAwarePrompt;
+console.log('墨墨机 · 优化版 v26 (状态栏删除+时间感知优化+性别选项紧凑化+世界书分支显示Bug修复+完整功能保留)');
 </script>
 </body>
 </html>
-
-
 
