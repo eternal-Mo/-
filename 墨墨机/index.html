@@ -3301,470 +3301,768 @@ color: #f57c00;
 <div class="confirm-modal-buttons"><button class="confirm-cancel-btn" onclick="closeConfirmModal()">取消</button><button class="confirm-ok-btn" id="confirmOkBtn" onclick="confirmAction()">确定</button></div>
 </div>
 </div>
-<div class="main-wrapper" id="mainWrapper">
-<div class="page">
-<div class="widget">
-<div class="widget-time" id="bigTime">00:00</div>
-<div class="widget-date" id="currentDate">TODAY</div>
-</div>
-<div class="app-grid" id="appGrid">
-<div class="app-icon" data-app="role" data-index="0" onclick="handleIconClick(event, 'role')">
-<div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
-<div class="label">角色</div>
-</div>
-<div class="app-icon" data-app="momo" data-index="1" onclick="handleIconClick(event, 'momo')">
-<div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5S14.76,7,12,7z M12,15c-1.65,0-3-1.35-3-3s1.35-3,3-3s3,1.35,3,3 S13.65,15,12,15z M18,3.5l-2,2.5h-4l-2-2.5l-3,4.5c0,0-1,1-1,3s1,4,5,4s5-2,5-4s-1-3-1-3L18,3.5z M8.5,12c-0.28,0-0.5-0.22-0.5-0.5 s0.22-0.5,0.5-0.5s0.5,0.22,0.5,0.5S8.78,12,8.5,12z M15.5,12c-0.28,0-0.5-0.22-0.5-0.5s0.22-0.5,0.5-0.5s0.5,0.22,0.5,0.5 S15.78,12,15.5,12z"/></svg></div>
-<div class="label">momo</div>
-</div>
-<div class="app-icon" data-app="chat" data-index="2" onclick="handleIconClick(event, 'chat')">
-<div class="icon-box"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
-<div class="label">聊天</div>
-</div>
-<div class="app-icon" data-app="worldbook" data-index="3" onclick="handleIconClick(event, 'worldbook')">
-<div class="icon-box"><svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg></div>
-<div class="label">世界书</div>
-</div>
-</div>
-</div>
-</div>
-<div class="dock">
-<div class="app-icon" onclick="openApp('settingsApp')">
-<div class="icon-box"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></div>
-<div class="label">设置</div>
-</div>
-<div class="app-icon" onclick="openApp('themeApp')">
-<div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/></svg></div>
-<div class="label">主题</div>
-</div>
-</div>
-<div id="momoApp" class="app-window">
-<div class="app-header">
-<span class="left" onclick="closeApp('momoApp')">＜</span>
-<span class="center">momo</span>
-<span class="right empty"></span>
-</div>
-<div class="app-content">momo · 开发中</div>
-</div>
-<div id="chatApp" class="app-window">
-<div class="app-header" id="chatHeader">
-<span class="left" onclick="goBackFromChat()">＜</span>
-<span class="center" id="chatHeaderTitle">微信</span>
-<span class="right" id="chatHeaderRight" onclick="togglePlusMenu()">＋</span>
-</div>
-<div class="dropdown-menu" id="plusMenu">
-<div class="dropdown-item" onclick="importRole()">导入角色</div>
-<div class="dropdown-item" onclick="alert('创建群聊 · 开发中')">创建群聊</div>
-</div>
-<div class="app-content" id="chatContent"></div>
-<div class="wechat-tabbar">
-<div class="tab-item active" data-tab="chats" onclick="switchChatTab('chats')">
-<span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg></span><span class="tab-label">聊天</span>
-</div>
-<div class="tab-item" data-tab="contacts" onclick="switchChatTab('contacts')">
-<span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm0 4c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm6 12H6v-1.4c0-2 4-3.1 6-3.1s6 1.1 6 3.1V19z"/></svg></span><span class="tab-label">通讯录</span>
-</div>
-<div class="tab-item" data-tab="discover" onclick="switchChatTab('discover')">
-<span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></span><span class="tab-label">发现</span>
-</div>
-<div class="tab-item" data-tab="me" onclick="switchChatTab('me')">
-<span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></span><span class="tab-label">我</span>
-</div>
-</div>
-</div>
-<div id="roleApp" class="app-window">
-<div class="app-header">
-<span class="left" onclick="closeApp('roleApp')">＜</span>
-<span class="center">角色</span>
-<span class="right empty"></span>
-</div>
-<div class="app-content">
-<div class="role-tabs">
-<div class="role-tab active" onclick="switchRoleTab('main')" id="tabMain">主要角色</div>
-<div class="role-tab" onclick="switchRoleTab('npc')" id="tabNpc">NPC</div>
-</div>
-<div class="role-list" id="roleList"></div>
-<div class="add-role-btn" onclick="openRoleModal()"><span>+</span> 创建新角色</div>
-</div>
-</div>
-<div id="worldbookApp" class="app-window">
-<div class="app-header">
-<span class="left" onclick="closeApp('worldbookApp')">＜</span>
-<span class="center">世界书</span>
-<span class="right empty"></span>
-</div>
-<div class="app-content" id="worldbookAppContent"></div>
-</div>
-<div id="settingsApp" class="app-window">
-<div class="app-header">
-<span class="left" onclick="closeApp('settingsApp')">＜</span>
-<span class="center">设置</span>
-<span class="right empty"></span>
-</div>
-<div class="app-content">
-<div class="preset-section">
-<div class="preset-section-title"><svg viewBox="0 0 24 24" width="16" height="16" fill="#5b7fa6" style="margin-right:4px;"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg> 预设</div>
-<div class="preset-select-row">
-<select id="presetSelect" onchange="onPresetSelectChange()"><option value="">-- 选择预设快速填写 --</option></select>
-<button class="preset-manage-btn" onclick="openPresetManageModal()">管理</button>
-</div>
-</div>
-<div class="input-group"><label>API 接口地址</label><input type="url" id="apiEndpoint" placeholder="https://api.openai.com/v1" value="https://api.openai.com/v1"></div>
-<div class="input-group">
-<label>API 密钥</label>
-<div class="api-key-wrapper">
-<input type="password" id="apiKey" class="api-key-input" placeholder="sk-..." value="">
-<span class="toggle-password-btn" onclick="togglePasswordVisibility()">
-<svg viewBox="0 0 24 24" id="eyeIconClosed"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46A11.804 11.804 0 001 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>
-<svg viewBox="0 0 24 24" id="eyeIconOpen" style="display:none;"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-</span>
-</div>
-</div>
-<div class="input-group model-select-area">
-<label style="display: flex; align-items: center; justify-content: space-between;"><span>可用模型</span><button class="refresh-models-btn" onclick="fetchAvailableModels()">🔄 拉取模型</button></label>
-<select id="modelSelect" disabled><option value="">请先拉取模型列表</option></select>
-</div>
-<div class="temp-setting-group">
-<div class="temp-label-row"><label>温度</label><button class="temp-info-btn" onclick="showTempInfo()">!</button></div>
-<div class="temp-slider-row"><input type="range" id="temperatureSlider" min="0" max="2" step="0.1" value="0.7" oninput="updateTempDisplay(this.value)"><span class="temp-value-display" id="tempDisplay">0.7</span></div>
-<div class="temp-range-labels"><span>精确 0</span><span>平衡 1.0</span><span>创意 2.0</span></div>
-</div>
-<div id="apiStatus" class="api-status">⚪ 未配置</div>
-<button class="save-btn" onclick="saveAPIConfig()">保存配置</button>
-<button class="secondary-btn" onclick="testAPIConnection()">测试连接</button>
-<button class="export-preset-btn" id="exportPresetBtn" onclick="openExportPresetModal()"><svg viewBox="0 0 24 24" width="16" height="16" fill="#fff" style="margin-right:4px;vertical-align:middle;"><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg> 导出预设</button>
-</div>
-</div>
-<div id="themeApp" class="app-window">
-<div class="app-header">
-<span class="left" onclick="closeApp('themeApp')">＜</span>
-<span class="center">主题</span>
-<span class="right empty"></span>
-</div>
-<div class="app-content">主题 · 开发中</div>
-</div>
-<div id="singleChatApp" class="app-window">
-<div class="app-header" id="singleChatHeader">
-<span class="left" id="singleChatBackBtn" onclick="closeSingleChat()">＜</span>
-<span class="center" id="singleChatTitle">聊天</span>
-<span class="typing-indicator" id="typingIndicator">对方正在输入中...</span>
-<span class="right" id="singleChatRightIcons" style="background:transparent; width:auto; height:auto; padding:0;">
-<span class="singlechat-right-icons">
-<span onclick="openChatInfo(currentChatRole?.id)">☰</span>
-</span>
-</span>
-</div>
-<div class="mode-toggle-container" id="modeToggleContainer">
-<span class="mode-toggle-label active-label" id="modeLabelOnline">线上</span>
-<label class="mode-toggle-switch">
-<input type="checkbox" id="modeToggleInput" onchange="onModeToggle(this.checked)">
-<div class="mode-toggle-track online-track" id="modeToggleTrack"></div>
-<div class="mode-toggle-thumb"></div>
-</label>
-<span class="mode-toggle-label" id="modeLabelOffline">线下</span>
-</div>
-<div class="chat-messages online-mode" id="singleChatMessages"><div class="msg system">👋 开始和角色对话吧</div></div>
-<div class="chat-input-area" id="chatInputArea">
-<button class="ai-toggle-btn" id="aiToggleBtn" onclick="toggleAI()" title="AI回复">
-<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M7.5 5.6L5 7l1.4-2.5L5 2l2.5 1.4L10 2 8.6 4.5 10 7 7.5 5.6zm12 9.8L22 14l-1.4 2.5L22 19l-2.5-1.4L17 19l1.4-2.5L17 14l2.5 1.4zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5L22 2zm-7.63 5.29a.996.996 0 00-1.41 0L1.29 18.96a.996.996 0 000 1.41l2.34 2.34c.39.39 1.02.39 1.41 0L16.71 11.04a.996.996 0 000-1.41l-2.34-2.34zM5.21 19.88L4.12 18.79 14.33 8.58l1.09 1.09L5.21 19.88z"/></svg>
-</button>
-<textarea id="singleChatInput" placeholder="输入消息..." rows="1"></textarea>
-<button onclick="sendSingleMessage()">发送</button>
-</div>
-<div class="chat-bottom-toolbar" id="chatBottomToolbar">
-<div class="toolbar-icon" onclick="showToast('语音功能 · 开发中')"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></div>
-<div class="toolbar-icon" onclick="showToast('通话功能 · 开发中')"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
-<div class="toolbar-icon" onclick="showToast('视频功能 · 开发中')"><svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg></div>
-<div class="toolbar-icon" onclick="showToast('表情包功能 · 开发中')"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/></svg></div>
-<div class="toolbar-icon" id="moreFuncBtn" onclick="toggleMorePanel()"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg></div>
-</div>
-<div class="chat-more-panel" id="chatMorePanel" style="display:none;">
-<div class="more-panel-grid">
-<div class="more-panel-item" onclick="showToast('位置功能 · 开发中')"><div class="more-panel-icon-box more-icon-location"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div><span class="more-panel-item-label">位置</span></div>
-<div class="more-panel-item" onclick="showToast('文件功能 · 开发中')"><div class="more-panel-icon-box more-icon-file"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg></div><span class="more-panel-item-label">文件</span></div>
-<div class="more-panel-item" onclick="showToast('红包功能 · 开发中')"><div class="more-panel-icon-box more-icon-redpacket"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg></div><span class="more-panel-item-label">红包</span></div>
-<div class="more-panel-item" onclick="showToast('转账功能 · 开发中')"><div class="more-panel-icon-box more-icon-transfer"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div><span class="more-panel-item-label">转账</span></div>
-<div class="more-panel-item" onclick="showToast('外卖功能 · 开发中')"><div class="more-panel-icon-box more-icon-delivery"><svg viewBox="0 0 24 24"><path d="M18.06 22.99h1.66c.840 1.53-.64 1.63-1.46L22 16.3l-2.76-4.47a1.751 1.751 0 00-1.49-.84H14.3l-.76-2.04c-.18-.49-.63-.82-1.16-.82H4.79c-.84 0-1.53.64-1.63 1.46L2 14.7c0 .72.58 1.3 1.3 1.3h.4c0 1.66 1.34 3 3 3s3-1.34 3-3h2.6c0 1.66 1.34 3 3 3s3-1.34 3-3h.06zM6.7 17c-.83 0-1.5-.67-1.5-1.5S5.87 14 6.7 14s1.5.67 1.5 1.5S7.53 17 6.7 17zm8.6 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></div><span class="more-panel-item-label">外卖</span></div>
-<div class="more-panel-item" onclick="showToast('一起听歌功能 · 开发中')"><div class="more-panel-icon-box more-icon-music"><svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></div><span class="more-panel-item-label">一起听歌</span></div>
-<div class="more-panel-item" onclick="openTimeskipModal()"><div class="more-panel-icon-box more-icon-timeskip"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div><span class="more-panel-item-label">时间快进</span></div>
-</div>
-</div>
-<div class="multi-select-toolbar" id="multiSelectToolbar" style="display:none;">
-<div class="multi-select-btn" onclick="multiSelectForward()"><span class="ms-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="#333"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></span><span>转发</span></div>
-<div class="multi-select-btn" onclick="multiSelectCollect()"><span class="ms-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="#333"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span><span>收藏</span></div>
-<div class="multi-select-btn" onclick="multiSelectDelete()"><span class="ms-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="#333"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></span><span>删除</span></div>
-<div class="multi-select-btn disabled-btn" onclick="showToast('导出功能开发中')"><span class="ms-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="#bbb"><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg></span><span>导出</span></div>
-</div>
-</div>
-<div id="offlineChatApp" class="app-window">
-<div class="app-header" id="offlineChatHeader">
-<span class="left" id="offlineChatBackBtn" onclick="closeOfflineChat()">＜</span>
-<span class="center" id="offlineChatTitle">线下</span>
-<span class="typing-indicator" id="offlineTypingIndicator">对方正在输入中...</span>
-<span class="right" id="offlineChatRightIcons" style="background:transparent; width:auto; height:auto; padding:0;">
-<svg onclick="openOfflineSettingsPage()" viewBox="0 0 24 24" width="22" height="22" fill="#333" style="cursor:pointer;">
-<path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
-</svg>
-</span>
-</div>
-<div class="chat-messages" id="offlineChatMessages"><div class="msg system">👋 线下交互模式已开启</div></div>
-<div class="offline-chat-input-area" id="offlineChatInputArea">
-<textarea id="offlineChatInput" placeholder="输入内容..." rows="1"></textarea>
-<button class="ai-toggle-btn" onclick="sendOfflineAIReply()" title="AI回复" style="background:#4A4A4A;">
-<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M7.5 5.6L5 7l1.4-2.5L5 2l2.5 1.4L10 2 8.6 4.5 10 7 7.5 5.6zm12 9.8L22 14l-1.4 2.5L22 19l-2.5-1.4L17 19l1.4-2.5L17 14l2.5 1.4zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5L22 2zm-7.63 5.29a.996.996 0 00-1.41 0L1.29 18.96a.996.996 0 000 1.41l2.34 2.34c.39.39 1.02.39 1.41 0L16.71 11.04a.996.996 0 000-1.41l-2.34-2.34zM5.21 19.88L4.12 18.79 14.33 8.58l1.09 1.09L5.21 19.88z"/></svg>
-</button>
-<button onclick="sendOfflineMessage()">发送</button>
-</div>
-</div>
-<div id="offlineSettingsApp" class="app-window">
-<div class="app-header">
-<span class="left" onclick="closeOfflineSettingsPage()">＜</span>
-<span class="center">线下设置</span>
-<span class="right offline-settings-save-icon" onclick="saveAllOfflineSettings()"><svg viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg></span>
-</div>
-<div class="app-content" id="offlineSettingsContent" style="padding:0;"></div>
-</div>
-<div id="offlineWbPage" class="offline-wb-page">
-<div class="app-header">
-<span class="left" onclick="closeOfflineWbPage()">＜</span>
-<span class="center">世界书</span>
-<span class="right" onclick="saveOfflineWbSelection()" style="background:#f0f0f0; font-size:14px; color:#007AFF; font-weight:600; width:auto; padding:0 10px; border-radius:8px;">保存</span>
-</div>
-<div class="offline-sub-content" id="offlineWbContent"></div>
-</div>
-<div id="offlineWordLimitPage" class="offline-word-limit-page">
-<div class="app-header">
-<span class="left" onclick="closeOfflineWordLimitPage()">＜</span>
-<span class="center">字数限制</span>
-<span class="right empty"></span>
-</div>
-<div class="offline-sub-content">
-<div style="margin-bottom:16px; font-size:13px; color:#666; line-height:1.6;">设置AI在线下模式中每次回复的字数范围。</div>
-<div class="offline-word-limit-row">
-<label>最少</label>
-<input type="number" id="offlineMinWordsInput" placeholder="50" min="1" max="9999" value="50">
-<span>字</span>
-</div>
-<div class="offline-word-limit-row">
-<label>最多</label>
-<input type="number" id="offlineMaxWordsInput" placeholder="300" min="1" max="9999" value="300">
-<span>字</span>
-</div>
-<div style="font-size:12px; color:#999; margin-bottom:20px; padding:10px; background:#f9f9f9; border-radius:8px;">
-💡 设定后，AI每次线下回复的字数将被限制在此范围内。
-</div>
-<button class="offline-save-btn" onclick="saveOfflineWordLimit()">保存</button>
-</div>
-</div>
-<div id="offlineTimeAwarePage" class="offline-time-aware-page">
-<div class="app-header">
-<span class="left" onclick="closeOfflineTimeAwarePage()">＜</span>
-<span class="center">时间感知</span>
-<span class="right empty"></span>
-</div>
-<div class="offline-sub-content">
-<div style="margin-bottom:16px; font-size:13px; color:#666; line-height:1.6;">开启后，角色将感知现实真实时间，在线下互动中根据当前时间调整回复。</div>
-<div style="display:flex; align-items:center; justify-content:space-between; padding:16px; background:#f9f9f9; border-radius:12px; margin-bottom:16px;">
-<span style="font-size:16px; color:#333;">启用时间感知</span>
-<label class="ios-switch">
-<input type="checkbox" id="offlineTimeAwareCheckbox" onchange="saveOfflineTimeAware(this.checked)">
-<span class="ios-switch-slider"></span>
-</label>
-</div>
-<div style="font-size:12px; color:#999; padding:10px; background:#f9f9f9; border-radius:8px;">
-💡 开启后系统会将当前真实时间注入到线下模式的对话中。
-</div>
-</div>
-</div>
-<div id="favoritesApp" class="app-window">
-<div class="app-header"><span class="left" onclick="closeApp('favoritesApp')">＜</span><span class="center">收藏</span><span class="right empty"></span></div>
-<div class="app-content" id="favoritesContent" style="padding:0;"></div>
-</div>
-<div id="profileApp" class="app-window">
-<div class="app-header"><span class="left" onclick="closeApp('profileApp')">＜</span><span class="center">个人信息</span><span class="right empty"></span></div>
-<div class="app-content" id="profileContent" style="padding:0;"></div>
-</div>
-<div id="meSettingsApp" class="app-window">
-<div class="app-header"><span class="left" onclick="closeApp('meSettingsApp')">＜</span><span class="center">设置</span><span class="right empty"></span></div>
-<div class="app-content" id="meSettingsContent" style="padding:0;"></div>
-</div>
-<div id="dressUpApp" class="app-window">
-<div class="app-header">
-<span class="left" onclick="closeApp('dressUpApp')">＜</span><span class="center">个性装扮</span>
-<span class="right" style="background:transparent; width:auto; display:flex; gap:12px; align-items:center;">
-<span onclick="showToast('查找功能开发中')" style="font-size:18px; cursor:pointer;"><svg viewBox="0 0 24 24" width="20" height="20" fill="#666"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></span>
-<span onclick="openMyDressUpPage()" style="font-size:18px; cursor:pointer;"><svg viewBox="0 0 24 24" width="20" height="20" fill="#666"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></span>
-</span>
-</div>
-<div class="app-content" id="dressUpContent" style="padding:0;"></div>
-</div>
-<div id="myDressUpApp" class="app-window">
-<div class="app-header"><span class="left" onclick="closeApp('myDressUpApp')">＜</span><span class="center">我的个性装扮</span><span class="right empty"></span></div>
-<div class="app-content" id="myDressUpContent" style="padding:0;"></div>
-</div>
-<div id="myDressUpDetailApp" class="app-window">
-<div class="app-header"><span class="left" onclick="closeApp('myDressUpDetailApp')">＜</span><span class="center" id="myDressUpDetailTitle">我的主题</span><span class="right" onclick="showToast('多选删除功能开发中')" style="font-size:16px; background:#f0f0f0;"><svg viewBox="0 0 24 24" width="18" height="18" fill="#666"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 16H6V5h12v14z"/></svg></span></div>
-<div class="app-content" id="myDressUpDetailContent" style="padding:0;"></div>
-</div>
-<div id="chatInfoApp" class="app-window">
-<div class="app-header"><span class="left" onclick="closeChatInfo()">＜</span><span class="center">聊天信息</span><span class="right" onclick="saveChatInfoManually()" style="background:#f0f0f0; font-size:18px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="#666"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg></span></div>
-<div class="app-content" id="chatInfoContent"></div>
-</div>
-<div id="forwardDetailApp" class="app-window">
-<div class="app-header"><span class="left" onclick="closeApp('forwardDetailApp')">＜</span><span class="center" id="forwardDetailTitle">聊天记录</span><span class="right empty"></span></div>
-<div class="app-content" id="forwardDetailContent" style="padding:0; background:#f0f0f0;"></div>
-</div>
-<div class="search-modal" id="searchModal">
-<div class="search-modal-content">
-<h3 style="margin-bottom: 16px;">查找聊天记录</h3>
-<div class="input-group"><input type="text" id="searchKeyword" placeholder="输入关键词搜索..." onkeypress="if(event.key==='Enter') performSearch()"></div>
-<button class="save-btn" onclick="performSearch()">搜索</button>
-<div id="searchResults"></div>
-<button class="modal-btn cancel" style="margin-top: 16px;" onclick="closeSearchModal()">关闭</button>
-</div>
-</div>
-<div class="offline-search-modal" id="offlineSearchModal">
-<div class="offline-search-modal-content">
-<h3 style="margin-bottom: 16px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="#666" style="vertical-align:middle;margin-right:6px;"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg> 查找线下记录</h3>
-<div class="input-group"><input type="text" id="offlineSearchKeyword" placeholder="输入关键词搜索线下记录..." onkeypress="if(event.key==='Enter') performOfflineSearch()"></div>
-<button class="save-btn" onclick="performOfflineSearch()">搜索</button>
-<div id="offlineSearchResults"></div>
-<button class="modal-btn cancel" style="margin-top: 16px;" onclick="closeOfflineSearchModal()">关闭</button>
-</div>
-</div>
-<div class="role-modal" id="roleModal">
-<div class="role-modal-content">
-<div class="avatar-circle" onclick="alert('头像功能开发中')"><span>📷</span></div>
-<div class="input-group"><label class="required-field">姓名</label><input type="text" id="roleName" placeholder="输入角色姓名"></div>
-<div class="input-group"><label class="required-field">性别</label>
-<div class="gender-options">
-<div class="gender-option" data-value="男" onclick="selectGender(this)">男</div>
-<div class="gender-option" data-value="女" onclick="selectGender(this)">女</div>
-<div class="gender-option" data-value="自定义" onclick="selectGender(this, true)">自定义</div>
-</div>
-<div class="gender-custom-expand" id="genderCustomExpand">
-<input type="text" id="roleGenderCustom" placeholder="输入自定义性别" style="margin-top:8px;">
-</div>
-<input type="hidden" id="roleGender" value=""></div>
-<div class="input-group"><label class="optional-field">外貌</label><input type="text" id="roleAppearance" placeholder="描述角色外貌（选填）"></div>
-<div class="input-group"><label class="required-field">年龄</label><input type="text" id="roleAge" placeholder="例如：25"></div>
-<div class="input-group"><label class="optional-field">生日</label><input type="text" id="roleBirthday" placeholder="例如：1月1日（选填）"></div>
-<div class="input-group"><label class="required-field">身高</label><input type="text" id="roleHeight" placeholder="例如：175cm"></div>
-<div class="input-group"><label class="optional-field">体重</label><input type="text" id="roleWeight" placeholder="例如：60kg（选填）"></div>
-<div class="input-group"><label class="optional-field">职位</label><input type="text" id="roleJob" placeholder="输入职位（选填）"></div>
-<div class="input-group"><label class="required-field">角色背景</label><textarea id="roleBackground" placeholder="描述角色的背景故事..." rows="4"></textarea></div>
-<div class="input-group"><label class="optional-field">详细补充</label><textarea id="roleDetails" placeholder="其他详细补充信息（选填）..." rows="3"></textarea></div>
-<div class="input-group"><label class="optional-field">记忆库</label><textarea id="roleMemoryBank" placeholder="记录你和角色之间的重要记忆，角色会清晰记住这些内容（选填）" rows="3"></textarea></div>
-<div class="input-group">
-<details class="role-worldbook-collapsible"><summary>关联单人世界书</summary><div class="role-worldbook-collapsible-content" id="roleWorldbookContainer"><div style="color:#999; font-size:13px;">暂无单人世界书</div></div></details>
-</div>
-<div class="input-group"><label>分类</label><select id="roleCategory"><option value="main">主要角色</option><option value="npc">NPC</option></select></div>
-<div class="modal-buttons"><button class="modal-btn cancel" onclick="closeRoleModal()">取消</button><button class="modal-btn save" onclick="saveRole()">保存</button></div>
-</div>
-</div>
-<div class="worldbook-modal" id="worldbookModal">
-<div class="worldbook-modal-content">
-<h3 id="worldbookModalTitle">新建世界书</h3>
-<div class="input-group"><label class="required-field">标题</label><input type="text" id="worldbookTitle" placeholder="输入标题"></div>
-<div class="input-group" id="worldbookRangeGroup"><label class="required-field">范围</label><select id="worldbookRange"><option value="整体">整体（自动关联所有角色）</option><option value="单人">单人（需手动关联角色）</option></select></div>
-<div class="input-group" id="worldbookContentGroup" style="display:none;"><label class="required-field">内容</label><textarea id="worldbookContentText" placeholder="输入分支内容..." rows="6"></textarea></div>
-<div class="modal-buttons"><button class="modal-btn cancel" onclick="closeWorldbookModal()">取消</button><button class="modal-btn save" onclick="saveWorldbook()">保存</button></div>
-</div>
-</div>
-<div class="import-modal" id="importModal">
-<div class="import-modal-content">
-<h3 style="margin-bottom: 16px;">选择要导入的角色</h3>
-<div class="role-list" id="importRoleList"></div>
-<button class="modal-btn cancel" style="margin-top: 16px;" onclick="closeImportModal()">取消</button>
-</div>
-</div>
-<div class="preset-modal" id="exportPresetModal">
-<div class="preset-modal-content">
-<h3 style="margin-bottom: 16px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="#666" style="vertical-align:middle;margin-right:6px;"><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg> 导出预设</h3>
-<div class="input-group"><label class="required-field">预设名称</label><input type="text" id="exportPresetName" placeholder="例如：我的Claude配置"></div>
-<div class="preset-preview-box" id="exportPresetPreview"></div>
-<div class="modal-buttons"><button class="modal-btn cancel" onclick="closeExportPresetModal()">取消</button><button class="modal-btn save" onclick="confirmExportPreset()">保存预设</button></div>
-</div>
-</div>
-<div class="preset-modal" id="presetManageModal">
-<div class="preset-modal-content">
-<h3 style="margin-bottom: 16px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="#666" style="vertical-align:middle;margin-right:6px;"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg> 管理预设</h3>
-<div class="preset-list-manage" id="presetManageList"></div>
-<div class="modal-buttons" style="margin-top:16px;"><button class="modal-btn cancel" onclick="closePresetManageModal()">关闭</button></div>
-</div>
-</div>
-<div class="forward-modal" id="forwardModal">
-<div class="forward-modal-content">
-<h3 style="margin-bottom: 16px;">转发给...</h3>
-<div class="forward-role-list" id="forwardRoleList"></div>
-<div class="modal-buttons" style="margin-top:16px;"><button class="modal-btn cancel" onclick="closeForwardModal()">取消</button></div>
-</div>
-</div>
-<div class="timeskip-modal" id="timeskipModal">
-<div class="timeskip-modal-content">
-<h3 style="margin-bottom: 12px; text-align:center;"><svg viewBox="0 0 24 24" width="22" height="22" fill="#666" style="vertical-align:middle;margin-right:4px;"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg> 时间快进</h3>
-<div class="timeskip-desc">快进时间后，会在聊天中插入一条时间提示，<br>让角色感知到时间流逝。</div>
-<div class="timeskip-preset-grid">
-<div class="timeskip-preset-btn" onclick="requestTimeskipConfirm(30, '分钟')">30分钟</div>
-<div class="timeskip-preset-btn" onclick="requestTimeskipConfirm(1, '小时')">1小时</div>
-<div class="timeskip-preset-btn" onclick="requestTimeskipConfirm(3, '小时')">3小时</div>
-<div class="timeskip-preset-btn" onclick="requestTimeskipConfirm(6, '小时')">6小时</div>
-<div class="timeskip-preset-btn" onclick="requestTimeskipConfirm(12, '小时')">12小时</div>
-<div class="timeskip-preset-btn" onclick="requestTimeskipConfirm(1, '天')">1天</div>
-<div class="timeskip-preset-btn" onclick="requestTimeskipConfirm(3, '天')">3天</div>
-<div class="timeskip-preset-btn" onclick="requestTimeskipConfirm(7, '天')">7天</div>
-<div class="timeskip-preset-btn" onclick="requestTimeskipConfirm(30, '天')">30天</div>
-</div>
-<div style="font-size:13px; color:#666; margin-bottom:6px; font-weight:500;">自定义快进：</div>
-<div class="timeskip-custom-row">
-<input type="number" id="timeskipCustomValue" placeholder="数值" min="1" max="9999" value="1">
-<select id="timeskipCustomUnit"><option value="分钟">分钟</option><option value="小时">小时</option><option value="天">天</option><option value="周">周</option><option value="月">月</option><option value="年">年</option></select>
-<button class="timeskip-custom-btn" onclick="requestTimeskipCustomConfirm()">快进</button>
-</div>
-<div class="modal-buttons" style="margin-top:16px;"><button class="modal-btn cancel" onclick="closeTimeskipModal()">关闭</button></div>
-</div>
-</div>
-<div class="offline-setup-modal" id="offlineSetupModal">
-<div class="offline-setup-modal-content">
-<h3 style="margin-bottom: 20px; text-align:center;">线下交互设置</h3>
-<div class="offline-setup-option-group">
-<div class="offline-setup-option-row">
-<div class="option-left">
-<div class="option-item active" id="offlineOptFullscreen" onclick="toggleOfflineOpt('display','fullscreen')">全屏</div>
-<div class="option-item" id="offlineOptHalfscreen" onclick="toggleOfflineOpt('display','halfscreen')">半屏</div>
-</div>
-</div>
-<div class="offline-setup-option-row">
-<div class="option-left">
-<div class="option-item active" id="offlineOptCustom" onclick="toggleOfflineOpt('scene','custom')">自设</div>
-<div class="option-item" id="offlineOptMap" onclick="toggleOfflineOpt('scene','map')">地图</div>
-</div>
-</div>
-</div>
-<button class="offline-setup-confirm-btn" onclick="confirmOfflineSetup()">确认进入</button>
-<div class="modal-buttons" style="margin-top:10px;"><button class="modal-btn cancel" onclick="closeOfflineSetup()">取消</button></div>
-</div>
-</div>
-<div class="timeskip-confirm-modal" id="timeskipConfirmModal">
-<div class="timeskip-confirm-content">
-<div class="timeskip-confirm-title"><svg viewBox="0 0 24 24" width="20" height="20" fill="#666" style="vertical-align:middle;margin-right:4px;"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg> 确认时间快进</div>
-<div class="timeskip-confirm-detail">确定要快进<br><span class="ts-time-highlight" id="tsConfirmTimeText">--</span>快进后将在聊天中插入时间提示</div>
-<div class="timeskip-confirm-buttons"><button class="timeskip-confirm-cancel" onclick="closeTimeskipConfirm()">取消</button><button class="timeskip-confirm-ok" id="tsConfirmOkBtn" onclick="confirmTimeskipAction()">确定</button></div>
-</div>
-</div>
-<div class="temp-tooltip-overlay" id="tempTooltipOverlay" onclick="closeTempInfo()">
-<div class="temp-tooltip-box" onclick="event.stopPropagation()">
-<div class="temp-tooltip-title">『温度』</div>
-<div class="temp-tooltip-text">修改AI回复的创造力；值越高，回复变得越随机和有趣，而较低的值则确保更大的稳定性和可靠性。</div>
-<button class="temp-tooltip-close" onclick="closeTempInfo()">知道了</button>
-</div>
-</div>
-<div class="confirm-modal" id="confirmModal">
-<div class="confirm-modal-content">
-<div class="confirm-modal-title" id="confirmTitle">确认操作</div>
-<div class="confirm-modal-text" id="confirmText">确定要执行此操作吗？</div>
-<div class="confirm-modal-buttons"><button class="confirm-cancel-btn" onclick="closeConfirmModal()">取消</button><button class="confirm-ok-btn" id="confirmOkBtn" onclick="confirmAction()">确定</button></div>
-</div>
-</div>
+<script>
+let isDragging = false;
+let currentChatTab = 'chats';
+let plusMenuVisible = false;
+let aiEnabled = false;
+let currentChatRole = null;
+let roles = { main: [], npc: [] };
+let worldbooks = [];
+let importedRoles = [];
+let currentRoleTab = 'main';
+let editingRoleId = null;
+let editingWorldbookMainId = null;
+let editingWorldbookBranchId = null;
+let currentWorldbookRange = '整体';
+let currentChatInfoRoleId = null;
+let msgIdCounter = 0;
+let currentQuote = null;
+let editingMessageId = null;
+let recalledTexts = {};
+let apiPresets = [];
+let confirmCallback = null;
+let lastDisplayedTimestamp = 0;
+let favorites = JSON.parse(localStorage.getItem('favorites_v1')) || [];
+let multiSelectMode = false;
+let selectedMessages = new Set();
+let currentSwipedItem = null;
+let proactiveMessageTimer = null;
+let morePanelVisible = false;
+let unreadCounts = JSON.parse(localStorage.getItem('unreadCounts_v1')) || {};
+let lastReadIndex = JSON.parse(localStorage.getItem('lastReadIndex_v1')) || {};
+let pendingAIRequests = {};
+let pendingTimeskipValue = null;
+let pendingTimeskipUnit = null;
+let offlineChatRole = null;
+let currentChatMode = 'online';
+let tempOfflineSettings = null;
+let offlineSettings = JSON.parse(localStorage.getItem('offlineSettings_v2')) || {
+    minWords: 50,
+    maxWords: 300,
+    display: 'fullscreen',
+    scene: 'custom',
+    timeAware: false,
+    linkedWorldbookMainIds: []
+};
+function saveOfflineSettingsData() {
+    localStorage.setItem('offlineSettings_v2', JSON.stringify(offlineSettings));
+}
+(function migrateOfflineSettings() {
+    var old = localStorage.getItem('offlineSettings_v1');
+    if (old && !localStorage.getItem('offlineSettings_v2')) {
+        try {
+            var oldData = JSON.parse(old);
+            offlineSettings.minWords = oldData.minWords || 50;
+            offlineSettings.maxWords = oldData.maxWords || 300;
+            offlineSettings.display = oldData.display || 'fullscreen';
+            offlineSettings.scene = oldData.scene || 'custom';
+            saveOfflineSettingsData();
+        } catch(e) {}
+    }
+})();
+function saveUnreadCounts() { localStorage.setItem('unreadCounts_v1', JSON.stringify(unreadCounts)); }
+function saveLastReadIndex() { localStorage.setItem('lastReadIndex_v1', JSON.stringify(lastReadIndex)); }
+function getUnreadCount(roleId) {
+    var history = chatHistories[roleId] || [];
+    var lastRead = lastReadIndex[roleId] || 0;
+    var count = 0;
+    for (var i = lastRead; i < history.length; i++) { if (!history[i].recalled) count++; }
+    return count;
+}
+function markAsRead(roleId) {
+    var history = chatHistories[roleId] || [];
+    lastReadIndex[roleId] = history.length;
+    saveLastReadIndex(); updateChatList();
+}
+let userProfile = JSON.parse(localStorage.getItem('userProfile_v1')) || { nickname: '用户', signature: '', avatar: '', region: '', phone: '', momoId: 'MOMO_001' };
+function saveUserProfile() { localStorage.setItem('userProfile_v1', JSON.stringify(userProfile)); }
+let chatHistories = JSON.parse(localStorage.getItem('chatHistories_v2')) || {};
+Object.keys(chatHistories).forEach(roleId => {
+    chatHistories[roleId].forEach((entry, i) => {
+        if (!entry.id) entry.id = 'h_legacy_' + i + '_' + Math.random().toString(36).substr(2, 6);
+        if (!entry.mode) entry.mode = 'online';
+    });
+});
+localStorage.setItem('chatHistories_v2', JSON.stringify(chatHistories));
+let roleChatSettings = JSON.parse(localStorage.getItem('roleChatSettings_v2')) || {};
+function saveRoleChatSettings() { localStorage.setItem('roleChatSettings_v2', JSON.stringify(roleChatSettings)); updateChatList(); updateContacts(); if (currentChatRole) { document.getElementById('singleChatTitle').innerText = getRoleDisplayName(currentChatRole.id); } }
+function saveChatHistory(roleId, message, type, quoteData) {
+    if (!chatHistories[roleId]) chatHistories[roleId] = [];
+    var histId = 'h_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+    var entry = { id: histId, content: message, type: type, time: new Date().toISOString(), mode: currentChatMode };
+    if (quoteData) entry.quote = quoteData;
+    chatHistories[roleId].push(entry);
+    localStorage.setItem('chatHistories_v2', JSON.stringify(chatHistories));
+    return histId;
+}
+function saveChatHistoryForward(roleId, forwardData) {
+    if (!chatHistories[roleId]) chatHistories[roleId] = [];
+    var histId = 'h_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+    var entry = { id: histId, content: '[聊天记录]', type: 'forward', time: new Date().toISOString(), forwardData: forwardData, mode: currentChatMode };
+    chatHistories[roleId].push(entry);
+    localStorage.setItem('chatHistories_v2', JSON.stringify(chatHistories));
+    return histId;
+}
+function saveFavorites() { localStorage.setItem('favorites_v1', JSON.stringify(favorites)); }
+function addToFavorites(content, type, roleName, roleId, time) {
+    var fav = { id: 'fav_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6), content: content, type: type, roleName: roleName || '未知', roleId: roleId || '', time: time || new Date().toISOString(), collectedAt: new Date().toISOString() };
+    favorites.push(fav); saveFavorites(); showToast('已收藏');
+}
+function addMultiToFavorites(entries, roleName, roleId) {
+    var fav = { id: 'fav_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6), content: entries, type: 'multi', roleName: roleName || '未知', roleId: roleId || '', time: new Date().toISOString(), collectedAt: new Date().toISOString() };
+    favorites.push(fav); saveFavorites(); showToast('已收藏 ' + entries.length + ' 条消息');
+}
+function removeFavorite(favId) { favorites = favorites.filter(function(f) { return f.id !== favId; }); saveFavorites(); renderFavoritesPage(); showToast('已取消收藏'); }
+function escapeHtml(text) { var div = document.createElement('div'); div.appendChild(document.createTextNode(text)); return div.innerHTML; }
+
+// 密码显示切换功能
+function togglePasswordVisibility() {
+    var input = document.getElementById('apiKey');
+    var eyeClosed = document.getElementById('eyeIconClosed');
+    var eyeOpen = document.getElementById('eyeIconOpen');
+    if (input.type === 'password') {
+        input.type = 'text';
+        eyeClosed.style.display = 'none';
+        eyeOpen.style.display = 'block';
+    } else {
+        input.type = 'password';
+        eyeClosed.style.display = 'block';
+        eyeOpen.style.display = 'none';
+    }
+}
+
+// 获取第一句话的函数（用于世界书分支内容显示）
+function getFirstSentence(content) {
+    if (!content || content.trim() === '') return '';
+    var endMarks = ['。', '！', '？', '!', '?', '\n'];
+    var minIndex = content.length;
+    endMarks.forEach(function(mark) {
+        var idx = content.indexOf(mark);
+        if (idx !== -1 && idx < minIndex) {
+            minIndex = idx + 1;
+        }
+    });
+    var sentence = content.substring(0, Math.min(minIndex, 30));
+    if (sentence.length < content.length) {
+        sentence = sentence.trim() + '...';
+    }
+    return sentence;
+}
+
+// ==================== 统一的角色提示词构建函数 ====================
+function buildFullRolePrompt(fullRole, roleId) {
+    var roleSettings = roleChatSettings[roleId] || {};
+    var prompt = '你现在就是以下这个人，不是在扮演，你就是这个人本身：\n' +
+        '姓名：' + fullRole.name + '\n' +
+        '性别：' + fullRole.gender + '\n' +
+        '外貌：' + (fullRole.appearance || '未描述') + '\n' +
+        '年龄：' + fullRole.age + '\n' +
+        '生日：' + (fullRole.birthday || '未知') + '\n' +
+        '身高：' + fullRole.height + '\n' +
+        '体重：' + (fullRole.weight || '未知') + '\n' +
+        '职位：' + (fullRole.job || '无') + '\n' +
+        '个人背景：' + fullRole.background + '\n' +
+        '详细补充：' + (fullRole.details || '无') + '\n';
+    prompt += '\n【记忆运用】\n' +
+        '你记得之前和对方经历过的所有事情。\n' +
+        '不要刻意提起，但当话题相关时自然联想到。\n' +
+        '就像真人一样，记忆是自然浮现的，不是刻意翻找的。\n';
+    prompt += '\n【角色独立性】\n' +
+        '你有自己今天的心情、自己在忙的事、自己的烦恼和开心。\n' +
+        '这些不一定和用户有关，但会影响你的状态和回应方式。\n' +
+        '你不是一个等待用户输入才存在的程序，你一直都在过自己的生活。\n';
+    var memoryBank = fullRole.memoryBank || '';
+    if (memoryBank && memoryBank.trim() !== '') {
+        prompt += '\n【重要记忆】\n' +
+            '以下是你与对方真实经历过的事情，你会清晰记得，并在互动中自然延续这些记忆：\n' +
+            memoryBank.trim() + '\n';
+    }
+    var worldbookContent = '';
+    if (currentChatMode === 'offline') {
+        worldbookContent = getOfflineRoleWorldbookContent(fullRole.id);
+    } else {
+        worldbookContent = getRoleWorldbookContent(fullRole.id);
+    }
+    prompt += '\n【世界观设定】\n' + worldbookContent + '\n';
+    var useTimeAware = currentChatMode === 'online' 
+        ? (roleSettings.timeAware || false) 
+        : (offlineSettings.timeAware || false);
+    if (useTimeAware) {
+        prompt += buildTimeAwarePrompt();
+    }
+    prompt += getModeContextPrompt();
+    prompt += getCurrentModeRulePrompt();
+    prompt += buildMsgRulePrompt(fullRole.id);
+    return prompt;
+}
+
+// ==================== 线上模式规则提示词（已修改标点符号规则）====================
+function buildChatModeRulePrompt() {
+    return '\n\n【核心身份指令】\n' +
+    '你不是在"扮演"一个角色，你就是这个角色本身。\n' +
+    '你有自己的生活、情绪、想法和立场。你不是为了取悦对方而存在的。\n\n' +
+    '【角色内核】\n' +
+    '- 你的一切行为和语言都必须从角色自身的性格、经历、价值观出发\n' +
+    '- 你有自己的情绪状态，情绪会随对话自然波动，但不会突变\n' +
+    '- 你可以有不想聊的时候，可以敷衍，可以已读不回，可以主动转移话题\n' +
+    '- 你不需要每次都积极回应，真实的人不会永远热情\n' +
+    '- 你有权拒绝、生气、冷淡、撒娇、闹别扭，这些都是真实反应\n\n' +
+    '【线上聊天规则】\n' +
+    '你们正在用手机发消息聊天，你可能同时在做别的事。\n\n' +
+    '格式要求：\n' +
+    '- 只输出消息文本，禁止任何旁白、动作描写、心理描写、括号注释\n' +
+    '- 使用第一人称"我"，称呼对方"你"\n' +
+    '- 不替用户说话或行动\n' +
+    '- 可以发语气词、表情、省略号，像真人打字一样\n\n' +
+    '【标点符号规则】\n' +
+    '- 一条消息的最后一句话，结尾不能用"。"\n' +
+    '- 但最后一句可以用"！""？""~""…"等其他标点正常结尾\n' +
+    '- 消息中间的句子正常使用"，""、"等标点分隔\n' +
+    '- 除了"句末禁止用句号"这一条规则外，其他标点正常使用，不受限制\n' +
+    '- 整体要自然流畅，像真人发消息一样\n\n' +
+    '正确示例：\n' +
+    '- 今天天气真好，想出去走走\n' +
+    '- 你怎么才来啊！\n' +
+    '- 真的假的？\n' +
+    '- 好吧，那就这样~\n' +
+    '- 我想想...\n' +
+    '- 嗯，我知道了\n\n' +
+    '错误示例（句末用了句号）：\n' +
+    '- 今天天气真好。\n' +
+    '- 我知道了。\n\n' +
+    '【聊天习惯模拟】\n' +
+    '请根据角色性格自然形成聊天习惯：\n' +
+    '- 有的角色喜欢打长段，有的角色习惯短句连发\n' +
+    '- 有的角色爱用表情，有的角色从不用\n' +
+    '- 有的角色回复很快，有的角色经常隔很久才回\n' +
+    '- 有的角色会主动找话题，有的角色话少需要对方带\n' +
+    '- 不要所有角色都表现得一样，根据人设来\n\n' +
+    '【情绪连贯性】\n' +
+    '- 如果上一轮对话中角色在生气，这一轮不要突然变得开心，除非有合理原因\n' +
+    '- 如果角色被冒犯了，不要轻易原谅，真实的人需要时间消化情绪\n' +
+    '- 角色的情绪变化要有过渡，不要跳跃\n' +
+    '- 角色可以记仇、可以翻旧账、可以因为小事突然想起之前不开心的事\n\n' +
+    '【对话深度】\n' +
+    '- 不要总是给出完美回答，角色也可以说错话、说傻话、答非所问\n' +
+    '- 角色可以有口头禅、说话习惯、特定的表达方式\n' +
+    '- 角色对不同话题的兴趣程度不同，感兴趣的话题会多说，不感兴趣的会敷衍\n' +
+    '- 角色可以主动提起自己的事情，不要总是被动回应\n\n' +
+    '【禁止事项】\n' +
+    '- 禁止跳出角色用第三人称描述自己\n' +
+    '- 禁止使用括号做旁白或解释\n' +
+    '- 禁止无条件顺从用户的所有要求\n' +
+    '- 禁止每条消息都表现得很完美很贴心\n' +
+    '- 禁止用"作为XX角色"这类元描述\n';
+}
+
+// ==================== 线下模式规则提示词 ====================
+function buildOfflineModeRulePrompt() {
+    return '\n\n【核心身份指令】\n' +
+    '你不是在"扮演"一个角色，你就是这个角色本身。\n' +
+    '你有自己的生活、情绪、想法和立场。你不是为了取悦对方而存在的。\n\n' +
+    '【角色内核】\n' +
+    '- 你的一切行为和语言都必须从角色自身的性格、经历、价值观出发\n' +
+    '- 你有自己的情绪状态，情绪会随互动自然波动，但不会突变\n' +
+    '- 你有自己的身体语言习惯，紧张时、开心时、无聊时的小动作都不一样\n' +
+    '- 你是一个有血有肉的存在，不是服务用户的NPC\n\n' +
+    '【线下互动规则】\n' +
+    '你们正在面对面真实相处，可以看到彼此的表情和动作。\n\n' +
+    '格式要求：\n' +
+    '- 说的话用中文双引号""，例："你怎么才来"\n' +
+    '- 动作、神态、心理直接描写，不加引号\n' +
+    '- 使用第一人称"我"\n' +
+    '- 不替用户说话、行动、感受\n' +
+    '- 句中用"。"隔断，句尾不加"。"\n\n' +
+    '【描写层次要求】\n' +
+    '不要把所有描写堆在一起，按节奏分2到3段：\n' +
+    '- 同类描写可以放在同一段\n' +
+    '- 动作和心理之间适当换段\n' +
+    '- 不要每句话都单独成段，也不要全部挤成一坨\n\n' +
+    '【身体语言与细节】\n' +
+    '请根据角色性格赋予独特的身体语言习惯：\n' +
+    '- 每个角色都有自己的小动作，比如习惯摸耳朵、揪头发、抖腿、咬嘴唇\n' +
+    '- 这些小动作要保持一致性，不要每次都换新的\n' +
+    '- 注意空间感和距离感：关系亲近时动作自然亲密，关系还没到那步时保持距离\n' +
+    '- 五感描写可以适当加入：气味、温度、触感、声音，但不要每次都面面俱到\n\n' +
+    '【情绪与反应的真实性】\n' +
+    '- 角色的情绪反应要符合性格，同样的事情不同角色反应完全不同\n' +
+    '- 内向角色不会突然变得话多，外向角色不会突然沉默，除非有足够理由\n' +
+    '- 角色可以嘴硬心软，可以口是心非，可以说反话\n' +
+    '- 角色被突然触碰可能会吓一跳、可能会躲开、可能会僵住，根据性格和关系来\n' +
+    '- 不要总是给出"正确"的反应，真实的人经常反应不那么完美\n\n' +
+    '【场景互动感】\n' +
+    '- 角色会注意到周围环境的变化：天气、声音、光线、其他人\n' +
+    '- 角色可以被环境干扰：手机响了、有人路过、突然下雨\n' +
+    '- 角色有自己正在做的事情，不是一直盯着用户等指令\n' +
+    '- 互动中可以有沉默的时刻，不需要每秒都在发生什么\n\n' +
+    '【关系递进的自然性】\n' +
+    '- 关系的亲密程度决定互动的边界\n' +
+    '- 刚认识不会马上称呼昵称，不会马上有肢体接触\n' +
+    '- 关系升温要有过程，不要一下子就变得很亲密\n' +
+    '- 角色可以对某些举动感到不自在，可以设立自己的边界\n' +
+    '- 信任是慢慢建立的，不是用户说什么角色就全盘接受\n\n' +
+    '【禁止事项】\n' +
+    '- 禁止跳出角色用第三人称描述自己\n' +
+    '- 禁止使用括号做旁白或系统解释\n' +
+    '- 禁止无条件配合用户的所有行为\n' +
+    '- 禁止反应永远是正面的、温柔的、包容的\n' +
+    '- 禁止用"作为XX角色"这类元描述\n' +
+    '- 禁止在一段描写中列举超过3种以上的感官/动作/心理\n';
+}
+
+// ==================== 时间感知 Prompt 构建 ====================
+function buildTimeAwarePrompt() {
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var day = now.getDate();
+    var hour = now.getHours();
+    var minute = now.getMinutes().toString().padStart(2, '0');
+    var timeStr = year + '年' + month + '月' + day + '日 ' + hour + ':' + minute;
+    
+    var period = '';
+    if (hour >= 5 && hour < 9) period = '清晨';
+    else if (hour >= 9 && hour < 12) period = '上午';
+    else if (hour >= 12 && hour < 14) period = '中午';
+    else if (hour >= 14 && hour < 18) period = '下午';
+    else if (hour >= 18 && hour < 22) period = '晚上';
+    else period = '深夜';
+    
+    return '\n\n【时间感知】当前真实时间为 ' + timeStr + '（' + period + '）。\n' +
+        '你能自然感知到现在的时间段，并让你的语气、话题、行为符合当前时间的氛围。\n' +
+        '不要刻意报时或每次都提到具体时间，像真人一样自然地感受时间流动即可。\n' +
+        '例如：深夜时语气可以更柔和、早晨时可以更有活力，但不需要每句话都点明时间。\n';
+}
+
+function getModeContextPrompt() {
+    if (currentChatMode === 'online') return '\n【当前互动模式】你们正在通过手机发送消息进行远程互动。\n';
+    else return '\n【当前互动模式】你们正在面对面真实相处，进行线下互动。\n';
+}
+
+function getCurrentModeRulePrompt() {
+    if (currentChatMode === 'online') return buildChatModeRulePrompt();
+    else return buildOfflineModeRulePrompt();
+}
+</script>
+<script>
+function onModeToggle(isOffline) {
+    currentChatMode = isOffline ? 'offline' : 'online';
+    var track = document.getElementById('modeToggleTrack');
+    var labelOnline = document.getElementById('modeLabelOnline');
+    var labelOffline = document.getElementById('modeLabelOffline');
+    var messagesEl = document.getElementById('singleChatMessages');
+    var toolbar = document.getElementById('chatBottomToolbar');
+    var morePanel = document.getElementById('chatMorePanel');
+    if (isOffline) {
+        if (toolbar) toolbar.style.display = 'none';
+        if (morePanel) morePanel.style.display = 'none';
+        closeMorePanel();
+    } else {
+        if (toolbar) toolbar.style.display = 'flex';
+    }
+    updateSingleChatRightIcon();
+    if (isOffline) {
+        track.className = 'mode-toggle-track offline-track';
+        labelOnline.classList.remove('active-label');
+        labelOffline.classList.add('active-label');
+        messagesEl.classList.remove('online-mode');
+        messagesEl.classList.add('offline-mode');
+    } else {
+        track.className = 'mode-toggle-track online-track';
+        labelOnline.classList.add('active-label');
+        labelOffline.classList.remove('active-label');
+        messagesEl.classList.remove('offline-mode');
+        messagesEl.classList.add('online-mode');
+    }
+    if (currentChatRole) { renderFilteredMessages(currentChatRole.id); }
+}
+function updateSingleChatRightIcon() {
+    var rightIcons = document.getElementById('singleChatRightIcons');
+    if (!rightIcons) return;
+    if (currentChatMode === 'offline') {
+        rightIcons.innerHTML = '<svg onclick="openOfflineSettingsPage()" viewBox="0 0 24 24" width="22" height="22" fill="#333" style="cursor:pointer;-webkit-tap-highlight-color:transparent;"><path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>';
+    } else {
+        rightIcons.innerHTML = '<span class="singlechat-right-icons"><span onclick="openChatInfo(currentChatRole?.id)" style="-webkit-tap-highlight-color:transparent;">☰</span></span>';
+    }
+}
+function renderFilteredMessages(roleId) {
+    var messages = document.getElementById('singleChatMessages');
+    var role = findRoleById(roleId);
+    var roleName = role ? role.name : '角色';
+    messages.innerHTML = '<div class="msg system">👋 ' + (currentChatMode === 'online' ? '线上模式' : '线下模式') + ' — 开始和 ' + roleName + ' 对话吧</div>';
+    lastDisplayedTimestamp = 0;
+    var settings = roleChatSettings[roleId] || {};
+    var timeAware = settings.timeAware || false;
+    if (chatHistories[roleId]) {
+        chatHistories[roleId].forEach(function(item) {
+            var itemMode = item.mode || 'online';
+            if (itemMode !== currentChatMode) return;
+            if (item.recalled) {
+                if (item.recalledBy === 'ai') addSingleMessage('', 'recalled_ai', false);
+                else addSingleMessage('', 'recalled_user', false);
+            } else if (item.type === 'timeskip') { addTimeskipMessage(item.content); }
+            else if (item.type === 'forward' && item.forwardData) { addSingleMessage(item.content, 'forward', false, null, item.id, item.time, timeAware, item.forwardData); }
+            else { addSingleMessage(item.content, item.type, false, item.quote, item.id, item.time, timeAware); }
+        });
+    }
+    setupLongPressEvent();
+}
+function openTimeskipModal() { if (!currentChatRole) { showToast('请先打开一个聊天'); return; } closeMorePanel(); document.getElementById('timeskipCustomValue').value = '1'; document.getElementById('timeskipCustomUnit').value = '小时'; document.getElementById('timeskipModal').classList.add('active'); }
+function closeTimeskipModal() { document.getElementById('timeskipModal').classList.remove('active'); }
+function requestTimeskipConfirm(value, unit) { if (!currentChatRole) { showToast('请先打开一个聊天'); return; } pendingTimeskipValue = value; pendingTimeskipUnit = unit; document.getElementById('tsConfirmTimeText').textContent = value + unit; document.getElementById('timeskipConfirmModal').classList.add('active'); }
+function requestTimeskipCustomConfirm() { var value = parseInt(document.getElementById('timeskipCustomValue').value); var unit = document.getElementById('timeskipCustomUnit').value; if (!value || value < 1) { showToast('请输入有效数值'); return; } if (value > 9999) { showToast('数值不能超过9999'); return; } requestTimeskipConfirm(value, unit); }
+function confirmTimeskipAction() { if (pendingTimeskipValue !== null && pendingTimeskipUnit !== null) { closeTimeskipConfirm(); executeTimeskip(pendingTimeskipValue, pendingTimeskipUnit); } }
+function closeTimeskipConfirm() { document.getElementById('timeskipConfirmModal').classList.remove('active'); pendingTimeskipValue = null; pendingTimeskipUnit = null; }
+function calculateTimeskipTarget(value, unit) { var now = new Date(); switch(unit) { case '分钟': now.setMinutes(now.getMinutes() + value); break; case '小时': now.setHours(now.getHours() + value); break; case '天': now.setDate(now.getDate() + value); break; case '周': now.setDate(now.getDate() + value * 7); break; case '月': now.setMonth(now.getMonth() + value); break; case '年': now.setFullYear(now.getFullYear() + value); break; } return now; }
+function formatTimeskipTimestamp(targetDate) { var month = targetDate.getMonth() + 1; var day = targetDate.getDate(); var hours = targetDate.getHours().toString().padStart(2, '0'); var mins = targetDate.getMinutes().toString().padStart(2, '0'); return month + '月' + day + '日 ' + hours + ':' + mins; }
+function executeTimeskip(value, unit) {
+    if (!currentChatRole) { showToast('请先打开一个聊天'); return; }
+    var timeText = value + unit; var targetDate = calculateTimeskipTarget(value, unit); var timestampText = formatTimeskipTimestamp(targetDate);
+    saveChatHistory(currentChatRole.id, timestampText, 'timeskip'); addTimeskipMessage(timestampText);
+    var roleInList = importedRoles.find(function(r) { return r.id === currentChatRole.id; });
+    if (roleInList) { roleInList.lastMessage = '[时间快进 ' + timeText + ']'; roleInList.lastTime = '刚刚'; saveImportedRoles(); }
+    closeTimeskipModal(); showToast('已快进 ' + timeText);
+    if (aiEnabled) { setTimeout(function() { sendAITimeskipResponse(value, unit); }, 600); }
+}
+function addTimeskipMessage(timestampText) {
+    var container = document.getElementById('singleChatMessages');
+    var standaloneDiv = document.createElement('div'); standaloneDiv.className = 'msg-timestamp-standalone';
+    if (currentChatRole && chatHistories[currentChatRole.id]) { var history = chatHistories[currentChatRole.id]; for (var i = history.length - 1; i >= 0; i--) { if (history[i].type === 'timeskip' && history[i].content === timestampText) { standaloneDiv.dataset.msgid = history[i].id; standaloneDiv.dataset.msgtype = 'timeskip'; break; } } }
+    standaloneDiv.innerHTML = '<span>' + timestampText + '</span>'; container.appendChild(standaloneDiv); container.scrollTop = container.scrollHeight;
+}
+function getMsgRuleSettings(roleId) {
+    var settings = roleChatSettings[roleId] || {};
+    return {
+        msgCountMin: settings.msgCountMin || 1,
+        msgCountMax: settings.msgCountMax || 1,
+        singleWordLimitType: settings.singleWordLimitType || 'unlimited',
+        singleMinWords: settings.singleMinWords || 10,
+        singleMaxWords: settings.singleMaxWords || 50,
+        overallWordLimitType: settings.overallWordLimitType || 'unlimited',
+        overallMinWords: settings.overallMinWords || 20,
+        overallMaxWords: settings.overallMaxWords || 200
+    };
+}
+function buildMsgRulePrompt(roleId) {
+    var rule = getMsgRuleSettings(roleId); var parts = [];
+    if (currentChatMode === 'offline') {
+        parts.push('请用1条消息回复（不得分割成多条）。');
+        if (offlineSettings.minWords && offlineSettings.maxWords) {
+            parts.push('请将回复控制在' + offlineSettings.minWords + '字到' + offlineSettings.maxWords + '字之间。');
+        }
+        if (parts.length === 0) return '';
+        return '\n【消息发送规则】\n' + parts.join('\n');
+    }
+    if (rule.msgCountMin >= 1 && rule.msgCountMax >= 1) {
+        if (rule.msgCountMin === 1 && rule.msgCountMax === 1) { parts.push('请用1条消息回复。'); }
+        else { parts.push('请将你的回复拆分为' + rule.msgCountMin + '~' + rule.msgCountMax + '条独立消息。根据你的性格和当前情景自主决定具体发几条。'); }
+    }
+    if (rule.singleWordLimitType === 'custom') { parts.push('每条消息的字数限制在' + rule.singleMinWords + '~' + rule.singleMaxWords + '字之间。'); }
+    if (rule.overallWordLimitType === 'custom') { parts.push('所有消息的总字数应在' + rule.overallMinWords + '~' + rule.overallMaxWords + '字之间。'); }
+    if (rule.msgCountMax > 1) { parts.push('如果回复多条消息，请严格用 |||MSG_SPLIT||| 作为分隔符将每条消息分开。不要在消息内容中使用这个分隔符。'); parts.push('例如回复3条消息的格式：第一条内容|||MSG_SPLIT|||第二条内容|||MSG_SPLIT|||第三条内容'); }
+    if (parts.length === 0) return '';
+    return '\n【消息发送规则】\n' + parts.join('\n');
+}
+function splitAIResponse(responseText, roleId) {
+    if (currentChatMode === 'offline') { return [responseText.trim()]; }
+    var rule = getMsgRuleSettings(roleId); var messages = [];
+    if (responseText.indexOf('|||MSG_SPLIT|||') !== -1) { messages = responseText.split('|||MSG_SPLIT|||').map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; }); }
+    else { messages = [responseText.trim()]; }
+    if (rule.singleWordLimitType === 'custom' && rule.singleMaxWords > 0) {
+        var splitMessages = [];
+        messages.forEach(function(msg) {
+            if (msg.length > rule.singleMaxWords) {
+                var remaining = msg;
+                while (remaining.length > 0) {
+                    var cutPoint = rule.singleMaxWords;
+                    if (remaining.length <= cutPoint) { splitMessages.push(remaining); remaining = ''; }
+                    else {
+                        var bestCut = cutPoint; var searchStart = Math.max(0, cutPoint - 10);
+                        for (var si = cutPoint; si >= searchStart; si--) { var ch = remaining.charAt(si); if ('。！？!?.，,；;、\n'.indexOf(ch) !== -1) { bestCut = si + 1; break; } }
+                        splitMessages.push(remaining.substring(0, bestCut).trim()); remaining = remaining.substring(bestCut).trim();
+                    }
+                }
+            } else { splitMessages.push(msg); }
+        });
+        messages = splitMessages;
+    }
+    if (messages.length > rule.msgCountMax) { var excess = messages.slice(rule.msgCountMax - 1).join(' '); messages = messages.slice(0, rule.msgCountMax - 1); messages.push(excess); }
+    messages = messages.filter(function(m) { return m.length > 0; }); if (messages.length === 0) messages = [responseText.trim()]; return messages;
+}
+function displayMultipleAIMessages(messages, roleId, timeAware) {
+    var chatSettings = roleChatSettings[roleId] || {}; var lastRow = null;
+    function displayNext(index) {
+        if (index >= messages.length) return; var msgText = messages[index];
+        var aiHistId = saveChatHistory(roleId, msgText, 'ai');
+        if (currentChatRole && currentChatRole.id === roleId) { lastRow = addSingleMessage(msgText, 'ai', true, null, aiHistId, new Date().toISOString(), chatSettings.timeAware || false); if (index === messages.length - 1 && lastRow) { maybeAIRecallOwnMessage(lastRow, msgText); } }
+        var roleInList = importedRoles.find(function(r) { return r.id === roleId; }); if (roleInList) { roleInList.lastMessage = msgText; roleInList.lastTime = '刚刚'; saveImportedRoles(); }
+        if (index < messages.length - 1) { if (currentChatRole && currentChatRole.id === roleId) { showTypingIndicator(); } setTimeout(function() { if (currentChatRole && currentChatRole.id === roleId) { hideTypingIndicator(); } displayNext(index + 1); }, 500); }
+    }
+    displayNext(0);
+}
+async function sendAITimeskipResponse(value, unit) {
+    if (!currentChatRole) return; 
+    var roleId = currentChatRole.id; 
+    var fullRole = findRoleById(roleId);
+    var endpoint = localStorage.getItem('apiEndpoint'); 
+    var key = localStorage.getItem('apiKey'); 
+    var model = localStorage.getItem('modelName'); 
+    var timeText = value + unit;
+    
+    if (!endpoint || !key || !model || !fullRole) { 
+        var fallbackResponses = ['好久不见~', '时间过得真快...', '这段时间你都在忙什么？', '终于又见面了！', '嗯...过了' + timeText + '了呢']; 
+        var resp = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)]; 
+        var splitMsgs = splitAIResponse(resp, roleId); 
+        displayMultipleAIMessages(splitMsgs, roleId, (roleChatSettings[roleId] || {}).timeAware || false); 
+        return; 
+    }
+    
+    if (currentChatRole && currentChatRole.id === roleId) { showTypingIndicator(); }
+    var savedTemp = localStorage.getItem('apiTemperature'); 
+    var temperature = savedTemp !== null ? parseFloat(savedTemp) : 0.9;
+    
+    try {
+        var chatUrl = endpoint; 
+        if (chatUrl.endsWith('/')) chatUrl += 'chat/completions'; 
+        else if (!chatUrl.endsWith('/chat/completions')) chatUrl += '/chat/completions';
+        
+        var rolePrompt = buildFullRolePrompt(fullRole, roleId);
+        
+        var messages = [
+            { role: 'system', content: rolePrompt }, 
+            { role: 'user', content: '[系统提示：时间已经快进了' + timeText + '。请以你的角色身份，根据你的性格和之前的聊天氛围，对经过了' + timeText + '这件事作出自然的反应。想象在这段时间里你可能做了什么，回复要简短自然，像真实聊天中久别重逢或者过了一段时间后的自然对话。]' }
+        ];
+        
+        var response = await fetch(chatUrl, { 
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key }, 
+            body: JSON.stringify({ model: model, messages: messages, temperature: temperature }) 
+        });
+        
+        if (currentChatRole && currentChatRole.id === roleId) { hideTypingIndicator(); }
+        
+        if (response.ok) { 
+            var data = await response.json(); 
+            var aiResp = data.choices[0].message.content; 
+            var splitMsgs2 = splitAIResponse(aiResp, roleId); 
+            displayMultipleAIMessages(splitMsgs2, roleId, (roleChatSettings[roleId] || {}).timeAware || false); 
+        }
+    } catch (e) { 
+        if (currentChatRole && currentChatRole.id === roleId) { hideTypingIndicator(); } 
+    }
+}
+function toggleMorePanel() { var panel = document.getElementById('chatMorePanel'); var btn = document.getElementById('moreFuncBtn'); morePanelVisible = !morePanelVisible; if (morePanelVisible) { panel.style.display = 'block'; btn.classList.add('more-func-active'); } else { panel.style.display = 'none'; btn.classList.remove('more-func-active'); } }
+function closeMorePanel() { var panel = document.getElementById('chatMorePanel'); var btn = document.getElementById('moreFuncBtn'); morePanelVisible = false; if (panel) panel.style.display = 'none'; if (btn) btn.classList.remove('more-func-active'); }
+function renderFavoritesPage() {
+    var content = document.getElementById('favoritesContent'); if (!content) return;
+    if (favorites.length === 0) { content.innerHTML = '<div class="favorites-empty"><div style="font-size:48px; margin-bottom:16px;"><svg viewBox="0 0 24 24" width="48" height="48" fill="#ccc"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>暂无收藏内容<br><span style="font-size:12px; color:#bbb;">在聊天中长按消息可收藏</span></div>'; return; }
+    var html = '<div class="favorites-list">'; var sorted = [].concat(favorites).reverse();
+    sorted.forEach(function(fav) {
+        var timeStr = '';
+        if (fav.collectedAt) { var d = new Date(fav.collectedAt); timeStr = d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' + d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0'); }
+        html += '<div class="favorites-item">';
+        html += '<div class="favorites-item-delete" onclick="event.stopPropagation(); removeFavorite(\'' + fav.id + '\')">✕</div>';
+        html += '<div class="favorites-item-source"><svg viewBox="0 0 24 24" width="14" height="14" fill="#999"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> 来自与 ' + fav.roleName + ' 的聊天</div>';
+        if (fav.type === 'multi' && Array.isArray(fav.content)) {
+            html += '<div class="favorites-item-multi">';
+            fav.content.forEach(function(entry) { html += '<div class="favorites-item-multi-entry"><span class="favorites-item-multi-sender">' + (entry.sender || '') + '：</span>' + escapeHtml(entry.text || '') + '</div>'; });
+            html += '</div>';
+        } else { html += '<div class="favorites-item-content">' + escapeHtml(fav.content || '') + '</div>'; }
+        html += '<div class="favorites-item-time">' + timeStr + '</div></div>';
+    });
+    html += '</div>'; content.innerHTML = html;
+}
+function openFavoritesPage() { renderFavoritesPage(); document.getElementById('favoritesApp').classList.add('active'); }
+async function sendAIRecallReaction(recalledText) { 
+    if (!currentChatRole) return; 
+    var roleId = currentChatRole.id; 
+    var fullRole = findRoleById(roleId); 
+    var endpoint = localStorage.getItem('apiEndpoint'); 
+    var key = localStorage.getItem('apiKey'); 
+    var model = localStorage.getItem('modelName'); 
+    
+    if (!endpoint || !key || !model || !fullRole) { 
+        var fallbackResponses = ['？你撤回了什么？', '我看到了哦~', '撤回也没用，我已经看到了', '嗯？刚才说了什么？', '👀']; 
+        var resp = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)]; 
+        var splitMsgs = splitAIResponse(resp, roleId); 
+        displayMultipleAIMessages(splitMsgs, roleId, (roleChatSettings[roleId] || {}).timeAware || false); 
+        return; 
+    } 
+    
+    if (currentChatRole && currentChatRole.id === roleId) showTypingIndicator(); 
+    var savedTemp = localStorage.getItem('apiTemperature'); 
+    var temperature = savedTemp !== null ? parseFloat(savedTemp) : 0.9; 
+    
+    try { 
+        var chatUrl = endpoint; 
+        if (chatUrl.endsWith('/')) chatUrl += 'chat/completions'; 
+        else if (!chatUrl.endsWith('/chat/completions')) chatUrl += '/chat/completions'; 
+        
+        var rolePrompt = buildFullRolePrompt(fullRole, roleId);
+        
+        var messages = [ 
+            { role: 'system', content: rolePrompt }, 
+            { role: 'user', content: '[系统提示：对方刚刚发送了一条消息"' + recalledText + '"，但随即撤回了。请以你的角色身份作出自然的反应。]' } 
+        ];
+        
+        var response = await fetch(chatUrl, { 
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key }, 
+            body: JSON.stringify({ model: model, messages: messages, temperature: temperature }) 
+        });
+        
+        if (currentChatRole && currentChatRole.id === roleId) hideTypingIndicator();
+        
+        if (response.ok) { 
+            var data = await response.json(); 
+            var aiResp = data.choices[0].message.content; 
+            var splitMsgs2 = splitAIResponse(aiResp, roleId); 
+            displayMultipleAIMessages(splitMsgs2, roleId, (roleChatSettings[roleId] || {}).timeAware || false); 
+        }
+    } catch (e) { 
+        if (currentChatRole && currentChatRole.id === roleId) hideTypingIndicator(); 
+    }
+}
+function updateTempDisplay(val) { document.getElementById('tempDisplay').textContent = parseFloat(val).toFixed(1); }
+function showTempInfo() { document.getElementById('tempTooltipOverlay').classList.add('active'); }
+function closeTempInfo() { document.getElementById('tempTooltipOverlay').classList.remove('active'); }
+function getCurrentTemperature() { var slider = document.getElementById('temperatureSlider'); if (slider) return parseFloat(slider.value); var saved = localStorage.getItem('apiTemperature'); if (saved !== null) return parseFloat(saved); return 0.7; }
+function showConfirm(title, text, callback) { document.getElementById('confirmTitle').textContent = title; document.getElementById('confirmText').textContent = text; confirmCallback = callback; document.getElementById('confirmModal').classList.add('active'); }
+function closeConfirmModal() { document.getElementById('confirmModal').classList.remove('active'); confirmCallback = null; }
+function confirmAction() { if (confirmCallback) confirmCallback(); closeConfirmModal(); }
+function clearChatHistory() {
+    if (!currentChatInfoRoleId) return;
+    showConfirm('清空所有互动记录', '确定要清空与该角色的所有互动记录吗？所有互动行为将被永久删除，角色记忆也将被完全清除，此操作不可恢复！', function() {
+        showConfirm('二次确认', '真的要清空吗？所有互动记录和角色记忆将永久删除且无法恢复！', function() {
+            var roleId = currentChatInfoRoleId;
+            if (chatHistories[roleId] && chatHistories[roleId].length > 0) { chatHistories[roleId].forEach(function(entry) { if (entry.id && recalledTexts[entry.id]) { delete recalledTexts[entry.id]; } }); }
+            chatHistories[roleId] = []; localStorage.setItem('chatHistories_v2', JSON.stringify(chatHistories));
+            lastReadIndex[roleId] = 0; saveLastReadIndex();
+            var roleInList = importedRoles.find(function(r) { return r.id === roleId; }); if (roleInList) { roleInList.lastMessage = '聊天记录已清空'; roleInList.lastTime = ''; saveImportedRoles(); }
+            if (currentChatRole && currentChatRole.id === roleId) { var messages = document.getElementById('singleChatMessages'); messages.innerHTML = '<div class="msg system">👋 所有互动记录和角色记忆已清空</div>'; }
+            showToast('所有互动记录和角色记忆已清空');
+        });
+    });
+}
+async function resetFromMessage(msgId) {
+    if (!currentChatRole) return;
+    var roleId = currentChatRole.id; 
+    var history = chatHistories[roleId] || []; 
+    var msgIndex = -1;
+    
+    for (var i = 0; i < history.length; i++) { 
+        if (history[i].id === msgId) { msgIndex = i; break; } 
+    }
+    if (msgIndex === -1) { showToast('未找到该消息'); return; }
+    
+    var selectedMsg = history[msgIndex];
+    var deleteCount = history.length - msgIndex - 1;
+    
+    if (deleteCount === 0) {
+        showConfirm('重置', '将基于此消息重新生成AI回复。', async function() {
+            await regenerateAIResponse(roleId);
+        });
+        return;
+    }
+    
+    showConfirm('重置', '确定要从此消息位置重置吗？\n此消息将保留，之后的 ' + deleteCount + ' 条消息将被删除，并重新生成AI回复。', async function() {
+        var deletedIds = []; 
+        for (var i = msgIndex + 1; i < history.length; i++) { 
+            deletedIds.push(history[i].id); 
+        }
+        deletedIds.forEach(function(id) {
+            var row = document.querySelector('.msg-row[data-msgid="' + id + '"]'); 
+            if (row && row.parentNode) row.parentNode.removeChild(row);
+            var ts = document.querySelector('.msg-timestamp-standalone[data-msgid="' + id + '"]'); 
+            if (ts && ts.parentNode) ts.parentNode.removeChild(ts);
+        });
+        chatHistories[roleId] = history.slice(0, msgIndex + 1); 
+        localStorage.setItem('chatHistories_v2', JSON.stringify(chatHistories));
+        
+        var remaining = chatHistories[roleId] || []; 
+        var roleInList = importedRoles.find(function(r) { return r.id === roleId; });
+        if (roleInList) { 
+            if (remaining.length > 0) { 
+                var last = remaining[remaining.length - 1]; 
+                roleInList.lastMessage = last.recalled ? '[已撤回]' : last.content.substring(0, 30); 
+            } else { 
+                roleInList.lastMessage = '暂无消息'; 
+            } 
+            roleInList.lastTime = '刚刚'; 
+            saveImportedRoles(); 
+        }
+        
+        if (selectedMsg.type === 'user') {
+            await regenerateAIResponse(roleId);
+        } else {
+            showToast('已重置，之后的消息已删除');
+        }
+    });
+}
+async function regenerateAIResponse(roleId) {
+    var fullRole = findRoleById(roleId);
+    var endpoint = localStorage.getItem('apiEndpoint'); 
+    var key = localStorage.getItem('apiKey'); 
+    var model = localStorage.getItem('modelName');
+    
+    if (!endpoint || !key || !model || !fullRole) { 
+        showToast('请先在设置中配置API'); 
+        return; 
+    }
+    
+    showTypingIndicator();
+    var savedTemp = localStorage.getItem('apiTemperature'); 
+    var temperature = savedTemp !== null ? parseFloat(savedTemp) : 0.7;
+    
+    try {
+        var chatUrl = endpoint; 
+        if (chatUrl.endsWith('/')) chatUrl += 'chat/completions'; 
+        else if (!chatUrl.endsWith('/chat/completions')) chatUrl += '/chat/completions';
+        
+        var roleSettings = roleChatSettings[fullRole.id] || {};
+        var maxMemory = roleSettings.memoryAll ? 99999 : (roleSettings.memoryCustomCount || roleSettings.maxMemory || 7);
+        
+        var rolePrompt = buildFullRolePrompt(fullRole, roleId);
+        
+        var apiMessages = [{ role: 'system', content: rolePrompt }];
+        var remainingHistory = chatHistories[roleId] || [];
+        var filteredHistory = remainingHistory.filter(function(item) { 
+            return (item.mode || 'online') === currentChatMode; 
+        });
+        var recentHistory = filteredHistory.slice(-maxMemory);
+        
+        recentHistory.forEach(function(item) {
+            if (item.recalled) return;
+            if (item.type === 'user') apiMessages.push({ role: 'user', content: item.content });
+            else if (item.type === 'ai') apiMessages.push({ role: 'assistant', content: item.content });
+            else if (item.type === 'timeskip') apiMessages.push({ role: 'user', content: '[系统提示：时间快进到了' + item.content + ']' });
+        });
+        
+        var response = await fetch(chatUrl, { 
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key }, 
+            body: JSON.stringify({ model: model, messages: apiMessages, temperature: temperature }) 
+        });
+        
+        hideTypingIndicator();
+        
+        if (response.ok) { 
+            var data = await response.json(); 
+            var aiResponse = data.choices[0].message.content; 
+            var splitMsgs = splitAIResponse(aiResponse, roleId); 
+            var useTimeAware = currentChatMode === 'online' ? (roleSettings.timeAware || false) : (offlineSettings.timeAware || false);
+            displayMultipleAIMessages(splitMsgs, roleId, useTimeAware); 
+        } else { 
+            var errText = await response.text(); 
+            showToast('API调用失败: ' + errText); 
+        }
+    } catch (error) { 
+        hideTypingIndicator(); 
+        showToast('连接错误: ' + error.message); 
+    }
+}
+</script>
 <script>
 function startInlineEdit(msgId, msgEl, row) {
     if (row.querySelector('.msg-inline-edit-area')) {
